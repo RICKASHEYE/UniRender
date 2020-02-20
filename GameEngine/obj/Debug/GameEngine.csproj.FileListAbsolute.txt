@@ -1,0 +1,5 @@
+C:\Users\lethen\source\repos\GameEngine\GameEngine\bin\Debug\GameEngine.dll
+C:\Users\lethen\source\repos\GameEngine\GameEngine\bin\Debug\GameEngine.pdb
+C:\Users\lethen\source\repos\GameEngine\GameEngine\obj\Debug\GameEngine.csprojAssemblyReference.cache
+C:\Users\lethen\source\repos\GameEngine\GameEngine\obj\Debug\GameEngine.dll
+C:\Users\lethen\source\repos\GameEngine\GameEngine\obj\Debug\GameEngine.pdb
