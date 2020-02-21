@@ -9,12 +9,12 @@ namespace GameEngine
 {
     public class ParEngineImage
     {
-        public Bitmap image;
+        public Bitmap map_;
         public string name;
 
-        public ParEngineImage(Bitmap image_, string name_)
+        public ParEngineImage(Bitmap map, string name_)
         {
-            image = image_;
+            map_ = map;
             name = name_;
         }
     }
@@ -55,7 +55,7 @@ namespace GameEngine
                 else
                 {
                     Console.WriteLine("Found cached image... drawing...");
-                    g.DrawImage(getImage(filename).image, point);
+                    g.DrawImage(getImage(filename).map_, point);
                 }
             }
             catch (Exception)

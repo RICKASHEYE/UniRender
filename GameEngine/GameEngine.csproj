@@ -50,6 +50,9 @@
     <Compile Include="ImageDrawer.cs" />
     <Compile Include="KeyCode.cs" />
     <Compile Include="Mathf.cs" />
+    <Compile Include="Organisation\Component.cs" />
+    <Compile Include="Organisation\GameObject.cs" />
+    <Compile Include="Organisation\RectangleRenderer.cs" />
     <Compile Include="PlayerValues.cs" />
     <Compile Include="Point.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

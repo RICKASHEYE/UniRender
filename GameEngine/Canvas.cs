@@ -40,6 +40,18 @@ namespace GameEngine
             }
         }
 
+        public static void MoveAllPixels(Vector2 direction, string blackList)
+        {
+            foreach(Pixel m in ScreenRender)
+            {
+                if (m.namePixel != blackList)
+                {
+                    m.X = m.X + (int)direction.x;
+                    m.Y = m.Y + (int)direction.y; 
+                }
+            }
+        }
+
         public static void ClearPixels(string name)
         {
             foreach(Pixel m in ScreenRender.ToArray())

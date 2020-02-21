@@ -56,6 +56,7 @@ namespace GameEngineWindow
             playerPosition += new Vector2(GameEngine.Axis.GetKeyAxis(GameEngine.Axis.getCodeFromName("Horizontal")), GameEngine.Axis.GetKeyAxis(GameEngine.Axis.getCodeFromName("Vertical")));
             GameEngine.Rectangle rect = new GameEngine.Rectangle((int)playerPosition.x - 5, (int)playerPosition.y - 5, 10, 10);
             GameEngine.Canvas.DrawRect(rect, new GameEngine.Color(0, 0, 0), "Player");
+            GameEngine.Canvas.MoveAllPixels(playerPosition, "Player");
 
             if(clock >= 200)
             {
