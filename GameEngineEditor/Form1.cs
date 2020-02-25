@@ -28,31 +28,33 @@ namespace GameEngineEditor
 
         public void LoadToolbox()
         {
-            toolboxHireachy.Nodes.Clear();
-            foreach(GameEngine.Organisation.GameObject objects in gameObjects)
+            try
             {
-                Console.WriteLine("Loaded: " + objects.name_);
-                GameObjectNode gameObjectNode = new GameObjectNode(objects.name_);
-                gameObjectNode.objectParent = objects;
-                if (objects.components.Count >= 0 && objects.components != null)
+                toolboxHireachy.Nodes.Clear();
+                Console.WriteLine("Cleared Toolbox!");
+                foreach (GameEngine.Organisation.GameObject objects in gameObjects)
                 {
-                    foreach (GameEngine.Organisation.Component component in objects.components)
+                    Console.WriteLine("Loaded: " + objects.name_);
+                    GameObjectNode gameObjectNode = new GameObjectNode(objects.name_);
+                    gameObjectNode.objectParent = objects;
+                    if (objects.components.Count >= 0 && objects.components != null)
                     {
-                        ComponentNode componentNode = new ComponentNode(component.name);
-                        componentNode.com = component;
-                        gameObjectNode.ComponentNodes.Add(componentNode);
-                    } 
+                        foreach (GameEngine.Organisation.Component component in objects.components)
+                        {
+                            ComponentNode componentNode = new ComponentNode(component.name);
+                            componentNode.com = component;
+                            gameObjectNode.ComponentNodes.Add(componentNode);
+                        }
+                    }
+                    nodes.Add(gameObjectNode);
                 }
-                nodes.Add(gameObjectNode);
-            }
 
-            //Pull out and display the gameobjects with components
-            foreach(GameObjectNode node in nodes)
-            {
-                TreeNode node_ = new TreeNode();
-                node_.Text = node.name;
-                if (node.ComponentNodes.Count >= 0 && node.ComponentNodes != null)
+                //Pull out and display the gameobjects with components
+                foreach (GameObjectNode node in nodes)
                 {
+                    TreeNode node_ = new TreeNode();
+                    node_.Text = node.name;
+                    Console.WriteLine("Creating a node: " + node_.Text);
                     foreach (ComponentNode nodeComponent in node.ComponentNodes)
                     {
                         TreeNode nodeCom = new TreeNode();
@@ -65,11 +67,17 @@ namespace GameEngineEditor
                             variableName.Text = info.Name;
                             nodeCom.Nodes.Add(variableName);
                         }
-                    } 
+                    }
+                    toolboxHireachy.Nodes.Add(node_);
+                    Console.WriteLine("Added a node: " + node_.Text);
                 }
-                toolboxHireachy.Nodes.Add(node_);
+                Update();
+                Console.WriteLine("FINISHED: updated all toolbox references etc!!!");
             }
-            Update();
+            catch (Exception d)
+            {
+                Console.WriteLine("Error when loading toolbox!");
+            }
         }
 
         private void gameView_Paint(object sender, PaintEventArgs e)
@@ -108,6 +116,7 @@ namespace GameEngineEditor
             //Create a gameObject
             gameObjects.Add(new GameEngine.Organisation.GameObject("New GameObject"));
             LoadToolbox();
+            Console.WriteLine("Added a new gameobject!");
         }
 
         private void rendererToolStripMenuItem_Click(object sender, EventArgs e)
@@ -121,15 +130,37 @@ namespace GameEngineEditor
             //Add a component to this
             //first of all find the gameobject node of selected
             TreeNode selected = toolboxHireachy.SelectedNode;
-            foreach(GameObjectNode node in nodes)
+            if (selected != null)
             {
-                if(node.name == selected.Text)
+                foreach (GameObjectNode node in nodes)
                 {
-                    //Is a gameobject
-                    node.objectParent.RegisterComponent(com);
+                    if (node.name == selected.Text)
+                    {
+                        //Is a gameobject
+                        node.objectParent.RegisterComponent(com);
+                    }
                 }
             }
+            else
+            {
+                Console.WriteLine("No object was selected!");
+            }
             LoadToolbox();
+        }
+
+        private void deleteSelectedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TreeNode nodeSelected = toolboxHireachy.SelectedNode;
+            foreach(GameObjectNode node in nodes)
+            {
+                if(node.name == nodeSelected.Text)
+                {
+                    //Delete!!! obv if there isnt any under this name it will skip it
+                    nodes.Remove(node);
+                }
+            }
+
+            //foreach(ComponentNode node in )
         }
     }
 }

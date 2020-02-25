@@ -35,9 +35,9 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.createToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gameObjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.deleteSelectedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.componentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rendererToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteSelectedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gameView)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -57,6 +57,7 @@
             // toolboxHireachy
             // 
             this.toolboxHireachy.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.toolboxHireachy.DrawMode = System.Windows.Forms.TreeViewDrawMode.OwnerDrawAll;
             this.toolboxHireachy.Location = new System.Drawing.Point(3, 16);
             this.toolboxHireachy.Name = "toolboxHireachy";
             this.toolboxHireachy.Size = new System.Drawing.Size(235, 407);
@@ -102,30 +103,31 @@
             // gameObjectToolStripMenuItem
             // 
             this.gameObjectToolStripMenuItem.Name = "gameObjectToolStripMenuItem";
-            this.gameObjectToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.gameObjectToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.gameObjectToolStripMenuItem.Text = "GameObject";
             this.gameObjectToolStripMenuItem.Click += new System.EventHandler(this.gameObjectToolStripMenuItem_Click);
-            // 
-            // deleteSelectedToolStripMenuItem
-            // 
-            this.deleteSelectedToolStripMenuItem.Name = "deleteSelectedToolStripMenuItem";
-            this.deleteSelectedToolStripMenuItem.Size = new System.Drawing.Size(99, 20);
-            this.deleteSelectedToolStripMenuItem.Text = "Delete Selected";
             // 
             // componentsToolStripMenuItem
             // 
             this.componentsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.rendererToolStripMenuItem});
             this.componentsToolStripMenuItem.Name = "componentsToolStripMenuItem";
-            this.componentsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.componentsToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.componentsToolStripMenuItem.Text = "Components";
             // 
             // rendererToolStripMenuItem
             // 
             this.rendererToolStripMenuItem.Name = "rendererToolStripMenuItem";
-            this.rendererToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.rendererToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
             this.rendererToolStripMenuItem.Text = "Renderer";
             this.rendererToolStripMenuItem.Click += new System.EventHandler(this.rendererToolStripMenuItem_Click);
+            // 
+            // deleteSelectedToolStripMenuItem
+            // 
+            this.deleteSelectedToolStripMenuItem.Name = "deleteSelectedToolStripMenuItem";
+            this.deleteSelectedToolStripMenuItem.Size = new System.Drawing.Size(99, 20);
+            this.deleteSelectedToolStripMenuItem.Text = "Delete Selected";
+            this.deleteSelectedToolStripMenuItem.Click += new System.EventHandler(this.deleteSelectedToolStripMenuItem_Click);
             // 
             // Form1
             // 

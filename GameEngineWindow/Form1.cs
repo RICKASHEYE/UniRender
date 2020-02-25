@@ -15,6 +15,7 @@ namespace GameEngineWindow
             InitializeComponent();
             GameEngine.Axis.AssignNewKey(new KeyCode("Horizontal", Keys.D, Keys.A));
             GameEngine.Axis.AssignNewKey(new KeyCode("Vertical", Keys.S, Keys.W));
+            GameEngine.Font.SetupFont();
             canvas = new Bitmap(Width, Height);
         }
 
@@ -38,7 +39,6 @@ namespace GameEngineWindow
                     }
                 }
                 DrawCanvas();
-                g.DrawString("Apples: " + GameEngine.PlayerValues.GetInteger("Apples"), new Font("Arial", 12.0f, FontStyle.Regular), new SolidBrush(System.Drawing.Color.Black), new System.Drawing.Point(10, 10));
                 //canvas.Dispose();
                 //g.Clear(System.Drawing.Color.White);
             }
@@ -53,6 +53,7 @@ namespace GameEngineWindow
 
         public void DrawCanvas()
         {
+            GameEngine.Font.drawText("APPLES: " + GameEngine.PlayerValues.GetInteger("Apples"),10, 10, new GameEngine.Color(0, 0, 0), "APPLES");
             playerPosition += new Vector2(GameEngine.Axis.GetKeyAxis(GameEngine.Axis.getCodeFromName("Horizontal")), GameEngine.Axis.GetKeyAxis(GameEngine.Axis.getCodeFromName("Vertical")));
             GameEngine.Rectangle rect = new GameEngine.Rectangle((int)playerPosition.x - 5, (int)playerPosition.y - 5, 10, 10);
             GameEngine.Canvas.DrawRect(rect, new GameEngine.Color(0, 0, 0), "Player");

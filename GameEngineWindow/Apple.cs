@@ -30,7 +30,7 @@ namespace GameEngineWindow
                     deleted = true;
                     GameEngine.PlayerValues.SetIntValue("Apples", (int)GameEngine.PlayerValues.GetInteger("Apples") + 1);
                 }
-                GameEngine.Canvas.DrawRect(new Rectangle(new Vector2(10, 10), position), new Color(255, 0, 0), "Apple " + randString); 
+                GameEngine.Canvas.DrawRect(new Rectangle(new Vector2(10, 10), position), Color.Ruby, "Apple " + randString); 
             }else if(deleted == true)
             {
                 GameEngine.Canvas.ClearPixels("Apple " + randString);
