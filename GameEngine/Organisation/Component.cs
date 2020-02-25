@@ -11,11 +11,6 @@ namespace GameEngine.Organisation
         public string name;
         public GameObject parent;
 
-        public Component()
-        {
-            name = nameof(parent);
-        }
-
         public virtual void Run()
         {
 

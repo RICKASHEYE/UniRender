@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
 
 namespace GameEngine
 {
@@ -18,11 +20,25 @@ namespace GameEngine
         }
     }
 
+    public enum RenderType
+    {
+        Vulkan, DirectX, OpenGL, Software
+    }
+
     public class Canvas
     {
         //Draw a rectangle or a screen
         public static List<Pixel> ScreenRender = new List<Pixel>();
-        
+        public RenderType currentRender;
+
+        public Canvas()
+        {
+            if(currentRender != RenderType.Software)
+            {
+                Console.WriteLine("Other rendering engines are not supported at this time...");
+            }
+        }
+
         public static void DrawPixel(int x, int y, Color color, string name)
         {
             ScreenRender.Add(new Pixel(x, y, color, name));
@@ -38,6 +54,23 @@ namespace GameEngine
                     DrawPixel(x, y, color, name);
                 }
             }
+        }
+
+        public static void DrawImage(Rectangle size, ParEngineImage image, string name)
+        {
+            ClearPixels(name);
+            Bitmap ima = image.map_;
+            ima = ImageDrawer.ResizeImage(ima, size.sizex, size.sizey);
+            for(int x = size.posx; x < size.posx + ima.Width; x++)
+            {
+                for(int y = size.posy; y < size.posy + ima.Height; y++)
+                {
+                    System.Drawing.Color imaColor = ima.GetPixel(x, y);
+                    Color color = new Color(imaColor.R, imaColor.G, imaColor.B);
+                    DrawPixel(x, y, color, name);
+                }
+            }
+            ima.Dispose();
         }
 
         public static void MoveAllPixels(Vector2 direction, string blackList)
