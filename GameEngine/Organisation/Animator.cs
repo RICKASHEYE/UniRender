@@ -21,6 +21,10 @@ namespace GameEngine.Organisation
         public List<Frame> frames = new List<Frame>();
         public ImageRenderer render;
 
+        public Animator() : base("Animator")
+        {
+
+        }
 
         public override void Run()
         {

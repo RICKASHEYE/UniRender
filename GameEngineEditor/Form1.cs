@@ -15,7 +15,6 @@ namespace GameEngineEditor
     public partial class Form1 : Form
     {
         public static Bitmap canvas;
-        public List<GameEngine.Organisation.GameObject> gameObjects = new List<GameEngine.Organisation.GameObject>();
         public List<GameObjectNode> nodes = new List<GameObjectNode>();
 
         public Form1()
@@ -24,17 +23,18 @@ namespace GameEngineEditor
             //LoadToolbox();
             canvas = new Bitmap(Width, Height);
             Update();
+            SecondaryLoadToolbox();
         }
 
-        public void LoadToolbox()
+        /*public void LoadToolbox()
         {
             try
             {
                 toolboxHireachy.Nodes.Clear();
-                Console.WriteLine("Cleared Toolbox!");
-                foreach (GameEngine.Organisation.GameObject objects in gameObjects)
+                GameEngine.Debug.Log("Cleared Toolbox!");
+                foreach (GameEngine.Organisation.GameObject objects in GameObjectHandler.gameObjects)
                 {
-                    Console.WriteLine("Loaded: " + objects.name_);
+                    GameEngine.Debug.Log("Loaded: " + objects.name_);
                     GameObjectNode gameObjectNode = new GameObjectNode(objects.name_);
                     gameObjectNode.objectParent = objects;
                     if (objects.components.Count >= 0 && objects.components != null)
@@ -54,7 +54,7 @@ namespace GameEngineEditor
                 {
                     TreeNode node_ = new TreeNode();
                     node_.Text = node.name;
-                    Console.WriteLine("Creating a node: " + node_.Text);
+                    GameEngine.Debug.Log("Creating a node: " + node_.Text);
                     foreach (ComponentNode nodeComponent in node.ComponentNodes)
                     {
                         TreeNode nodeCom = new TreeNode();
@@ -69,14 +69,49 @@ namespace GameEngineEditor
                         }
                     }
                     toolboxHireachy.Nodes.Add(node_);
-                    Console.WriteLine("Added a node: " + node_.Text);
+                    GameEngine.Debug.Log("Added a node: " + node_.Text);
                 }
                 Update();
-                Console.WriteLine("FINISHED: updated all toolbox references etc!!!");
+                GameEngine.Debug.Log("FINISHED: updated all toolbox references etc!!!");
             }
             catch (Exception d)
             {
-                Console.WriteLine("Error when loading toolbox!");
+                GameEngine.Debug.Error("Error when loading toolbox!");
+                GameEngine.Debug.Error(d.Message);
+            }
+        }*/
+
+        //Dont know if i wanted to reload the toolbox like this just yet
+        public void SecondaryLoadToolbox()
+        {
+            try
+            {
+                if (GameObjectHandler.gameObjects != null)
+                {
+                    listBox1.Items.Clear();
+                    if (currentGameObject == null)
+                    {
+                        foreach (GameEngine.Organisation.GameObject gameObjects in GameObjectHandler.gameObjects)
+                        {
+                            listBox1.Items.Add(gameObjects);
+                        }
+                    }
+                    else
+                    {
+                        foreach (GameEngine.Organisation.Component coms in currentGameObject.components)
+                        {
+                            listBox1.Items.Add(coms);
+                        }
+                    }
+                }
+                else
+                {
+                    Debug.Error("No GameObjects to list!");
+                }
+            }catch(Exception e)
+            {
+                Debug.Error("Error when loading toolbox!");
+                Debug.Error(e.Message);
             }
         }
 
@@ -114,43 +149,27 @@ namespace GameEngineEditor
         private void gameObjectToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //Create a gameObject
-            gameObjects.Add(new GameEngine.Organisation.GameObject("New GameObject"));
-            LoadToolbox();
-            Console.WriteLine("Added a new gameobject!");
+            GameObjectHandler.CreateGameObject("New GameObject");
+            SecondaryLoadToolbox();
+            GameEngine.Debug.Log("Added a new gameobject!");
         }
 
         private void rendererToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //Open or add the component Renderer
-            AddComponent(new GameEngine.Organisation.RectangleRenderer(new GameEngine.Rectangle(10, 10, 10, 10), new GameEngine.Color(255, 255, 255)));
-        }
-
-        public void AddComponent(GameEngine.Organisation.Component com)
-        {
-            //Add a component to this
-            //first of all find the gameobject node of selected
-            TreeNode selected = toolboxHireachy.SelectedNode;
-            if (selected != null)
+            if (currentGameObject != null)
             {
-                foreach (GameObjectNode node in nodes)
-                {
-                    if (node.name == selected.Text)
-                    {
-                        //Is a gameobject
-                        node.objectParent.RegisterComponent(com);
-                    }
-                }
+                ComponentHandler.AddComponent(new GameEngine.Organisation.RectangleRenderer(new GameEngine.Rectangle(10, 10, 10, 10), new GameEngine.Color(255, 255, 255)), currentGameObject);
             }
             else
             {
-                Console.WriteLine("No object was selected!");
+                Debug.Error("No Object selected, may be in component selection!");
             }
-            LoadToolbox();
         }
 
         private void deleteSelectedToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            TreeNode nodeSelected = toolboxHireachy.SelectedNode;
+            /*TreeNode nodeSelected = toolboxHireachy.SelectedNode;
             foreach(GameObjectNode node in nodes)
             {
                 if(node.name == nodeSelected.Text)
@@ -158,9 +177,30 @@ namespace GameEngineEditor
                     //Delete!!! obv if there isnt any under this name it will skip it
                     nodes.Remove(node);
                 }
-            }
+            }*/
 
             //foreach(ComponentNode node in )
+        }
+
+        public void LoadGameObjects()
+        {
+            foreach (GameEngine.Organisation.GameObject objectRun in GameObjectHandler.gameObjects)
+            {
+                //Load them
+                listBox1.Items.Add(objectRun);
+            }
+        }
+
+        public GameEngine.Organisation.GameObject currentGameObject;
+
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //Load the component menu and others
+            //Beggining to press backwards
+            if(currentGameObject == null)
+            {
+                //Load the main gameObjects
+            }
         }
     }
 }

@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.toolboxHireachy = new System.Windows.Forms.TreeView();
             this.gameView = new System.Windows.Forms.PictureBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -38,6 +37,7 @@
             this.componentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rendererToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteSelectedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.listBox1 = new System.Windows.Forms.ListBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gameView)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -45,7 +45,7 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.toolboxHireachy);
+            this.groupBox1.Controls.Add(this.listBox1);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Right;
             this.groupBox1.Location = new System.Drawing.Point(559, 24);
             this.groupBox1.Name = "groupBox1";
@@ -53,15 +53,6 @@
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Toolbox";
-            // 
-            // toolboxHireachy
-            // 
-            this.toolboxHireachy.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.toolboxHireachy.DrawMode = System.Windows.Forms.TreeViewDrawMode.OwnerDrawAll;
-            this.toolboxHireachy.Location = new System.Drawing.Point(3, 16);
-            this.toolboxHireachy.Name = "toolboxHireachy";
-            this.toolboxHireachy.Size = new System.Drawing.Size(235, 407);
-            this.toolboxHireachy.TabIndex = 0;
             // 
             // gameView
             // 
@@ -129,6 +120,16 @@
             this.deleteSelectedToolStripMenuItem.Text = "Delete Selected";
             this.deleteSelectedToolStripMenuItem.Click += new System.EventHandler(this.deleteSelectedToolStripMenuItem_Click);
             // 
+            // listBox1
+            // 
+            this.listBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.Location = new System.Drawing.Point(3, 16);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.Size = new System.Drawing.Size(235, 407);
+            this.listBox1.TabIndex = 0;
+            this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -153,7 +154,6 @@
         #endregion
 
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.TreeView toolboxHireachy;
         private System.Windows.Forms.PictureBox gameView;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
@@ -162,6 +162,7 @@
         private System.Windows.Forms.ToolStripMenuItem deleteSelectedToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem componentsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem rendererToolStripMenuItem;
+        private System.Windows.Forms.ListBox listBox1;
     }
 }
 

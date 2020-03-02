@@ -20,6 +20,20 @@ namespace GameEngine
         }
     }
 
+    public class PixelObjects
+    {
+        public List<Pixel> pixels = new List<Pixel>();
+        public string name;
+
+        public PixelObjects()
+        {
+            if(name == null)
+            {
+                name = pixels[0].namePixel;
+            }
+        }
+    }
+
     public enum RenderType
     {
         Vulkan, DirectX, OpenGL, Software
@@ -30,6 +44,7 @@ namespace GameEngine
         //Draw a rectangle or a screen
         public static List<Pixel> ScreenRender = new List<Pixel>();
         public RenderType currentRender;
+        public static List<PixelObjects> pixelObjects = new List<PixelObjects>();
 
         public Canvas()
         {
@@ -39,9 +54,55 @@ namespace GameEngine
             }
         }
 
+        public static void RecalculatePixelObjects()
+        {
+            //Recalculate objects
+            foreach(Pixel pix in ScreenRender)
+            {
+                SetPixelGroup(pix.namePixel, pix);
+            }
+        }
+
+        public static void SetPixelGroup(string name, Pixel pixel)
+        {
+            //we need to find the pixel group
+            if (pixelgroupexists(name))
+            {
+                //Pixel group exists so add it into the pixel groups
+                foreach(PixelObjects objects in pixelObjects)
+                {
+                    if(objects.name == name)
+                    {
+                        objects.pixels.Add(pixel);
+                    }
+                }
+            }
+            else
+            {
+                //create the pixel group and recycle this
+                PixelObjects newGroup = new PixelObjects();
+                newGroup.name = name;
+                SetPixelGroup(name, pixel);
+            }
+        }
+
+        public static bool pixelgroupexists(string name)
+        {
+            bool exists = false;
+            foreach(PixelObjects pixelObject in pixelObjects)
+            {
+                if(pixelObject.name == name)
+                {
+                    exists = true;
+                }
+            }
+            return exists;
+        }
+
         public static void DrawPixel(int x, int y, Color color, string name)
         {
             ScreenRender.Add(new Pixel(x, y, color, name));
+            RecalculatePixelObjects();
         }
 
         public static void DrawRect(Rectangle rect, Color color, string name)
@@ -81,6 +142,21 @@ namespace GameEngine
                 {
                     m.X = m.X + (int)direction.x;
                     m.Y = m.Y + (int)direction.y; 
+                }
+            }
+        }
+
+        public static void MovePixelGroup(Vector2 direction, string GroupName)
+        {
+            foreach(PixelObjects objects in pixelObjects)
+            {
+                if(objects.name == GroupName)
+                {
+                    foreach (Pixel m in objects.pixels)
+                    {
+                        m.X = m.X + (int)direction.x;
+                        m.Y = m.Y + (int)direction.y;
+                    }
                 }
             }
         }

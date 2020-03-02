@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace GameEngine.Organisation
 {
-    public class RectangleRenderer : Component
+    public class RectangleRenderer : Renderer
     {
-        public Rectangle rect;
         public Color color;
 
-        public RectangleRenderer(Rectangle rect_, Color color_)
+        public RectangleRenderer(Rectangle rect_, Color color_) : base("Rectangle Renderer")
         {
             rect = rect_;
             color = color_;

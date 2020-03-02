@@ -17,6 +17,7 @@ namespace GameEngineWindow
             GameEngine.Axis.AssignNewKey(new KeyCode("Vertical", Keys.S, Keys.W));
             //GameEngine.Font.SetupFont();
             canvas = new Bitmap(Width, Height);
+            GameEngine.Debug.Log("Initialised!");
         }
 
         public static Vector2 playerPosition = Vector2.zero;
@@ -45,7 +46,7 @@ namespace GameEngineWindow
             }
             catch (System.Exception m)
             {
-                Console.WriteLine("Error: " + m);
+                GameEngine.Debug.Error("Error: " + m);
             }
         }
 
@@ -62,11 +63,11 @@ namespace GameEngineWindow
 
             if(clock >= 200)
             {
-                Console.WriteLine("Clock is 200");
+                GameEngine.Debug.Log("Clock is 200");
                 Random rand = new Random();
                 Vector2 pos = new Vector2(rand.Next(Width), rand.Next(Height));
                 apples.Add(new Apple(pos));
-                Console.WriteLine("Drawn Apple");
+                GameEngine.Debug.Log("Drawn Apple");
                 clock = 0;
             }
             else

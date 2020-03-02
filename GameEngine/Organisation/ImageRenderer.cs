@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace GameEngine.Organisation
 {
-    public class ImageRenderer : Component
+    public class ImageRenderer : Renderer
     {
-        public Rectangle rect;
         public ParEngineImage image;
 
-        public ImageRenderer(Rectangle rect_, ParEngineImage image_)
+        public ImageRenderer(Rectangle rect_, ParEngineImage image_) : base("Image Renderer")
         {
             rect = rect_;
             image = image_;

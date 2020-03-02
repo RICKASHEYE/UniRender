@@ -11,6 +11,11 @@ Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "GameEngineUWP", "GameEngine
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameEngineEditor", "GameEngineEditor\GameEngineEditor.csproj", "{007A89D4-EEDB-4565-9783-5745F3ABB882}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BB85613C-1222-4F22-9E6C-BCEFD64D6CAC}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

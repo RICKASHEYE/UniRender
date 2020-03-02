@@ -54,22 +54,31 @@
     <Compile Include="Axis.cs" />
     <Compile Include="Canvas.cs" />
     <Compile Include="Color.cs" />
+    <Compile Include="ComponentHandler.cs" />
+    <Compile Include="Debug.cs" />
     <Compile Include="Font.cs" />
+    <Compile Include="GameObjectHandler.cs" />
     <Compile Include="ImageDrawer.cs" />
     <Compile Include="KeyCode.cs" />
     <Compile Include="Mathf.cs" />
     <Compile Include="Organisation\Animator.cs" />
+    <Compile Include="Organisation\BoxCollider.cs" />
     <Compile Include="Organisation\Component.cs" />
     <Compile Include="Organisation\GameObject.cs" />
     <Compile Include="Organisation\ImageRenderer.cs" />
     <Compile Include="Organisation\RectangleRenderer.cs" />
+    <Compile Include="Organisation\Renderer.cs" />
     <Compile Include="PlayerValues.cs" />
+    <Compile Include="PluginLoader.cs" />
     <Compile Include="Point.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rectangle.cs" />
     <Compile Include="Vector2.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\.editorconfig">
+      <Link>.editorconfig</Link>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

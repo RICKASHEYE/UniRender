@@ -11,6 +11,11 @@ namespace GameEngine.Organisation
         public string name;
         public GameObject parent;
 
+        public Component(string name_)
+        {
+            name = name_;
+        }
+
         public virtual void Run()
         {
 
@@ -21,12 +26,12 @@ namespace GameEngine.Organisation
 
         }
 
-        public Component GetComponent(Component component)
+        public Component GetComponent<T>(string name)
         {
             Component comFound = null;
             foreach(Component com in parent.components)
             {
-                if(com.name == component.name)
+                if(com.name == name)
                 {
                     comFound = com;
                 }
@@ -34,10 +39,10 @@ namespace GameEngine.Organisation
             return comFound;
         }
 
-        public Component AddComponent(Component component)
+        public Component AddComponent<T>(Component component)
         {
             parent.RegisterComponent(component);
-            return GetComponent(component);
+            return GetComponent<T>(component.name);
         }
     }
 }
