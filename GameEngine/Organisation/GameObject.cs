@@ -39,14 +39,21 @@ namespace GameEngine.Organisation
             else
             {
                 //Much easier than just removing from list (less prone to errors)
-                foreach(Component com_ in components)
+                components.Remove(GetComponent(com.name));
+            }
+        }
+
+        public Component GetComponent(string name)
+        {
+            Component foundComponent = null;
+            foreach(Component com in components)
+            {
+                if(name == com.name)
                 {
-                    if(com_.name == com.name)
-                    {
-                        components.Remove(com);
-                    }
+                    foundComponent = com;
                 }
             }
+            return foundComponent;
         }
 
         public bool comExists(Component com)

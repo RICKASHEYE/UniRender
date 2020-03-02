@@ -26,7 +26,7 @@ namespace GameEngine.Organisation
 
         }
 
-        public Component GetComponent<T>(string name)
+        public Component GetComponent(string name)
         {
             Component comFound = null;
             foreach(Component com in parent.components)
@@ -39,10 +39,10 @@ namespace GameEngine.Organisation
             return comFound;
         }
 
-        public Component AddComponent<T>(Component component)
+        public Component RegisterComponent(Component component)
         {
             parent.RegisterComponent(component);
-            return GetComponent<T>(component.name);
+            return GetComponent(component.name);
         }
     }
 }

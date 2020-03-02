@@ -54,6 +54,11 @@ namespace GameEngine
             }
         }
 
+        public static GameEngine.Organisation.GameObject returnObjectFromComponent(Organisation.Component com)
+        {
+            return com.parent;
+        }
+
         public static bool gameObjectExists(string name)
         {
             //The gameobject exists or not?
