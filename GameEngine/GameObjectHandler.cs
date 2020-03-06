@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GameEngine
 {
-    public class GameObjectHandler
+    public static class GameObjectHandler
     {
         public static List<GameEngine.Organisation.GameObject> gameObjects;
 
@@ -21,16 +21,33 @@ namespace GameEngine
                 }
                 GameEngine.Organisation.GameObject newObject = new GameEngine.Organisation.GameObject(name);
                 gameObjects.Add(newObject);
+                //GameEngine.Debug.Log("Added new Game Object");
             }
             else
             {
-                GameEngine.Debug.Error("GameObject of the same name exists!");
+                int countOfObjects = countObjectSame(name);
+                string finalName = name + "(COPY)";
+                GameEngine.Debug.Error("GameObject of the same name exists! but then creating a new object with the name of: " + finalName);
+                CreateGameObject(finalName);
             }
 
             if (gameObjects != null)
             {
                 GameEngine.Debug.Log("Total list of " + gameObjects.Count + " gameObjects!");
             }
+        }
+
+        public static int countObjectSame(string name)
+        {
+            int finalCount = 0;
+            foreach(GameEngine.Organisation.GameObject gameObject in gameObjects)
+            {
+                if(gameObject.name_ == name)
+                {
+                    finalCount++;
+                }
+            }
+            return finalCount;
         }
 
         public static void RemoveGameObject(string name)

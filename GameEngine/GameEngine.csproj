@@ -60,6 +60,7 @@
     <Compile Include="GameObjectHandler.cs" />
     <Compile Include="ImageDrawer.cs" />
     <Compile Include="KeyCode.cs" />
+    <Compile Include="MainGame.cs" />
     <Compile Include="Mathf.cs" />
     <Compile Include="Organisation\Animator.cs" />
     <Compile Include="Organisation\BoxCollider.cs" />

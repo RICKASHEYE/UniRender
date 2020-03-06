@@ -17,7 +17,6 @@ namespace GameEngine.Organisation
 
         public override void Run()
         {
-            render = (Renderer) GetComponent<Renderer>("Renderer");
             base.Run();
         }
 

@@ -18,6 +18,32 @@ namespace GameEngine.Organisation
             name_ = name;
         }
 
+        public void Update()
+        {
+            if (components != null)
+            {
+                foreach (Component com in components)
+                {
+                    com.Update();
+                } 
+            }
+        }
+
+        public void Run()
+        {
+            if (components != null)
+            {
+                foreach (Component com in components)
+                {
+                    com.Run();
+                }
+            }
+            else
+            {
+                Debug.Error("No Components to run yet...");
+            }
+        }
+
         public void RegisterComponent(Component com)
         {
             if (comExists(com))

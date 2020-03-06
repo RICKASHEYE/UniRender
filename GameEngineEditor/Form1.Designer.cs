@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.gameObjectBox = new System.Windows.Forms.ListBox();
             this.gameView = new System.Windows.Forms.PictureBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -37,29 +38,40 @@
             this.componentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rendererToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteSelectedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.componentBox = new System.Windows.Forms.ListBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gameView)).BeginInit();
             this.menuStrip1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.listBox1);
-            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.groupBox1.Location = new System.Drawing.Point(559, 24);
+            this.groupBox1.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.groupBox1.Controls.Add(this.gameObjectBox);
+            this.groupBox1.Location = new System.Drawing.Point(563, 27);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(241, 426);
+            this.groupBox1.Size = new System.Drawing.Size(241, 448);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Toolbox";
+            this.groupBox1.Text = "Game Objects";
+            // 
+            // gameObjectBox
+            // 
+            this.gameObjectBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gameObjectBox.FormattingEnabled = true;
+            this.gameObjectBox.Location = new System.Drawing.Point(3, 16);
+            this.gameObjectBox.Name = "gameObjectBox";
+            this.gameObjectBox.Size = new System.Drawing.Size(235, 429);
+            this.gameObjectBox.TabIndex = 0;
+            this.gameObjectBox.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
             // 
             // gameView
             // 
-            this.gameView.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.gameView.Location = new System.Drawing.Point(12, 40);
+            this.gameView.Location = new System.Drawing.Point(10, 32);
             this.gameView.Name = "gameView";
-            this.gameView.Size = new System.Drawing.Size(529, 395);
+            this.gameView.Size = new System.Drawing.Size(547, 448);
             this.gameView.TabIndex = 2;
             this.gameView.TabStop = false;
             this.gameView.Paint += new System.Windows.Forms.PaintEventHandler(this.gameView_Paint);
@@ -72,7 +84,7 @@
             this.deleteSelectedToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(800, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1069, 24);
             this.menuStrip1.TabIndex = 3;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -120,32 +132,45 @@
             this.deleteSelectedToolStripMenuItem.Text = "Delete Selected";
             this.deleteSelectedToolStripMenuItem.Click += new System.EventHandler(this.deleteSelectedToolStripMenuItem_Click);
             // 
-            // listBox1
+            // groupBox2
             // 
-            this.listBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(3, 16);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(235, 407);
-            this.listBox1.TabIndex = 0;
-            this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
+            this.groupBox2.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.groupBox2.Controls.Add(this.componentBox);
+            this.groupBox2.Location = new System.Drawing.Point(810, 27);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(241, 451);
+            this.groupBox2.TabIndex = 2;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Component Editor";
+            // 
+            // componentBox
+            // 
+            this.componentBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.componentBox.FormattingEnabled = true;
+            this.componentBox.Location = new System.Drawing.Point(3, 16);
+            this.componentBox.Name = "componentBox";
+            this.componentBox.Size = new System.Drawing.Size(235, 432);
+            this.componentBox.TabIndex = 0;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoValidate = System.Windows.Forms.AutoValidate.Disable;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(1069, 495);
+            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.gameView);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.menuStrip1);
             this.DoubleBuffered = true;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "Form1";
             this.Text = "Form1";
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gameView)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -162,7 +187,9 @@
         private System.Windows.Forms.ToolStripMenuItem deleteSelectedToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem componentsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem rendererToolStripMenuItem;
-        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.ListBox gameObjectBox;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.ListBox componentBox;
     }
 }
 
