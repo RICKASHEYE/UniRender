@@ -6,7 +6,7 @@
         public int posy;
         public int sizex, sizey;
 
-        public Rectangle(float _x, float _y, float _xPos, float _yPos)
+        public Rectangle(int _x, int _y, int _xPos, int _yPos)
         {
             posx = (int)_x;
             posy = (int)_y;
@@ -18,6 +18,22 @@
         {
             posx = (int)pos_.x;
             posy = (int)pos_.y;
+            sizex = (int)size_.x;
+            sizey = (int)size_.y;
+        }
+
+        public Rectangle(int _x, int _y, Vector2 pos)
+        {
+            posx = (int)pos.x;
+            posy = (int)pos.y;
+            sizex = (int)_x;
+            sizey = (int)_y;
+        }
+
+        public Rectangle(Vector2 size_, int _xPos, int _yPos)
+        {
+            posx = _xPos;
+            posy = _yPos;
             sizex = (int)size_.x;
             sizey = (int)size_.y;
         }

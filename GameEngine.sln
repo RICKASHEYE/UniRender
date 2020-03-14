@@ -16,6 +16,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameEngineUI", "GameEngineUI\GameEngineUI.csproj", "{6B2A3C39-1CF0-4E50-9E4C-47FDBB283962}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -120,6 +122,26 @@ Global
 		{007A89D4-EEDB-4565-9783-5745F3ABB882}.Release|x64.Build.0 = Release|Any CPU
 		{007A89D4-EEDB-4565-9783-5745F3ABB882}.Release|x86.ActiveCfg = Release|Any CPU
 		{007A89D4-EEDB-4565-9783-5745F3ABB882}.Release|x86.Build.0 = Release|Any CPU
+		{6B2A3C39-1CF0-4E50-9E4C-47FDBB283962}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B2A3C39-1CF0-4E50-9E4C-47FDBB283962}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B2A3C39-1CF0-4E50-9E4C-47FDBB283962}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{6B2A3C39-1CF0-4E50-9E4C-47FDBB283962}.Debug|ARM.Build.0 = Debug|Any CPU
+		{6B2A3C39-1CF0-4E50-9E4C-47FDBB283962}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{6B2A3C39-1CF0-4E50-9E4C-47FDBB283962}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{6B2A3C39-1CF0-4E50-9E4C-47FDBB283962}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6B2A3C39-1CF0-4E50-9E4C-47FDBB283962}.Debug|x64.Build.0 = Debug|Any CPU
+		{6B2A3C39-1CF0-4E50-9E4C-47FDBB283962}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6B2A3C39-1CF0-4E50-9E4C-47FDBB283962}.Debug|x86.Build.0 = Debug|Any CPU
+		{6B2A3C39-1CF0-4E50-9E4C-47FDBB283962}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B2A3C39-1CF0-4E50-9E4C-47FDBB283962}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B2A3C39-1CF0-4E50-9E4C-47FDBB283962}.Release|ARM.ActiveCfg = Release|Any CPU
+		{6B2A3C39-1CF0-4E50-9E4C-47FDBB283962}.Release|ARM.Build.0 = Release|Any CPU
+		{6B2A3C39-1CF0-4E50-9E4C-47FDBB283962}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{6B2A3C39-1CF0-4E50-9E4C-47FDBB283962}.Release|ARM64.Build.0 = Release|Any CPU
+		{6B2A3C39-1CF0-4E50-9E4C-47FDBB283962}.Release|x64.ActiveCfg = Release|Any CPU
+		{6B2A3C39-1CF0-4E50-9E4C-47FDBB283962}.Release|x64.Build.0 = Release|Any CPU
+		{6B2A3C39-1CF0-4E50-9E4C-47FDBB283962}.Release|x86.ActiveCfg = Release|Any CPU
+		{6B2A3C39-1CF0-4E50-9E4C-47FDBB283962}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

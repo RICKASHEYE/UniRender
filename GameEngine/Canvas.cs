@@ -102,7 +102,7 @@ namespace GameEngine
         public static void DrawPixel(int x, int y, Color color, string name)
         {
             ScreenRender.Add(new Pixel(x, y, color, name));
-            RecalculatePixelObjects();
+            //RecalculatePixelObjects();
         }
 
         public static void DrawRect(Rectangle rect, Color color, string name)

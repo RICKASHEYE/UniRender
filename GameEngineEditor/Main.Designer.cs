@@ -1,6 +1,6 @@
 ﻿namespace GameEngineEditor
 {
-    partial class Form1
+    partial class Main
     {
         /// <summary>
         /// Required designer variable.
@@ -37,20 +37,26 @@
             this.gameObjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.componentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rendererToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.animatorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.boxColliderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.imageRendererToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteSelectedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.componentBox = new System.Windows.Forms.ListBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.componentInspector = new System.Windows.Forms.ListBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gameView)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
             this.groupBox1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.groupBox1.Controls.Add(this.gameObjectBox);
-            this.groupBox1.Location = new System.Drawing.Point(563, 27);
+            this.groupBox1.Location = new System.Drawing.Point(570, 32);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(241, 448);
             this.groupBox1.TabIndex = 1;
@@ -66,6 +72,7 @@
             this.gameObjectBox.Size = new System.Drawing.Size(235, 429);
             this.gameObjectBox.TabIndex = 0;
             this.gameObjectBox.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
+            this.gameObjectBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.gameObjectBox_MouseDoubleClick);
             // 
             // gameView
             // 
@@ -84,7 +91,7 @@
             this.deleteSelectedToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1069, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1349, 24);
             this.menuStrip1.TabIndex = 3;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -113,7 +120,10 @@
             // componentsToolStripMenuItem
             // 
             this.componentsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.rendererToolStripMenuItem});
+            this.rendererToolStripMenuItem,
+            this.animatorToolStripMenuItem,
+            this.boxColliderToolStripMenuItem,
+            this.imageRendererToolStripMenuItem});
             this.componentsToolStripMenuItem.Name = "componentsToolStripMenuItem";
             this.componentsToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.componentsToolStripMenuItem.Text = "Components";
@@ -121,9 +131,30 @@
             // rendererToolStripMenuItem
             // 
             this.rendererToolStripMenuItem.Name = "rendererToolStripMenuItem";
-            this.rendererToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
+            this.rendererToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
             this.rendererToolStripMenuItem.Text = "Renderer";
             this.rendererToolStripMenuItem.Click += new System.EventHandler(this.rendererToolStripMenuItem_Click);
+            // 
+            // animatorToolStripMenuItem
+            // 
+            this.animatorToolStripMenuItem.Name = "animatorToolStripMenuItem";
+            this.animatorToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.animatorToolStripMenuItem.Text = "Animator";
+            this.animatorToolStripMenuItem.Click += new System.EventHandler(this.animatorToolStripMenuItem_Click);
+            // 
+            // boxColliderToolStripMenuItem
+            // 
+            this.boxColliderToolStripMenuItem.Name = "boxColliderToolStripMenuItem";
+            this.boxColliderToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.boxColliderToolStripMenuItem.Text = "Box Collider";
+            this.boxColliderToolStripMenuItem.Click += new System.EventHandler(this.boxColliderToolStripMenuItem_Click);
+            // 
+            // imageRendererToolStripMenuItem
+            // 
+            this.imageRendererToolStripMenuItem.Name = "imageRendererToolStripMenuItem";
+            this.imageRendererToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.imageRendererToolStripMenuItem.Text = "Image Renderer";
+            this.imageRendererToolStripMenuItem.Click += new System.EventHandler(this.imageRendererToolStripMenuItem_Click);
             // 
             // deleteSelectedToolStripMenuItem
             // 
@@ -136,7 +167,7 @@
             // 
             this.groupBox2.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.groupBox2.Controls.Add(this.componentBox);
-            this.groupBox2.Location = new System.Drawing.Point(810, 27);
+            this.groupBox2.Location = new System.Drawing.Point(817, 32);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(241, 451);
             this.groupBox2.TabIndex = 2;
@@ -151,26 +182,51 @@
             this.componentBox.Name = "componentBox";
             this.componentBox.Size = new System.Drawing.Size(235, 432);
             this.componentBox.TabIndex = 0;
+            this.componentBox.SelectedIndexChanged += new System.EventHandler(this.componentBox_SelectedIndexChanged);
+            this.componentBox.DoubleClick += new System.EventHandler(this.componentBox_DoubleClick);
             // 
-            // Form1
+            // groupBox3
+            // 
+            this.groupBox3.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.groupBox3.Controls.Add(this.componentInspector);
+            this.groupBox3.Location = new System.Drawing.Point(1064, 32);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(241, 451);
+            this.groupBox3.TabIndex = 4;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Component Inspector";
+            this.groupBox3.Enter += new System.EventHandler(this.groupBox3_Enter);
+            // 
+            // componentInspector
+            // 
+            this.componentInspector.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.componentInspector.FormattingEnabled = true;
+            this.componentInspector.Location = new System.Drawing.Point(3, 16);
+            this.componentInspector.Name = "componentInspector";
+            this.componentInspector.Size = new System.Drawing.Size(235, 432);
+            this.componentInspector.TabIndex = 0;
+            // 
+            // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoValidate = System.Windows.Forms.AutoValidate.Disable;
-            this.ClientSize = new System.Drawing.Size(1069, 495);
+            this.ClientSize = new System.Drawing.Size(1349, 495);
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.gameView);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.menuStrip1);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Name = "Form1";
+            this.Name = "Main";
             this.Text = "Form1";
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gameView)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -190,6 +246,11 @@
         private System.Windows.Forms.ListBox gameObjectBox;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.ListBox componentBox;
+        private System.Windows.Forms.ToolStripMenuItem animatorToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem boxColliderToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem imageRendererToolStripMenuItem;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.ListBox componentInspector;
     }
 }
 

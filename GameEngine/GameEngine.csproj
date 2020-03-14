@@ -54,7 +54,6 @@
     <Compile Include="Axis.cs" />
     <Compile Include="Canvas.cs" />
     <Compile Include="Color.cs" />
-    <Compile Include="ComponentHandler.cs" />
     <Compile Include="Debug.cs" />
     <Compile Include="Font.cs" />
     <Compile Include="GameObjectHandler.cs" />
