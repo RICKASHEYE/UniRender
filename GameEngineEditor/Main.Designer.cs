@@ -33,6 +33,9 @@
             this.gameView = new System.Windows.Forms.PictureBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveAsProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.createToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gameObjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.componentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -45,6 +48,7 @@
             this.componentBox = new System.Windows.Forms.ListBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.componentInspector = new System.Windows.Forms.ListBox();
+            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gameView)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -97,9 +101,33 @@
             // 
             // fileToolStripMenuItem
             // 
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.saveAsProjectToolStripMenuItem,
+            this.saveProjectToolStripMenuItem,
+            this.loadProjectToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
+            // 
+            // saveAsProjectToolStripMenuItem
+            // 
+            this.saveAsProjectToolStripMenuItem.Name = "saveAsProjectToolStripMenuItem";
+            this.saveAsProjectToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.saveAsProjectToolStripMenuItem.Text = "Save As Project";
+            this.saveAsProjectToolStripMenuItem.Click += new System.EventHandler(this.saveAsProjectToolStripMenuItem_Click);
+            // 
+            // saveProjectToolStripMenuItem
+            // 
+            this.saveProjectToolStripMenuItem.Name = "saveProjectToolStripMenuItem";
+            this.saveProjectToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.saveProjectToolStripMenuItem.Text = "Save Project";
+            this.saveProjectToolStripMenuItem.Click += new System.EventHandler(this.saveProjectToolStripMenuItem_Click);
+            // 
+            // loadProjectToolStripMenuItem
+            // 
+            this.loadProjectToolStripMenuItem.Name = "loadProjectToolStripMenuItem";
+            this.loadProjectToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.loadProjectToolStripMenuItem.Text = "Load Project";
             // 
             // createToolStripMenuItem
             // 
@@ -251,6 +279,10 @@
         private System.Windows.Forms.ToolStripMenuItem imageRendererToolStripMenuItem;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.ListBox componentInspector;
+        private System.Windows.Forms.ToolStripMenuItem saveProjectToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem loadProjectToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveAsProjectToolStripMenuItem;
+        public System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
     }
 }
 

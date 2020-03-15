@@ -1,9 +1,11 @@
 ﻿using GameEngine;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -16,11 +18,13 @@ namespace GameEngineEditor
     {
         public static Bitmap canvas;
         public List<GameObjectNode> nodes = new List<GameObjectNode>();
+        public static string destinationSave = "null";
 
         public Main()
         {
             InitializeComponent();
             //LoadToolbox();
+            this.Text = "UniRender - " + destinationSave;
             canvas = new Bitmap(Width, Height);
             MainGame.Run();
             Update();
@@ -203,6 +207,46 @@ namespace GameEngineEditor
                     componentInspector.Items.Add(info.ToString()); 
                 }
             }
+        }
+
+        private void saveProjectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //Save the project in a folder
+            FileSave saveFile = new FileSave(destinationSave);
+            saveFile.ShowDialog();
+            saveFile.Dispose();
+            //Save();
+        }
+
+        public void saveAs()
+        {
+            DialogResult result = folderBrowserDialog1.ShowDialog();
+
+            if (result == DialogResult.OK && !string.IsNullOrEmpty(folderBrowserDialog1.SelectedPath))
+            {
+                string[] files = Directory.GetFiles(folderBrowserDialog1.SelectedPath);
+            }
+        }
+
+        public void Save()
+        {
+            if(destinationSave == "null")
+            {
+                saveAs();
+                Save();
+            }
+            else
+            {
+                //Save the files
+                string savedString = JsonConvert.SerializeObject(GameObjectHandler.gameObjects);
+                Debug.Log("Saved file as: " + savedString);
+            }
+        }
+
+        private void saveAsProjectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            saveAs();
+            Save();
         }
     }
 }
