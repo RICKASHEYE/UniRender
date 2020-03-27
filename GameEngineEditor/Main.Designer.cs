@@ -43,12 +43,13 @@
             this.animatorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.boxColliderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.imageRendererToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.deleteSelectedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.componentBox = new System.Windows.Forms.ListBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.componentInspector = new System.Windows.Forms.ListBox();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pixelToolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gameView)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -92,7 +93,7 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.createToolStripMenuItem,
-            this.deleteSelectedToolStripMenuItem});
+            this.toolsToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1349, 24);
@@ -112,21 +113,21 @@
             // saveAsProjectToolStripMenuItem
             // 
             this.saveAsProjectToolStripMenuItem.Name = "saveAsProjectToolStripMenuItem";
-            this.saveAsProjectToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.saveAsProjectToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveAsProjectToolStripMenuItem.Text = "Save As Project";
             this.saveAsProjectToolStripMenuItem.Click += new System.EventHandler(this.saveAsProjectToolStripMenuItem_Click);
             // 
             // saveProjectToolStripMenuItem
             // 
             this.saveProjectToolStripMenuItem.Name = "saveProjectToolStripMenuItem";
-            this.saveProjectToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.saveProjectToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveProjectToolStripMenuItem.Text = "Save Project";
             this.saveProjectToolStripMenuItem.Click += new System.EventHandler(this.saveProjectToolStripMenuItem_Click);
             // 
             // loadProjectToolStripMenuItem
             // 
             this.loadProjectToolStripMenuItem.Name = "loadProjectToolStripMenuItem";
-            this.loadProjectToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.loadProjectToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.loadProjectToolStripMenuItem.Text = "Load Project";
             // 
             // createToolStripMenuItem
@@ -141,7 +142,7 @@
             // gameObjectToolStripMenuItem
             // 
             this.gameObjectToolStripMenuItem.Name = "gameObjectToolStripMenuItem";
-            this.gameObjectToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.gameObjectToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.gameObjectToolStripMenuItem.Text = "GameObject";
             this.gameObjectToolStripMenuItem.Click += new System.EventHandler(this.gameObjectToolStripMenuItem_Click);
             // 
@@ -153,7 +154,7 @@
             this.boxColliderToolStripMenuItem,
             this.imageRendererToolStripMenuItem});
             this.componentsToolStripMenuItem.Name = "componentsToolStripMenuItem";
-            this.componentsToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.componentsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.componentsToolStripMenuItem.Text = "Components";
             // 
             // rendererToolStripMenuItem
@@ -183,13 +184,6 @@
             this.imageRendererToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
             this.imageRendererToolStripMenuItem.Text = "Image Renderer";
             this.imageRendererToolStripMenuItem.Click += new System.EventHandler(this.imageRendererToolStripMenuItem_Click);
-            // 
-            // deleteSelectedToolStripMenuItem
-            // 
-            this.deleteSelectedToolStripMenuItem.Name = "deleteSelectedToolStripMenuItem";
-            this.deleteSelectedToolStripMenuItem.Size = new System.Drawing.Size(99, 20);
-            this.deleteSelectedToolStripMenuItem.Text = "Delete Selected";
-            this.deleteSelectedToolStripMenuItem.Click += new System.EventHandler(this.deleteSelectedToolStripMenuItem_Click);
             // 
             // groupBox2
             // 
@@ -234,6 +228,20 @@
             this.componentInspector.Size = new System.Drawing.Size(235, 432);
             this.componentInspector.TabIndex = 0;
             // 
+            // toolsToolStripMenuItem
+            // 
+            this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.pixelToolToolStripMenuItem});
+            this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
+            this.toolsToolStripMenuItem.Text = "Tools";
+            // 
+            // pixelToolToolStripMenuItem
+            // 
+            this.pixelToolToolStripMenuItem.Name = "pixelToolToolStripMenuItem";
+            this.pixelToolToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.pixelToolToolStripMenuItem.Text = "Pixel Tool";
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -268,7 +276,6 @@
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem createToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem gameObjectToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem deleteSelectedToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem componentsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem rendererToolStripMenuItem;
         private System.Windows.Forms.ListBox gameObjectBox;
@@ -283,6 +290,8 @@
         private System.Windows.Forms.ToolStripMenuItem loadProjectToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveAsProjectToolStripMenuItem;
         public System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
+        private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem pixelToolToolStripMenuItem;
     }
 }
 

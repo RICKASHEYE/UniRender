@@ -6,7 +6,16 @@ using System.Threading.Tasks;
 
 namespace GameEngine
 {
-    class PluginLoader
+    public static class PluginLoader
     {
+        public static void LoadPlugins()
+        {
+            Debug.Log("Plugin loader in progress of getting built.");
+        }
+
+        public static void UnloadPlugins()
+        {
+            Debug.Log("Unloading plugins is also in progress of getting built.");
+        }
     }
 }

@@ -26,6 +26,7 @@ namespace GameEngineEditor
             //LoadToolbox();
             this.Text = "UniRender - " + destinationSave;
             canvas = new Bitmap(Width, Height);
+            GameEngine.Axis.AssignNewKey(new KeyCode("Enter", Keys.Enter, Keys.Enter));
             MainGame.Run();
             Update();
             SecondaryLoadToolbox(true);
@@ -173,8 +174,27 @@ namespace GameEngineEditor
 
         private void gameObjectBox_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            EditProperty property = new EditProperty(GameEngine.GameObjectHandler.getGameObject(gameObjectBox.SelectedItem.ToString()));
-            property.ShowDialog();
+            CreateEditBox(new System.Drawing.Point(gameObjectBox.Location.X, gameObjectBox.Location.Y * gameObjectBox.SelectedIndex), new Size(gameObjectBox.Size.Width, 10));
+        }
+
+        bool modified = false;
+
+        public void CreateEditBox(System.Drawing.Point location, System.Drawing.Size size)
+        {
+            TextBox box = new TextBox();
+            box.Location = new System.Drawing.Point(gameObjectBox.Location.X, gameObjectBox.Location.Y * gameObjectBox.SelectedIndex);
+            box.Size = new System.Drawing.Size(gameObjectBox.Size.Width, 10);
+            this.Controls.Add(box);
+
+            while(modified == false)
+            {
+                if(GameEngine.Axis.GetKeyAxis(GameEngine.Axis.getCodeFromName("Enter")) == 1)
+                {
+                    box.Dispose();
+                    modified = true;
+                }
+            }
+            modified = false;
         }
 
         private void groupBox3_Enter(object sender, EventArgs e)
@@ -212,19 +232,19 @@ namespace GameEngineEditor
         private void saveProjectToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //Save the project in a folder
-            FileSave saveFile = new FileSave(destinationSave);
-            saveFile.ShowDialog();
-            saveFile.Dispose();
-            //Save();
+            Save();
         }
 
         public void saveAs()
         {
             DialogResult result = folderBrowserDialog1.ShowDialog();
 
-            if (result == DialogResult.OK && !string.IsNullOrEmpty(folderBrowserDialog1.SelectedPath))
+            using (var dialog = new FolderBrowserDialog())
             {
-                string[] files = Directory.GetFiles(folderBrowserDialog1.SelectedPath);
+                if (dialog.ShowDialog() == DialogResult.OK && !string.IsNullOrEmpty(folderBrowserDialog1.SelectedPath))
+                {
+                    string[] files = Directory.GetFiles(folderBrowserDialog1.SelectedPath);
+                } 
             }
         }
 

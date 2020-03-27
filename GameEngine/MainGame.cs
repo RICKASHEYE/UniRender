@@ -23,6 +23,8 @@ namespace GameEngine
         public static void Run()
         {
             //Run the game
+            //Run the necessary components too
+            PluginLoader.LoadPlugins();
             if (GameObjectHandler.gameObjects != null)
             {
                 foreach (Organisation.GameObject gameobjects in GameObjectHandler.gameObjects)
@@ -34,6 +36,11 @@ namespace GameEngine
             {
                 Debug.Error("No GameObjects to run yet!");
             }
+        }
+
+        public static void Unload()
+        {
+            PluginLoader.UnloadPlugins();
         }
     }
 }

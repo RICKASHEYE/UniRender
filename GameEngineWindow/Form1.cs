@@ -63,11 +63,11 @@ namespace GameEngineWindow
 
             if(clock >= 200)
             {
-                GameEngine.Debug.Log("Clock is 200");
+                //GameEngine.Debug.Log("Clock is 200");
                 Random rand = new Random();
                 Vector2 pos = new Vector2(rand.Next(Width), rand.Next(Height));
                 apples.Add(new Apple(pos));
-                GameEngine.Debug.Log("Drawn Apple");
+                //GameEngine.Debug.Log("Drawn Apple");
                 clock = 0;
             }
             else
