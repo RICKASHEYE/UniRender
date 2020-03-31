@@ -7,22 +7,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using GameEngineUtil;
+using Component = GameEngineUtil.Component;
 
 namespace GameEngineEditor
 {
     public partial class EditProperty : Form
     {
-        GameEngine.Organisation.GameObject editableObjectGame;
-        GameEngine.Organisation.Component editableObjectComponent;
+        GameObject editableObjectGame;
+        Component editableObjectComponent;
 
-        public EditProperty(GameEngine.Organisation.GameObject gameObject)
+        public EditProperty(GameObject gameObject)
         {
             InitializeComponent();
             editableObjectGame = gameObject;
             GameEngine.Debug.Log("Editing a gameObject");
         }
 
-        public EditProperty(GameEngine.Organisation.Component component)
+        public EditProperty(Component component)
         {
             InitializeComponent();
             editableObjectComponent = component;

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GameEngine
+﻿namespace GameEngineUtil
 {
     public static class MainGame
     {
@@ -13,7 +7,7 @@ namespace GameEngine
             //Update the game
             if (GameObjectHandler.gameObjects != null)
             {
-                foreach (Organisation.GameObject gameObjects in GameObjectHandler.gameObjects)
+                foreach (GameObject gameObjects in GameObjectHandler.gameObjects)
                 {
                     gameObjects.Update();
                 } 
@@ -24,23 +18,21 @@ namespace GameEngine
         {
             //Run the game
             //Run the necessary components too
-            PluginLoader.LoadPlugins();
             if (GameObjectHandler.gameObjects != null)
             {
-                foreach (Organisation.GameObject gameobjects in GameObjectHandler.gameObjects)
+                foreach (GameObject gameobjects in GameObjectHandler.gameObjects)
                 {
                     gameobjects.Run();
                 }
             }
             else
             {
-                Debug.Error("No GameObjects to run yet!");
+                GameEngine.Debug.Error("No GameObjects to run yet!");
             }
         }
 
         public static void Unload()
         {
-            PluginLoader.UnloadPlugins();
         }
     }
 }

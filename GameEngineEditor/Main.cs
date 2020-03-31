@@ -1,15 +1,12 @@
 ﻿using GameEngine;
+using GameEngineUtil;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace GameEngineEditor
@@ -17,7 +14,6 @@ namespace GameEngineEditor
     public partial class Main : Form
     {
         public static Bitmap canvas;
-        public List<GameObjectNode> nodes = new List<GameObjectNode>();
         public static string destinationSave = "null";
 
         public Main()
@@ -53,7 +49,7 @@ namespace GameEngineEditor
             if (GameObjectHandler.gameObjects != null)
             {
                 gameObjectBox.Items.Clear();
-                foreach (GameEngine.Organisation.GameObject gameObjects in GameObjectHandler.gameObjects)
+                foreach (GameObject gameObjects in GameObjectHandler.gameObjects)
                 {
                     gameObjectBox.Items.Add(gameObjects.name_);
                 }
@@ -69,9 +65,9 @@ namespace GameEngineEditor
             if (gameObjectBox.SelectedItem != null && GameObjectHandler.gameObjects != null)
             {
                 componentBox.Items.Clear();
-                GameEngine.Organisation.GameObject objectNew = GameObjectHandler.getGameObject(gameObjectBox.SelectedItem.ToString());
+                GameObject objectNew = GameObjectHandler.getGameObject(gameObjectBox.SelectedItem.ToString());
                 componentBox.Items.Add("Position: " + objectNew.X + " " + objectNew.Y);
-                foreach (GameEngine.Organisation.Component coms in objectNew.components)
+                foreach (Component coms in objectNew.components)
                 {
                     componentBox.Items.Add(coms.name);
                 }
@@ -126,8 +122,8 @@ namespace GameEngineEditor
         private void rendererToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //Open or add the component Renderer
-            GameEngine.Organisation.GameObject reference = GameObjectHandler.getGameObject(gameObjectBox.SelectedItem.ToString());
-            GameEngine.Organisation.RectangleRenderer renderer = new GameEngine.Organisation.RectangleRenderer(new GameEngine.Rectangle(10, 10, reference.X, reference.Y), new GameEngine.Color(255, 255, 255));
+            GameObject reference = GameObjectHandler.getGameObject(gameObjectBox.SelectedItem.ToString());
+            RectangleRenderer renderer = new RectangleRenderer(new GameEngine.Rectangle(10, 10, reference.X, reference.Y), new GameEngine.Color(255, 255, 255));
             AddComponent(renderer);
         }
 
@@ -149,26 +145,26 @@ namespace GameEngineEditor
 
         private void animatorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            GameEngine.Organisation.Animator animator = new GameEngine.Organisation.Animator();
+            Animator animator = new Animator();
             AddComponent(animator);
         }
 
-        public void AddComponent(GameEngine.Organisation.Component com)
+        public void AddComponent(Component com)
         {
-            GameEngine.GameObjectHandler.getGameObject(gameObjectBox.SelectedItem.ToString()).RegisterComponent(com);
+            GameObjectHandler.getGameObject(gameObjectBox.SelectedItem.ToString()).RegisterComponent(com);
             GameEngine.Debug.Log("Added a new Component: " + com.name);
             LoadComponents();
         }
 
         private void boxColliderToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            GameEngine.Organisation.BoxCollider collider = new GameEngine.Organisation.BoxCollider();
+            BoxCollider collider = new BoxCollider();
             AddComponent(collider);
         }
 
         private void imageRendererToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            GameEngine.Organisation.ImageRenderer renderer = new GameEngine.Organisation.ImageRenderer(new GameEngine.Rectangle(new Vector2(0, 0), new Vector2(0, 0)), null);
+            ImageRenderer renderer = new ImageRenderer(new GameEngine.Rectangle(new Vector2(0, 0), new Vector2(0, 0)), null);
             AddComponent(renderer);
         }
 
@@ -206,7 +202,7 @@ namespace GameEngineEditor
         {
             //Double click this!
             //Delete the component 
-            GameEngine.Organisation.GameObject reference = GameObjectHandler.getGameObject(gameObjectBox.SelectedItem.ToString());
+            GameObject reference = GameObjectHandler.getGameObject(gameObjectBox.SelectedItem.ToString());
             reference.DeRegisterComponent(reference.GetComponent(componentBox.SelectedItem.ToString()));
             LoadComponents();
         }
@@ -216,7 +212,7 @@ namespace GameEngineEditor
             componentInspector.Items.Clear();
             //Change of the index
             //Load the component values into the component inspector!
-            GameEngine.Organisation.Component reference = GameObjectHandler.getGameObject(gameObjectBox.SelectedItem.ToString()).GetComponent(componentBox.SelectedItem.ToString());
+            Component reference = GameObjectHandler.getGameObject(gameObjectBox.SelectedItem.ToString()).GetComponent(componentBox.SelectedItem.ToString());
             var bindingFlags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public;
             var fieldValues = reference.GetType().GetFields(bindingFlags).Select(field => field.GetValue(reference)).ToList();
 

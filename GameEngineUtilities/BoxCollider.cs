@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GameEngine.Organisation
+﻿
+namespace GameEngineUtil
 {
     public class BoxCollider : Component
     {
@@ -21,10 +16,10 @@ namespace GameEngine.Organisation
         }
 
         //One day.. an editor!!!!
-        public virtual void OnColliderEnter()
+        /*public virtual void OnColliderEnter()
         {
             //Check if another group of pixels is overlapping this one!
-            List<PixelObjects> pixelGroup = Canvas.pixelObjects;
+            List<PixelObjects> pixelGroup = GameEngine.Canvas.pixelObjects;
             PixelObjects selectedObject = null;
             foreach(PixelObjects objectsPixel in pixelGroup)
             {
@@ -37,6 +32,6 @@ namespace GameEngine.Organisation
                     }
                 }
             }
-        }
+        }*/
     }
 }

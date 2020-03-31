@@ -59,7 +59,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ComponentNode.cs" />
     <Compile Include="EditProperty.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -78,7 +77,6 @@
     <Compile Include="Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
     </Compile>
-    <Compile Include="GameObjectNode.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="EditProperty.resx">
@@ -114,6 +112,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GameEngineUtilities\GameEngineUtilities.csproj">
+      <Project>{e08f8dab-0ad7-4e7d-b8ee-437877025245}</Project>
+      <Name>GameEngineUtilities</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GameEngine\GameEngine.csproj">
       <Project>{842f35ba-3145-45a6-9cb7-4681f1b3dd05}</Project>
       <Name>GameEngine</Name>

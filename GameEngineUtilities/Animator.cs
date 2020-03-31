@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections;
+﻿using GameEngine;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
-namespace GameEngine.Organisation
+namespace GameEngineUtil
 {
     public struct Frame
     {

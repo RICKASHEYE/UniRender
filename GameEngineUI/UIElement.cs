@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using GameEngineUtil;
 
 namespace GameEngineUI
 {
-    public class UIElement : GameEngine.Organisation.Component
+    public class UIElement : Component
     {
 
         public UIElement(string name):base(name)

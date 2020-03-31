@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
-namespace GameEngine
+namespace GameEngineUtil
 {
     public static class GameObjectHandler
     {
-        public static List<GameEngine.Organisation.GameObject> gameObjects;
+        public static List<GameObject> gameObjects;
 
         public static void CreateGameObject(string name)
         {
@@ -16,10 +12,10 @@ namespace GameEngine
             {
                 if (gameObjects == null)
                 {
-                    gameObjects = new List<GameEngine.Organisation.GameObject>();
+                    gameObjects = new List<GameObject>();
                     GameEngine.Debug.Log("Creating a new list of gameObjects");
                 }
-                GameEngine.Organisation.GameObject newObject = new GameEngine.Organisation.GameObject(name);
+                GameObject newObject = new GameObject(name);
                 gameObjects.Add(newObject);
                 //GameEngine.Debug.Log("Added new Game Object");
             }
@@ -40,7 +36,7 @@ namespace GameEngine
         public static int countObjectSame(string name)
         {
             int finalCount = 0;
-            foreach(GameEngine.Organisation.GameObject gameObject in gameObjects)
+            foreach(GameObject gameObject in gameObjects)
             {
                 if(gameObject.name_ == name)
                 {
@@ -57,7 +53,7 @@ namespace GameEngine
                 if (gameObjectExists(name))
                 {
                     //Remove the gameobject
-                    GameEngine.Organisation.GameObject objectReference = getGameObject(name);
+                    GameObject objectReference = getGameObject(name);
                     gameObjects.Remove(objectReference);
                 }
                 else
@@ -71,7 +67,7 @@ namespace GameEngine
             }
         }
 
-        public static GameEngine.Organisation.GameObject returnObjectFromComponent(Organisation.Component com)
+        public static GameObject returnObjectFromComponent(Component com)
         {
             return com.parent;
         }
@@ -82,7 +78,7 @@ namespace GameEngine
             bool exists = false;
             if (gameObjects != null)
             {
-                foreach (GameEngine.Organisation.GameObject ObjectGame in gameObjects)
+                foreach (GameObject ObjectGame in gameObjects)
                 {
                     if (ObjectGame.name_ == name)
                     {
@@ -97,12 +93,12 @@ namespace GameEngine
             return exists;
         }
 
-        public static GameEngine.Organisation.GameObject getGameObject(string name)
+        public static GameObject getGameObject(string name)
         {
-            GameEngine.Organisation.GameObject gameObject = null;
+            GameObject gameObject = null;
             if (gameObjects != null)
             {
-                foreach (GameEngine.Organisation.GameObject ObjectGame in gameObjects)
+                foreach (GameObject ObjectGame in gameObjects)
                 {
                     if (ObjectGame.name_ == name)
                     {

@@ -10,6 +10,7 @@ namespace GameEngine
         public int Y;
         public Color color;
         public string namePixel;
+        public Vector2 previousDest;
 
         public Pixel(int x_, int y_, Color color_, string name_)
         {
@@ -17,6 +18,14 @@ namespace GameEngine
             Y = y_;
             color = color_;
             namePixel = name_;
+        }
+
+        public void MovePixel(int x, int y)
+        {
+            //Move pixel to a certain destination
+            previousDest = new Vector2(X, Y);
+            X = x;
+            Y = y;
         }
     }
 
@@ -44,7 +53,7 @@ namespace GameEngine
         //Draw a rectangle or a screen
         public static List<Pixel> ScreenRender = new List<Pixel>();
         public RenderType currentRender;
-        public static List<PixelObjects> pixelObjects = new List<PixelObjects>();
+        public static Vector2 cameraOffset = Vector2.zero;
 
         public Canvas()
         {
@@ -60,46 +69,30 @@ namespace GameEngine
         public static void RecalculatePixelObjects()
         {
             //Recalculate objects
-            foreach(Pixel pix in ScreenRender)
-            {
-                SetPixelGroup(pix.namePixel, pix);
-            }
+            
         }
 
-        public static void SetPixelGroup(string name, Pixel pixel)
+        public static bool notInSameArea(Pixel pixel)
         {
-            //we need to find the pixel group
-            if (pixelgroupexists(name))
+            bool notInSameArea = false;
+            foreach(Pixel pix in ScreenRender)
             {
-                //Pixel group exists so add it into the pixel groups
-                foreach(PixelObjects objects in pixelObjects)
+                if(pix.namePixel == pixel.namePixel)
                 {
-                    if(objects.name == name)
+                    Vector2 previousDestPix = pix.previousDest;
+                    Vector2 previousDestPixel = pixel.previousDest;
+                    if(previousDestPix.x == previousDestPixel.x && previousDestPix.y == previousDestPixel.x)
                     {
-                        objects.pixels.Add(pixel);
+                        Debug.Log("Pixel: " + pix.namePixel + " and " + pixel.namePixel + " do not match position previously");
+                        //notInSameArea = false;
+                    }
+                    else
+                    {
+                        notInSameArea = true;
                     }
                 }
             }
-            else
-            {
-                //create the pixel group and recycle this
-                PixelObjects newGroup = new PixelObjects();
-                newGroup.name = name;
-                SetPixelGroup(name, pixel);
-            }
-        }
-
-        public static bool pixelgroupexists(string name)
-        {
-            bool exists = false;
-            foreach(PixelObjects pixelObject in pixelObjects)
-            {
-                if(pixelObject.name == name)
-                {
-                    exists = true;
-                }
-            }
-            return exists;
+            return notInSameArea;
         }
 
         public static void DrawPixel(int x, int y, Color color, string name)
@@ -122,7 +115,11 @@ namespace GameEngine
                 return;
             }
 
-            ScreenRender.Add(new Pixel(x, y, color, name));
+            Pixel addedPixel = new Pixel(x, y, color, name);
+            if (notInSameArea(addedPixel) == true)
+            {
+                ScreenRender.Add(addedPixel); 
+            }
             //RecalculatePixelObjects();
         }
 
@@ -340,7 +337,7 @@ namespace GameEngine
         {
             ClearPixels(name);
             Bitmap ima = image.map_;
-            ima = ImageDrawer.ResizeImage(ima, size.sizex, size.sizey);
+            ima = ImageDrawer.ResizeImage(ima, size.sizex, size.sizey, 0, 0);
             for(int x = size.posx; x < size.posx + ima.Width; x++)
             {
                 for(int y = size.posy; y < size.posy + ima.Height; y++)
@@ -355,28 +352,12 @@ namespace GameEngine
 
         public static void MoveAllPixels(Vector2 direction, string blackList)
         {
-            Debug.Log("Moving all pixels to " + direction);
-            foreach(Pixel m in ScreenRender)
+            //Debug.Log("Moving all pixels to " + direction);
+            foreach (Pixel m in ScreenRender)
             {
                 if (m.namePixel != blackList)
                 {
-                    m.X = m.X + (int)direction.x;
-                    m.Y = m.Y + (int)direction.y; 
-                }
-            }
-        }
-
-        public static void MovePixelGroup(Vector2 direction, string GroupName)
-        {
-            foreach(PixelObjects objects in pixelObjects)
-            {
-                if(objects.name == GroupName)
-                {
-                    foreach (Pixel m in objects.pixels)
-                    {
-                        m.X = m.X + (int)direction.x;
-                        m.Y = m.Y + (int)direction.y;
-                    }
+                    m.MovePixel(m.X + (int)direction.x, m.Y + (int)direction.y);
                 }
             }
         }

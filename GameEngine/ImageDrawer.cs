@@ -36,7 +36,7 @@ namespace GameEngine
                         if (image != null)
                         {
                             //Scan the image for white points and if white points we want to remove them
-                            Bitmap map = ResizeImage(image, scale.X, scale.Y);
+                            Bitmap map = ResizeImage(image, scale.X, scale.Y, 0, 0);
                             CachedImages.Add(new ParEngineImage(map, filename));
                             DrawImage(path, point, scale, g);
                         }
@@ -65,9 +65,9 @@ namespace GameEngine
             }
         }
 
-        public static Bitmap ResizeImage(Image image, int width, int height)
+        public static Bitmap ResizeImage(Image image, int width, int height, int x, int y)
         {
-            var destRect = new System.Drawing.Rectangle(0, 0, width, height);
+            var destRect = new System.Drawing.Rectangle(x, y, width, height);
             var destImage = new Bitmap(width, height);
 
             destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
