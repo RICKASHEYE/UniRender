@@ -19,5 +19,11 @@ namespace GameEngine
             KeyUseNegative = keyUseNeg;
             this.name = name;
         }
+
+        public KeyCode(string name, Keys keyUsePos)
+        {
+            KeyUsePositive = keyUsePos;
+            this.name = name;
+        }
     }
 }

@@ -56,12 +56,13 @@ namespace GameEngineWindow
 
         public void DrawCanvas()
         {
+            Debug.Render(Width, Height);
             //GameEngine.Font.drawText("APPLES: " + GameEngine.PlayerValues.GetInteger("Apples"),10, 10, new GameEngine.Color(0, 0, 0), "APPLES");
             playerPosition += new Vector2(GameEngine.Axis.GetKeyAxis(GameEngine.Axis.getCodeFromName("Horizontal")), GameEngine.Axis.GetKeyAxis(GameEngine.Axis.getCodeFromName("Vertical")));
             GameEngine.Rectangle rect = new GameEngine.Rectangle(Width / 2, Height / 2, 10, 10);
             GameEngine.Canvas.DrawRect(rect, new GameEngine.Color(0, 0, 0), "Player");
-            Canvas.cameraOffset = playerPosition + Canvas.cameraOffset;
-            GameEngine.Canvas.MoveAllPixels(Canvas.cameraOffset, "Player");
+            //Canvas.cameraOffset = playerPosition + Canvas.cameraOffset;
+            //GameEngine.Canvas.MoveAllPixels(Canvas.cameraOffset, "Player");
             playerPosition = Vector2.zero;
 
             if(clock >= 200)
