@@ -19,7 +19,7 @@ namespace GameEngineUtil
         public override void Update()
         {
             //Run an update to draw this
-            Canvas.DrawLine(color, startPosition, endPosition, name);
+            //Canvas.DrawLine(color, startPosition, endPosition, name);
             base.Update();
         }
     }

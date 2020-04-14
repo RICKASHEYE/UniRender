@@ -42,6 +42,20 @@ namespace GameEngine
             return new Vector3(a.x / b, a.y / b, a.z / b);
         }
 
+        public static bool operator ==(Vector3 a, Vector3 b)
+        {
+            bool same = false;
+            if (a.x == b.x && a.y == b.y && a.z == b.z) { same = true; }
+            return same;
+        }
+
+        public static bool operator !=(Vector3 a, Vector3 b)
+        {
+            bool notsame = false;
+            if (a.x != b.x && a.y != b.y && a.z != b.z) { notsame = true; }
+            return notsame;
+        }
+
         // Functions
 
         public static Vector3 GetFromAngleDegrees(float angle)

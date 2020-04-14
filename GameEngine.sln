@@ -22,6 +22,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameEngineUtilities", "Game
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArcadeGameInterface", "ArcadeGameInterface\ArcadeGameInterface.csproj", "{72ECC451-40FB-4CB0-9550-A38A321F7649}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DungeonCrawlerDemo", "DungeonCrawlerDemo\DungeonCrawlerDemo.csproj", "{FD636660-2B8B-406D-9397-2BE98B6262A3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -186,6 +188,26 @@ Global
 		{72ECC451-40FB-4CB0-9550-A38A321F7649}.Release|x64.Build.0 = Release|Any CPU
 		{72ECC451-40FB-4CB0-9550-A38A321F7649}.Release|x86.ActiveCfg = Release|Any CPU
 		{72ECC451-40FB-4CB0-9550-A38A321F7649}.Release|x86.Build.0 = Release|Any CPU
+		{FD636660-2B8B-406D-9397-2BE98B6262A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD636660-2B8B-406D-9397-2BE98B6262A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD636660-2B8B-406D-9397-2BE98B6262A3}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{FD636660-2B8B-406D-9397-2BE98B6262A3}.Debug|ARM.Build.0 = Debug|Any CPU
+		{FD636660-2B8B-406D-9397-2BE98B6262A3}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{FD636660-2B8B-406D-9397-2BE98B6262A3}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{FD636660-2B8B-406D-9397-2BE98B6262A3}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{FD636660-2B8B-406D-9397-2BE98B6262A3}.Debug|x64.Build.0 = Debug|Any CPU
+		{FD636660-2B8B-406D-9397-2BE98B6262A3}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FD636660-2B8B-406D-9397-2BE98B6262A3}.Debug|x86.Build.0 = Debug|Any CPU
+		{FD636660-2B8B-406D-9397-2BE98B6262A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD636660-2B8B-406D-9397-2BE98B6262A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD636660-2B8B-406D-9397-2BE98B6262A3}.Release|ARM.ActiveCfg = Release|Any CPU
+		{FD636660-2B8B-406D-9397-2BE98B6262A3}.Release|ARM.Build.0 = Release|Any CPU
+		{FD636660-2B8B-406D-9397-2BE98B6262A3}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{FD636660-2B8B-406D-9397-2BE98B6262A3}.Release|ARM64.Build.0 = Release|Any CPU
+		{FD636660-2B8B-406D-9397-2BE98B6262A3}.Release|x64.ActiveCfg = Release|Any CPU
+		{FD636660-2B8B-406D-9397-2BE98B6262A3}.Release|x64.Build.0 = Release|Any CPU
+		{FD636660-2B8B-406D-9397-2BE98B6262A3}.Release|x86.ActiveCfg = Release|Any CPU
+		{FD636660-2B8B-406D-9397-2BE98B6262A3}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

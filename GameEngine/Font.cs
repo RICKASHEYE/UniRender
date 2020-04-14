@@ -756,7 +756,7 @@ namespace GameEngine
                 {
                     if (letter[i].ToString().Substring(j, 1) == "1" && i != null)
                     {
-                        Canvas.DrawPixel((int)x + j, (int)y + i, color, objectName);
+                        //Canvas.DrawPixel((int)x + j, (int)y + i, color, objectName);
                     }
                     else if (letter[i].ToString().Substring(j, 1) == "2")
                     {

@@ -65,14 +65,14 @@ namespace ArcadeGameInterface
                 Graphics g = e.Graphics;
                 g.Clear(System.Drawing.Color.Blue);
                 pictureBox1.Image = canvas;
-                foreach (Pixel pixel in GameEngine.Canvas.ScreenRender)
+                /*foreach (Pixel pixel in //GameEngine.Canvas.ScreenRender)
                 {
                     if (pixel != null && pixel.X >= 0 && pixel.X <= Width && pixel.Y >= 0 && pixel.Y <= Height)
                     {
                         System.Drawing.Color newColor = System.Drawing.Color.FromArgb(255, pixel.color.R, pixel.color.G, pixel.color.B);
                         g.DrawRectangle(new Pen(newColor), pixel.X, pixel.Y, 1, 1);
                     }
-                }
+                }*/
 
                 if(romsInstalled == false)
                 {

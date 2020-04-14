@@ -14,7 +14,7 @@ namespace GameEngineUtil
 
         public override void Update()
         {
-            Canvas.DrawImage(rect, image, name);
+            //Canvas.DrawImage(rect, image, name);
             base.Update();
         }
     }

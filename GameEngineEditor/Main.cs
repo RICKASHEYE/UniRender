@@ -88,14 +88,14 @@ namespace GameEngineEditor
                 Graphics g = e.Graphics;
                 g.Clear(System.Drawing.Color.White);
                 gameView.Image = canvas;
-                foreach (Pixel pixel in GameEngine.Canvas.ScreenRender)
+                /*foreach (Pixel pixel in GameEngine.Canvas.ScreenRender)
                 {
                     if (pixel != null)
                     {
                         System.Drawing.Color newColor = System.Drawing.Color.FromArgb(255, pixel.color.R, pixel.color.G, pixel.color.B);
                         g.FillRectangle(new SolidBrush(newColor), pixel.X, pixel.Y, 1, 1);
                     }
-                }
+                }*/
                 DrawCanvas();
                 //g.Clear(System.Drawing.Color.White);
             }

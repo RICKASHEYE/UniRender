@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GameEngine;
+﻿using GameEngine;
+using System;
 
 namespace GameEngineWindow
 {
@@ -16,11 +12,10 @@ namespace GameEngineWindow
         public Apple(Vector2 position_)
         {
             position = position_;
-            Random rand = new Random();
-            randString = rand.Next(100, 1000);
+            randString = GameEngine.Random.Range(100, 1000);
         }
 
-        public void render()
+        public void render(Canvas canvas)
         {
             if (deleted == false)
             {
@@ -30,10 +25,11 @@ namespace GameEngineWindow
                     deleted = true;
                     GameEngine.PlayerValues.SetIntValue("Apples", (int)GameEngine.PlayerValues.GetInteger("Apples") + 1);
                 }
-                GameEngine.Canvas.DrawCircle(Color.Ruby, position, 10, "Apple " + randString); 
-            }else if(deleted == true)
+                canvas.DrawCircle(Color.Ruby, position, 10, "Apple " + randString);
+            }
+            else if (deleted == true)
             {
-                GameEngine.Canvas.ClearPixels("Apple " + randString);
+                canvas.ClearPixels("Apple " + randString);
             }
         }
     }

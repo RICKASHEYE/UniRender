@@ -1,8 +1,8 @@
-﻿using System;
+﻿using GameEngine;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-using GameEngine;
 
 namespace GameEngineWindow
 {
@@ -21,8 +21,8 @@ namespace GameEngineWindow
         }
 
         public static Vector2 playerPosition = Vector2.zero;
-        int fps = 0;
-        int cloc = 0;
+        private int fps = 0;
+        private int cloc = 0;
 
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
@@ -33,17 +33,17 @@ namespace GameEngineWindow
                 Graphics g = e.Graphics;
                 g.Clear(System.Drawing.Color.White);
                 pictureBox1.Image = canvas;
-                foreach (Pixel pixel in GameEngine.Canvas.ScreenRender)
+                /*foreach (Pixel pixel in GameEngine.Canvas.ScreenRender)
                 {
                     if (pixel != null && pixel.X >= 0 && pixel.X <= Width && pixel.Y >= 0 && pixel.Y <= Height)
                     {
                         System.Drawing.Color newColor = System.Drawing.Color.FromArgb(255, pixel.color.R, pixel.color.G, pixel.color.B);
                         g.FillRectangle(new SolidBrush(newColor), pixel.X, pixel.Y, 1, 1);
                     }
-                }
+                }*/
                 DrawCanvas();
                 g.DrawString("Apples: " + GameEngine.PlayerValues.GetInteger("Apples"), new System.Drawing.Font("Arial", 16, FontStyle.Regular, GraphicsUnit.Pixel), new SolidBrush(System.Drawing.Color.Black), 10, 10);
-                Text = "Camera Offset: " + Canvas.cameraOffset.x + ": " + Canvas.cameraOffset.y;
+                //Text = "Camera Offset: " + Canvas.cameraOffset.x + ": " + Canvas.cameraOffset.y;
             }
             catch (System.Exception m)
             {
@@ -60,16 +60,15 @@ namespace GameEngineWindow
             //GameEngine.Font.drawText("APPLES: " + GameEngine.PlayerValues.GetInteger("Apples"),10, 10, new GameEngine.Color(0, 0, 0), "APPLES");
             playerPosition += new Vector2(GameEngine.Axis.GetKeyAxis(GameEngine.Axis.getCodeFromName("Horizontal")), GameEngine.Axis.GetKeyAxis(GameEngine.Axis.getCodeFromName("Vertical")));
             GameEngine.Rectangle rect = new GameEngine.Rectangle(Width / 2, Height / 2, 10, 10);
-            GameEngine.Canvas.DrawRect(rect, new GameEngine.Color(0, 0, 0), "Player");
+            //GameEngine.Canvas.DrawRect(rect, new GameEngine.Color(0, 0, 0), "Player");
             //Canvas.cameraOffset = playerPosition + Canvas.cameraOffset;
             //GameEngine.Canvas.MoveAllPixels(Canvas.cameraOffset, "Player");
             playerPosition = Vector2.zero;
 
-            if(clock >= 200)
+            if (clock >= 200)
             {
                 //GameEngine.Debug.Log("Clock is 200");
-                Random rand = new Random();
-                Vector2 pos = new Vector2(rand.Next(Width), rand.Next(Height));
+                Vector2 pos = new Vector2(GameEngine.Random.Range(Width), GameEngine.Random.Range(Height));
                 apples.Add(new Apple(pos));
                 //GameEngine.Debug.Log("Drawn Apple");
                 clock = 0;
@@ -80,9 +79,9 @@ namespace GameEngineWindow
             }
 
             //Render the apples
-            foreach(Apple m in apples)
+            foreach (Apple m in apples)
             {
-                m.render();
+                //m.render(canvas);
             }
         }
     }

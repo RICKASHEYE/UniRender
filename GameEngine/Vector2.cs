@@ -12,6 +12,13 @@ namespace GameEngine
         public float x, y;
 
         public static readonly Vector2 zero = new Vector2(0, 0);
+        public static readonly Vector2 down = new Vector2(0, -1);
+        public static readonly Vector2 left = new Vector2(-1, 0);
+        public static readonly Vector2 negativeInfinity = new Vector2(int.MinValue, int.MinValue);
+        public static readonly Vector2 one = new Vector2(1, 1);
+        public static readonly Vector2 positiveInfinity = new Vector2(int.MaxValue, int.MaxValue);
+        public static readonly Vector2 right = new Vector2(1, 0);
+        public static readonly Vector2 up = new Vector2(0, 1);
 
         public Vector2(float _x, float _y)
         {
@@ -51,6 +58,20 @@ namespace GameEngine
             return new Vector2(a.x / b, a.y / b);
         }
 
+        public static bool operator ==(Vector2 a, Vector2 b)
+        {
+            bool same = false;
+            if (a.x == b.x && a.y == b.y) { same = true; }
+            return same;
+        }
+
+        public static bool operator !=(Vector2 a, Vector2 b)
+        {
+            bool notsame = false;
+            if (a.x != b.x && a.y != b.y) { notsame = true; }
+            return notsame;
+        }
+
         // Functions
 
         public static Vector2 GetFromAngleDegrees(float angle)
@@ -86,11 +107,26 @@ namespace GameEngine
             return (float)Math.Sqrt(a.x * a.x + a.y * a.y);
         }
 
+        public static float sqrMagnitude(Vector2 a)
+        {
+            return Magnitude(a) * Magnitude(a);
+        }
+
         public static Vector2 ClampMagnitude(Vector2 a, float l)
         {
             if (Vector2.Magnitude(a) > l) { a = Vector2.Normalize(a) * l; }
             return a;
         }
 
+        public void Set(int xset, int yset)
+        {
+            x = xset;
+            y = yset;
+        }
+
+        public static string ToString(Vector2 a)
+        {
+            return "" + a.x + " : " + a.y;
+        }
     }
 }

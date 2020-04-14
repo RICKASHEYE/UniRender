@@ -17,7 +17,7 @@ namespace GameEngineUtil
 
         public override void Update()
         {
-            Canvas.DrawCircle(color, (int)position.x, (int)position.y, radius, name);
+            //Canvas.DrawCircle(color, (int)position.x, (int)position.y, radius, name);
             base.Update();
         }
     }

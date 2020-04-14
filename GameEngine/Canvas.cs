@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SharpDX.Direct2D1;
+using SharpDX.DirectWrite;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 
@@ -29,6 +31,42 @@ namespace GameEngine
         }
     }
 
+    public class Text
+    {
+        public string text;
+        public Vector2 position;
+        public TextFormat TextFormat { get; private set; }
+        public TextLayout TextLayout { get; private set; }
+        public string font_stored;
+        public int size_stored;
+
+        public Text(string textTitle, Vector2 positionPos, RenderTarget RenderTarget2D, SharpDX.DirectWrite.Factory FactoryDWrite, string font, int size, AppConfiguration Config)
+        {
+            Initialise(textTitle, positionPos, RenderTarget2D, FactoryDWrite, font, size, Config);
+        }
+
+        public void Initialise(string textTitle, Vector2 positionPos, RenderTarget RenderTarget2D, SharpDX.DirectWrite.Factory FactoryDWrite, string font, int size, AppConfiguration Config)
+        {
+            text = textTitle;
+            position = positionPos;
+
+            font_stored = font;
+            size_stored = size;
+
+            TextFormat = new TextFormat(FactoryDWrite, font, size) { TextAlignment = TextAlignment.Center, ParagraphAlignment = ParagraphAlignment.Center };
+            RenderTarget2D.TextAntialiasMode = SharpDX.Direct2D1.TextAntialiasMode.Cleartype;
+            TextLayout = new TextLayout(FactoryDWrite, textTitle, TextFormat, Config.Width, Config.Height);
+        }
+
+        public void Render(RenderTarget RenderTarget2D, SolidColorBrush SceneBrush)
+        {
+            if(TextFormat == null) { Debug.Error("Text Format has not been initialised as it is null!!!"); }
+            if(TextLayout == null) { Debug.Error("Text Layout has not been initialised as it is null!!!"); }
+            SharpDX.Mathematics.Interop.RawVector2 vector2 = new SharpDX.Mathematics.Interop.RawVector2(position.x, position.y);
+            RenderTarget2D.DrawTextLayout(vector2, TextLayout, SceneBrush, DrawTextOptions.None);
+        }
+    }
+
     public class PixelObjects
     {
         public List<Pixel> pixels = new List<Pixel>();
@@ -43,60 +81,49 @@ namespace GameEngine
         }
     }
 
-    public enum RenderType
-    {
-        Vulkan, DirectX, OpenGL, Software
-    }
-
-    public class Canvas
+    public class Canvas : Direct2D1Handler
     {
         //Draw a rectangle or a screen
-        public static List<Pixel> ScreenRender = new List<Pixel>();
-        public RenderType currentRender;
-        public static Vector2 cameraOffset = Vector2.zero;
+        public List<Pixel> ScreenRender = new List<Pixel>();
+        //public RenderType currentRender;
+        public List<Text> textObjects = new List<Text>();
 
-        public Canvas()
+        protected override void Draw(AppTime time)
         {
-            if(currentRender != RenderType.Software)
+            RenderTarget2D.Clear(new SharpDX.Mathematics.Interop.RawColor4(0, 0, 0, 1));
+            base.Draw(time);
+            foreach (Pixel m in ScreenRender)
             {
-                Debug.Error("Other rendering engines are not supported at this time... switching back to software");
-                currentRender = RenderType.Software;
+                var solidColorBrush = new SolidColorBrush(Direct2D1Handler.RenderTarget2D, new SharpDX.Mathematics.Interop.RawColor4(m.color.R, m.color.G, m.color.B, 1));
+                RenderTarget2D.FillRectangle(new SharpDX.Mathematics.Interop.RawRectangleF(m.X, m.Y, m.X + 1, m.Y + 1), solidColorBrush);
             }
 
-            Debug.Log("Initialised Canvas rendering...");
+            foreach(Text text in textObjects)
+            {
+                if(text.TextFormat == null || text.TextLayout == null) { Debug.Log("Intialising Text..."); text.Initialise(text.text, text.position, RenderTarget2D, FactoryDWrite, text.font_stored, text.size_stored, Config); }
+                text.Render(RenderTarget2D, SceneColorBrush);
+            }
         }
 
-        public static void RecalculatePixelObjects()
+        public void Execute(EventHandler handler)
+        {
+            
+        }
+
+        protected override void Initialize(AppConfiguration demoConfiguration)
+        {
+            base.Initialize(demoConfiguration);
+        }
+
+        public void RecalculatePixelObjects()
         {
             //Recalculate objects
             
         }
 
-        public static bool notInSameArea(Pixel pixel)
+        public void DrawPixel(int x, int y, Color color, string name)
         {
-            bool notInSameArea = false;
-            foreach(Pixel pix in ScreenRender)
-            {
-                if(pix.namePixel == pixel.namePixel)
-                {
-                    Vector2 previousDestPix = pix.previousDest;
-                    Vector2 previousDestPixel = pixel.previousDest;
-                    if(previousDestPix.x == previousDestPixel.x && previousDestPix.y == previousDestPixel.x)
-                    {
-                        Debug.Log("Pixel: " + pix.namePixel + " and " + pixel.namePixel + " do not match position previously");
-                        //notInSameArea = false;
-                    }
-                    else
-                    {
-                        notInSameArea = true;
-                    }
-                }
-            }
-            return notInSameArea;
-        }
-
-        public static void DrawPixel(int x, int y, Color color, string name)
-        {
+            //Debug.Log("Drawn Pixel");
             if(x == null || y == null)
             {
                 Debug.Error("Unable to draw pixel no x or y specified.");
@@ -116,10 +143,7 @@ namespace GameEngine
             }
 
             Pixel addedPixel = new Pixel(x, y, color, name);
-            if (notInSameArea(addedPixel) == true)
-            {
-                ScreenRender.Add(addedPixel); 
-            }
+            ScreenRender.Add(addedPixel);
             //RecalculatePixelObjects();
         }
 
@@ -134,6 +158,12 @@ namespace GameEngine
             {
                 DrawPixel(x1 + i, y1, color, name);
             }
+        }
+
+        public void DrawText(string text, string font, int size, Vector2 position)
+        {
+            Text textObject = new Text(text, position, RenderTarget2D, FactoryDWrite, font, size, Config);
+            textObjects.Add(textObject);
         }
 
         private void DrawVerticalLine(Color color, int dy, int x1, int y1, string name)
@@ -208,17 +238,17 @@ namespace GameEngine
             DrawDiagonalLine(color, dx, dy, x1, y1, name);
         }
 
-        public static void DrawLine(Color color, Vector2 p1, Vector2 p2, string name)
+        public void DrawLine(Color color, Vector2 p1, Vector2 p2, string name)
         {
             DrawLine(color, (int)p1.x, (int)p1.y, (int)p2.x, (int)p2.y, name);
         }
 
-        public static void DrawLine(Color color, float x1, float y1, float x2, float y2, string name)
+        public void DrawLine(Color color, float x1, float y1, float x2, float y2, string name)
         {
             DrawLine(color, new Vector2(x1, y1), new Vector2(x2, y2), name);
         }
 
-        public static void DrawCircle(Color color, int x_center, int y_center, int radius, string name)
+        public void DrawCircle(Color color, int x_center, int y_center, int radius, string name)
         {
             int x = radius;
             int y = 0;
@@ -248,12 +278,12 @@ namespace GameEngine
             }
         }
 
-        public static void DrawCircle(Color color, Vector2 vector, int radius, string name)
+        public void DrawCircle(Color color, Vector2 vector, int radius, string name)
         {
             DrawCircle(color, (int)vector.x, (int)vector.y, radius, name);
         }
 
-        public static void DrawFilledCircle(Color color, Vector2 vector, int radius, string name)
+        public void DrawFilledCircle(Color color, Vector2 vector, int radius, string name)
         {
             for(int i = 0; i < radius; i++)
             {
@@ -261,7 +291,7 @@ namespace GameEngine
             }
         }
 
-        public static void DrawEllipse(Color color, int x_center, int y_center, int x_radius, int y_radius, string name)
+        public void DrawEllipse(Color color, int x_center, int y_center, int x_radius, int y_radius, string name)
         {
             int a = 2 * x_radius;
             int b = 2 * y_radius;
@@ -287,12 +317,12 @@ namespace GameEngine
             }
         }
 
-        public static void DrawEllipse(Color color, Vector2 vector, int x_radius, int y_radius, string name)
+        public void DrawEllipse(Color color, Vector2 vector, int x_radius, int y_radius, string name)
         {
             DrawEllipse(color, (int)vector.x, (int)vector.y, x_radius, y_radius, name);
         }
 
-        public static void DrawPolygon(Vector2[] vectors, Color color, string name)
+        public void DrawPolygon(Vector2[] vectors, Color color, string name)
         {
             //Read all of the vectors and draw a rectangle or point based on these three atleast.
             if(vectors.Length > 3)
@@ -309,19 +339,19 @@ namespace GameEngine
             }
         }
 
-        public static void DrawTriangle(Color color, int v1x, int v1y, int v2x, int v2y, int v3x, int v3y, string name)
+        public void DrawTriangle(Color color, int v1x, int v1y, int v2x, int v2y, int v3x, int v3y, string name)
         {
             DrawLine(color, v1x, v1y, v2x, v2y, name);
             DrawLine(color, v1x, v1y, v3x, v3y, name);
             DrawLine(color, v2x, v2y, v3x, v3y, name);
         }
 
-        public static void DrawTriangle(Color color, Vector2 vector01, Vector2 vector02, Vector2 vector03, string name)
+        public void DrawTriangle(Color color, Vector2 vector01, Vector2 vector02, Vector2 vector03, string name)
         {
             DrawTriangle(color, (int)vector01.x, (int)vector01.y, (int)vector02.x, (int)vector02.y, (int)vector03.x, (int)vector03.y, name);
         }
 
-        public static void DrawRect(Rectangle rect, Color color, string name)
+        public void DrawRect(Rectangle rect, Color color, string name)
         {
             ClearPixels(name);
             for(int x = rect.posx; x < rect.posx + rect.sizex; x++)
@@ -333,7 +363,7 @@ namespace GameEngine
             }
         }
 
-        public static void DrawImage(Rectangle size, ParEngineImage image, string name)
+        /*public void DrawImage(Rectangle size, ParEngineImage image, string name)
         {
             ClearPixels(name);
             Bitmap ima = image.map_;
@@ -348,9 +378,9 @@ namespace GameEngine
                 }
             }
             ima.Dispose();
-        }
+        }*/
 
-        public static void MoveAllPixels(Vector2 direction, string blackList)
+        public void MoveAllPixels(Vector2 direction, string blackList)
         {
             //Debug.Log("Moving all pixels to " + direction);
             foreach (Pixel m in ScreenRender)
@@ -362,7 +392,7 @@ namespace GameEngine
             }
         }
 
-        public static void ClearPixels(string name)
+        public void ClearPixels(string name)
         {
             foreach(Pixel m in ScreenRender.ToArray())
             {
@@ -373,12 +403,12 @@ namespace GameEngine
             }
         }
 
-        public static void DrawRect(int x, int y, int sizex, int sizey, Color color, string name)
+        public void DrawRect(int x, int y, int sizex, int sizey, Color color, string name)
         {
             DrawRect(new Rectangle(sizex, sizey, x, y), color, name);
         }
 
-        public static void DrawRect(int x, int y, int sizex, int sizey, int r, int g, int b, string name)
+        public void DrawRect(int x, int y, int sizex, int sizey, int r, int g, int b, string name)
         {
             DrawRect(new Rectangle(sizex, sizey, x, y), new Color(r, g, b), name);
         }

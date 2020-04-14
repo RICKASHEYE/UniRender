@@ -11,5 +11,10 @@ namespace GameEngine
             finalInteger = rnd.Next(start, end);
             return finalInteger;
         }
+
+        public static int Range(int end)
+        {
+            return Range(0, end);
+        }
     }
 }
