@@ -18,9 +18,9 @@ namespace GameEngine
 		/// <summary> Creates a new Color from rgb. </summary>
 		public Color(int r, int g, int b)
 		{
-			this.R = r;
-			this.G = g;
-			this.B = b;
+			this.R = r / 255;
+			this.G = g / 255;
+			this.B = b / 255;
 		}
 
 		//

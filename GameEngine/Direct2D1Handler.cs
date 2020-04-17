@@ -13,7 +13,7 @@ namespace GameEngine
     public class Direct2D1Handler : Direct3D11Handler
     {
         public Factory Factory2D { get; private set; }
-        public SharpDX.DirectWrite.Factory FactoryDWrite { get; private set; }
+        public static SharpDX.DirectWrite.Factory FactoryDWrite { get; private set; }
         public static RenderTarget RenderTarget2D;
         public SolidColorBrush SceneColorBrush { get; private set; }
 

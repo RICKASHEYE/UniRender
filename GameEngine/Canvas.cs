@@ -84,9 +84,10 @@ namespace GameEngine
     public class Canvas : Direct2D1Handler
     {
         //Draw a rectangle or a screen
-        public List<Pixel> ScreenRender = new List<Pixel>();
-        //public RenderType currentRender;
-        public List<Text> textObjects = new List<Text>();
+        public static List<Pixel> ScreenRender = new List<Pixel>();
+        //public static RenderType currentRender;
+        public static List<Text> textObjects = new List<Text>();
+        public static string name = "Subright Engine";
 
         protected override void Draw(AppTime time)
         {
@@ -105,23 +106,12 @@ namespace GameEngine
             }
         }
 
-        public void Execute(EventHandler handler)
-        {
-            
-        }
-
         protected override void Initialize(AppConfiguration demoConfiguration)
         {
             base.Initialize(demoConfiguration);
         }
 
-        public void RecalculatePixelObjects()
-        {
-            //Recalculate objects
-            
-        }
-
-        public void DrawPixel(int x, int y, Color color, string name)
+        public static void DrawPixel(int x, int y, Color color, string name)
         {
             //Debug.Log("Drawn Pixel");
             if(x == null || y == null)
@@ -142,9 +132,33 @@ namespace GameEngine
                 return;
             }
 
-            Pixel addedPixel = new Pixel(x, y, color, name);
-            ScreenRender.Add(addedPixel);
+            if (!PixelExists(x, y, name, color))
+            {
+                Pixel addedPixel = new Pixel(x, y, color, name);
+                ScreenRender.Add(addedPixel); 
+            }
             //RecalculatePixelObjects();
+        }
+
+        public static bool PixelExists(int x, int y, string name, Color color)
+        {
+            bool pixelexists = false;
+            foreach(Pixel m in ScreenRender)
+            {
+                if(m.X == x && m.Y == y)
+                {
+                    if (m.color == color)
+                    {
+                        pixelexists = true;
+                    }
+                    else
+                    {
+                        m.color = color;
+                        m.namePixel = name;
+                    }
+                }
+            }
+            return pixelexists;
         }
 
         public virtual void DrawArray(Color[] colors, Point point, int width, int height)
@@ -152,7 +166,7 @@ namespace GameEngine
             //Need to find a way to draw a array here!!!
         }
 
-        private void DrawHorizontalLine(Color color, int dx, int x1, int y1, string name)
+        private static void DrawHorizontalLine(Color color, int dx, int x1, int y1, string name)
         {
             for(int i = 0; i < dx; i++)
             {
@@ -160,7 +174,7 @@ namespace GameEngine
             }
         }
 
-        public void DrawText(string text, string font, int size, Vector2 position)
+        public static void DrawText(string text, string font, int size, Vector2 position)
         {
             Text textObject = new Text(text, position, RenderTarget2D, FactoryDWrite, font, size, Config);
             textObjects.Add(textObject);
@@ -238,17 +252,17 @@ namespace GameEngine
             DrawDiagonalLine(color, dx, dy, x1, y1, name);
         }
 
-        public void DrawLine(Color color, Vector2 p1, Vector2 p2, string name)
+        public static void DrawLine(Color color, Vector2 p1, Vector2 p2, string name)
         {
             DrawLine(color, (int)p1.x, (int)p1.y, (int)p2.x, (int)p2.y, name);
         }
 
-        public void DrawLine(Color color, float x1, float y1, float x2, float y2, string name)
+        public static void DrawLine(Color color, float x1, float y1, float x2, float y2, string name)
         {
             DrawLine(color, new Vector2(x1, y1), new Vector2(x2, y2), name);
         }
 
-        public void DrawCircle(Color color, int x_center, int y_center, int radius, string name)
+        public static void DrawCircle(Color color, int x_center, int y_center, int radius, string name)
         {
             int x = radius;
             int y = 0;
@@ -278,12 +292,12 @@ namespace GameEngine
             }
         }
 
-        public void DrawCircle(Color color, Vector2 vector, int radius, string name)
+        public static void DrawCircle(Color color, Vector2 vector, int radius, string name)
         {
             DrawCircle(color, (int)vector.x, (int)vector.y, radius, name);
         }
 
-        public void DrawFilledCircle(Color color, Vector2 vector, int radius, string name)
+        public static void DrawFilledCircle(Color color, Vector2 vector, int radius, string name)
         {
             for(int i = 0; i < radius; i++)
             {
@@ -291,7 +305,7 @@ namespace GameEngine
             }
         }
 
-        public void DrawEllipse(Color color, int x_center, int y_center, int x_radius, int y_radius, string name)
+        public static void DrawEllipse(Color color, int x_center, int y_center, int x_radius, int y_radius, string name)
         {
             int a = 2 * x_radius;
             int b = 2 * y_radius;
@@ -317,12 +331,12 @@ namespace GameEngine
             }
         }
 
-        public void DrawEllipse(Color color, Vector2 vector, int x_radius, int y_radius, string name)
+        public static void DrawEllipse(Color color, Vector2 vector, int x_radius, int y_radius, string name)
         {
             DrawEllipse(color, (int)vector.x, (int)vector.y, x_radius, y_radius, name);
         }
 
-        public void DrawPolygon(Vector2[] vectors, Color color, string name)
+        public static void DrawPolygon(Vector2[] vectors, Color color, string name)
         {
             //Read all of the vectors and draw a rectangle or point based on these three atleast.
             if(vectors.Length > 3)
@@ -339,19 +353,19 @@ namespace GameEngine
             }
         }
 
-        public void DrawTriangle(Color color, int v1x, int v1y, int v2x, int v2y, int v3x, int v3y, string name)
+        public static void DrawTriangle(Color color, int v1x, int v1y, int v2x, int v2y, int v3x, int v3y, string name)
         {
             DrawLine(color, v1x, v1y, v2x, v2y, name);
             DrawLine(color, v1x, v1y, v3x, v3y, name);
             DrawLine(color, v2x, v2y, v3x, v3y, name);
         }
 
-        public void DrawTriangle(Color color, Vector2 vector01, Vector2 vector02, Vector2 vector03, string name)
+        public static void DrawTriangle(Color color, Vector2 vector01, Vector2 vector02, Vector2 vector03, string name)
         {
             DrawTriangle(color, (int)vector01.x, (int)vector01.y, (int)vector02.x, (int)vector02.y, (int)vector03.x, (int)vector03.y, name);
         }
 
-        public void DrawRect(Rectangle rect, Color color, string name)
+        public static void DrawRect(Rectangle rect, Color color, string name)
         {
             ClearPixels(name);
             for(int x = rect.posx; x < rect.posx + rect.sizex; x++)
@@ -363,7 +377,7 @@ namespace GameEngine
             }
         }
 
-        /*public void DrawImage(Rectangle size, ParEngineImage image, string name)
+        /*public static void DrawImage(Rectangle size, ParEngineImage image, string name)
         {
             ClearPixels(name);
             Bitmap ima = image.map_;
@@ -380,7 +394,7 @@ namespace GameEngine
             ima.Dispose();
         }*/
 
-        public void MoveAllPixels(Vector2 direction, string blackList)
+        public static void MoveAllPixels(Vector2 direction, string blackList)
         {
             //Debug.Log("Moving all pixels to " + direction);
             foreach (Pixel m in ScreenRender)
@@ -392,7 +406,7 @@ namespace GameEngine
             }
         }
 
-        public void ClearPixels(string name)
+        public static void ClearPixels(string name)
         {
             foreach(Pixel m in ScreenRender.ToArray())
             {
@@ -403,12 +417,18 @@ namespace GameEngine
             }
         }
 
-        public void DrawRect(int x, int y, int sizex, int sizey, Color color, string name)
+        public static void Clear(Color color)
+        {
+            SharpDX.Mathematics.Interop.RawColor4 clearColor = new SharpDX.Mathematics.Interop.RawColor4(color.R, color.G, color.B, 1);
+            RenderTarget2D.Clear(clearColor);
+        }
+
+        public static void DrawRect(int x, int y, int sizex, int sizey, Color color, string name)
         {
             DrawRect(new Rectangle(sizex, sizey, x, y), color, name);
         }
 
-        public void DrawRect(int x, int y, int sizex, int sizey, int r, int g, int b, string name)
+        public static void DrawRect(int x, int y, int sizex, int sizey, int r, int g, int b, string name)
         {
             DrawRect(new Rectangle(sizex, sizey, x, y), new Color(r, g, b), name);
         }

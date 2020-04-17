@@ -29,3 +29,4 @@ C:\Users\lethen\Source\Repos\UniRender\GameEngine\bin\Debug\SharpDX.Direct3D9.xm
 C:\Users\lethen\Source\Repos\UniRender\GameEngine\bin\Debug\SharpDX.DXGI.pdb
 C:\Users\lethen\Source\Repos\UniRender\GameEngine\bin\Debug\SharpDX.DXGI.xml
 C:\Users\lethen\Source\Repos\UniRender\GameEngine\obj\Debug\GameEngine.csproj.CopyComplete
+C:\Users\lethen\Source\Repos\UniRender\GameEngine\obj\Debug\GameEngine.csproj.CoreCompileInputs.cache

@@ -12,10 +12,10 @@ namespace GameEngine
         private readonly AppTime clock = new AppTime();
         private FormWindowState _currentFormWindowState;
         private bool _disposed;
-        private Form _form;
+        public Form _form;
         private float _frameAccumulator;
         private int _frameCount;
-        private AppConfiguration _appConfiguration;
+        private static AppConfiguration _appConfiguration;
 
         /// <summary>
         ///   Performs object finalization.
@@ -71,7 +71,7 @@ namespace GameEngine
         /// Gets the config.
         /// </summary>
         /// <value>The config.</value>
-        public AppConfiguration Config
+        public static AppConfiguration Config
         {
             get
             {
