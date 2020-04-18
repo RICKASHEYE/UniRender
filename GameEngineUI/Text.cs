@@ -9,7 +9,7 @@ namespace GameEngineUI
 {
     public class Text : UIElement
     {
-        public Text(Canvas canvas, Rectangle rect) : base("Text")
+        public Text(DumpedCanvas canvas, Rectangle rect) : base("Text")
         {
             
         }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Resources;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,32 +9,41 @@ using System.Windows.Forms;
 
 namespace GameEngine
 {
-    public static class Axis
+    public class Axis : Direct2D1Handler
     {
-
         //Axis class to interpret input and keys to work with SamEngine!!!
-        [DllImport("user32.dll")]
-        public static extern short GetAsyncKeyState(Keys vKey);
         public static List<KeyCode> keyCodes = new List<KeyCode>();
 
-        //Get all of the keys and interpret them
-        public static int GetKeyAxis(KeyCode code)
+        protected override void KeyDown(KeyEventArgs e)
         {
-            int state = 0;
-            if(GetAsyncKeyState(code.KeyUsePositive) != 0 && GetAsyncKeyState(code.KeyUseNegative) == 0)
+            base.KeyDown(e);
+            foreach(KeyCode coedes in keyCodes)
             {
-                state = 1;
+                if (e.KeyCode == coedes.KeyUsePositive && e.KeyCode != coedes.KeyUseNegative)
+                {
+                    coedes.keyAxis = 1;
+                   // Debug.Log("Positive");
+                }
+                
+                if(e.KeyCode == coedes.KeyUseNegative && e.KeyCode != coedes.KeyUsePositive)
+                {
+                    coedes.keyAxis = -1;
+                    //Debug.Log("Negative");
+                }
             }
-            
-            if(GetAsyncKeyState(code.KeyUseNegative) != 0 && GetAsyncKeyState(code.KeyUsePositive) == 0){
-                state = -1;
-            }
+        }
 
-            if(GetAsyncKeyState(code.KeyUsePositive) == 0 && GetAsyncKeyState(code.KeyUseNegative) == 0)
+        protected override void KeyUp(KeyEventArgs e)
+        {
+            base.KeyUp(e);
+            foreach (KeyCode coedes in keyCodes)
             {
-                state = 0;
+                if (coedes.keyAxis != 0)
+                {
+                    coedes.keyAxis = 0;
+                    //Debug.Log("Key Up");
+                }
             }
-            return state;
         }
 
         public static void AssignNewKey(KeyCode code)
@@ -120,21 +130,28 @@ namespace GameEngine
             return returnKey;
         }
 
-        public static KeyCode getCodeFromName(KeyCode code_)
+        public static KeyCode getCodeFromName(KeyCode codeGet)
         {
             KeyCode returnKey = null;
             foreach (KeyCode code in keyCodes)
             {
-                if (code.name == code_.name)
+                if (codeGet != null)
                 {
-                    returnKey = code;
+                    if (code.name == codeGet.name)
+                    {
+                        returnKey = code;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("The code is not avaliable!");
                 }
             }
 
             if (returnKey == null)
             {
                 //Returned key but theres no key here
-                Console.WriteLine("No key here!");
+                Console.WriteLine();
             }
 
             return returnKey;

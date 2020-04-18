@@ -31,7 +31,7 @@ namespace GameEngine
                 GameEngine.Axis.AssignNewKey(new KeyCode("DebugOpen", System.Windows.Forms.Keys.Tab));
             }
 
-            if(Axis.GetKeyAxis(Axis.getCodeFromName("DebugOpen")) >= 1)
+            /*if(Axis.GetKeyAxis(Axis.getCodeFromName("DebugOpen")) >= 1)
             {
                 //Open the debug menu
                 //Canvas.DrawRect(new Rectangle(new Vector2(WindowHeight / 3, WindowWidth), new Vector2(0, 0)), Color.Black, "DebugMenu");
@@ -39,7 +39,7 @@ namespace GameEngine
             else
             {
 
-            }
+            }*/
         }
     }
 }

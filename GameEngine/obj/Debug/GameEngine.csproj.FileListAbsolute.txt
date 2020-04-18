@@ -30,3 +30,5 @@ C:\Users\lethen\Source\Repos\UniRender\GameEngine\bin\Debug\SharpDX.DXGI.pdb
 C:\Users\lethen\Source\Repos\UniRender\GameEngine\bin\Debug\SharpDX.DXGI.xml
 C:\Users\lethen\Source\Repos\UniRender\GameEngine\obj\Debug\GameEngine.csproj.CopyComplete
 C:\Users\lethen\Source\Repos\UniRender\GameEngine\obj\Debug\GameEngine.csproj.CoreCompileInputs.cache
+C:\Users\lethen\Source\Repos\UniRender\GameEngine\obj\Debug\GameEngine.Properties.Resources.resources
+C:\Users\lethen\Source\Repos\UniRender\GameEngine\obj\Debug\GameEngine.csproj.GenerateResource.cache

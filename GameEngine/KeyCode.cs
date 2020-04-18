@@ -12,6 +12,7 @@ namespace GameEngine
         public string name = "default key";
         public Keys KeyUsePositive;
         public Keys KeyUseNegative;
+        public int keyAxis = 0;
 
         public KeyCode(string name, Keys keyUsePos, Keys keyUseNeg)
         {
