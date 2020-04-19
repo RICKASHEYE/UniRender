@@ -1,5 +1,5 @@
 ﻿
-namespace GameEngineUtil
+namespace SubrightEngineUtil
 {
     public class BoxCollider : Component
     {

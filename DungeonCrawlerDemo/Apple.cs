@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GameEngine;
+using SubrightEngine;
 
 namespace DungeonCrawlerDemo
 {
@@ -15,7 +15,7 @@ namespace DungeonCrawlerDemo
         public Apple(Vector2 position_) : base("Apple")
         {
             position = position_;
-            randString = GameEngine.Random.Range(100, 1000);
+            randString = SubrightEngine.Random.Range(100, 1000);
         }
 
         public override void Draw()

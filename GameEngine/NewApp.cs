@@ -2,7 +2,7 @@
 using System.Windows.Forms;
 using SharpDX.Windows;
 
-namespace GameEngine
+namespace SubrightEngine
 {
     /// <summary>
     /// Root clas for a Demo Application

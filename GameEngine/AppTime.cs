@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace GameEngine
+namespace SubrightEngine
 {
     public class AppTime
     {

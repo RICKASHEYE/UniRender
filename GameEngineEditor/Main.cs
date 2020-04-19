@@ -1,5 +1,5 @@
-﻿using GameEngine;
-using GameEngineUtil;
+﻿using SubrightEngine;
+using SubrightEngineUtil;
 using Newtonsoft.Json;
 using System;
 using System.Data;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 
-namespace GameEngineEditor
+namespace SubrightEngineEditor
 {
     public partial class Main : Form
     {
@@ -22,7 +22,7 @@ namespace GameEngineEditor
             //LoadToolbox();
             this.Text = "UniRender - " + destinationSave;
             canvas = new Bitmap(Width, Height);
-            GameEngine.Axis.AssignNewKey(new KeyCode("Enter", Keys.Enter, Keys.Enter));
+            Axis.AssignNewKey(new KeyCode("Enter", Keys.Enter, Keys.Enter));
             MainGame.Run();
             Update();
             SecondaryLoadToolbox(true);
@@ -116,14 +116,14 @@ namespace GameEngineEditor
             //Create a gameObject
             GameObjectHandler.CreateGameObject("New GameObject");
             SecondaryLoadToolbox(true);
-            GameEngine.Debug.Log("Added a new gameobject!");
+            Debug.Log("Added a new gameobject!");
         }
 
         private void rendererToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //Open or add the component Renderer
             GameObject reference = GameObjectHandler.getGameObject(gameObjectBox.SelectedItem.ToString());
-            RectangleRenderer renderer = new RectangleRenderer(new GameEngine.Rectangle(10, 10, reference.X, reference.Y), new GameEngine.Color(255, 255, 255));
+            RectangleRenderer renderer = new RectangleRenderer(new SubrightEngine.Rectangle(10, 10, reference.X, reference.Y), new SubrightEngine.Color(255, 255, 255));
             AddComponent(renderer);
         }
 
@@ -152,7 +152,7 @@ namespace GameEngineEditor
         public void AddComponent(Component com)
         {
             GameObjectHandler.getGameObject(gameObjectBox.SelectedItem.ToString()).RegisterComponent(com);
-            GameEngine.Debug.Log("Added a new Component: " + com.name);
+            Debug.Log("Added a new Component: " + com.name);
             LoadComponents();
         }
 
@@ -164,7 +164,7 @@ namespace GameEngineEditor
 
         private void imageRendererToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ImageRenderer renderer = new ImageRenderer(new GameEngine.Rectangle(new Vector2(0, 0), new Vector2(0, 0)), null);
+            ImageRenderer renderer = new ImageRenderer(new SubrightEngine.Rectangle(new Vector2(0, 0), new Vector2(0, 0)), null);
             AddComponent(renderer);
         }
 
@@ -184,7 +184,7 @@ namespace GameEngineEditor
 
             while(modified == false)
             {
-                if(GameEngine.Axis.GetKeyAxis(GameEngine.Axis.getCodeFromName("Enter")) == 1)
+                if(SubrightEngine.Axis.getCodeFromName("Enter").keyAxis == 1)
                 {
                     box.Dispose();
                     modified = true;

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 
-namespace GameEngine
+namespace SubrightEngine
 {
     public class ParEngineImage
     {

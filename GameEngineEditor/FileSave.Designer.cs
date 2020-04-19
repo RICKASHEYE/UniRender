@@ -1,4 +1,4 @@
-﻿namespace GameEngineEditor
+﻿namespace SubrightEngineEditor
 {
     partial class FileSave
     {

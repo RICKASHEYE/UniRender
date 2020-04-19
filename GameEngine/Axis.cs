@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace GameEngine
+namespace SubrightEngine
 {
     public class Axis : Direct2D1Handler
     {
@@ -19,16 +19,22 @@ namespace GameEngine
             base.KeyDown(e);
             foreach(KeyCode coedes in keyCodes)
             {
-                if (e.KeyCode == coedes.KeyUsePositive && e.KeyCode != coedes.KeyUseNegative)
+                if (coedes.KeyUsePositive != null)
                 {
-                    coedes.keyAxis = 1;
-                   // Debug.Log("Positive");
+                    if (e.KeyCode == coedes.KeyUsePositive)
+                    {
+                        coedes.keyAxis = 1;
+                        // Debug.Log("Positive");
+                    } 
                 }
-                
-                if(e.KeyCode == coedes.KeyUseNegative && e.KeyCode != coedes.KeyUsePositive)
+
+                if (coedes.KeyUseNegative != null)
                 {
-                    coedes.keyAxis = -1;
-                    //Debug.Log("Negative");
+                    if (e.KeyCode == coedes.KeyUseNegative)
+                    {
+                        coedes.keyAxis = -1;
+                        //Debug.Log("Negative");
+                    } 
                 }
             }
         }

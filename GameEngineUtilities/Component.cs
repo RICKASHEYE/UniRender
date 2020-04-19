@@ -1,4 +1,4 @@
-﻿namespace GameEngineUtil
+﻿namespace SubrightEngineUtil
 {
     public class Component
     {

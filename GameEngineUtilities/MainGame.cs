@@ -1,4 +1,6 @@
-﻿namespace GameEngineUtil
+﻿using SubrightEngine;
+
+namespace SubrightEngineUtil
 {
     public static class MainGame
     {
@@ -27,7 +29,7 @@
             }
             else
             {
-                GameEngine.Debug.Error("No GameObjects to run yet!");
+                Debug.Error("No GameObjects to run yet!");
             }
         }
 

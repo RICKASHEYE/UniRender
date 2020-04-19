@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-using GameEngine;
+using SubrightEngine;
 
 namespace DungeonCrawlerDemo
 {
@@ -13,13 +13,13 @@ namespace DungeonCrawlerDemo
         public Form1()
         {
             InitializeComponent();
-            GameEngine.Axis.AssignNewKey(new KeyCode("Horizontal", Keys.D, Keys.A));
-            GameEngine.Axis.AssignNewKey(new KeyCode("Vertical", Keys.S, Keys.W));
-            GameEngine.Axis.AssignNewKey(new KeyCode("Place", Keys.MButton));
+            Axis.AssignNewKey(new KeyCode("Horizontal", Keys.D, Keys.A));
+            Axis.AssignNewKey(new KeyCode("Vertical", Keys.S, Keys.W));
+            Axis.AssignNewKey(new KeyCode("Place", Keys.MButton));
             //GameEngine.Font.SetupFont();
             canvas = new Bitmap(Width, Height);
             playerPosition = new Vector2(Width / 2, Height / 2);
-            GameEngine.Debug.Log("Initialised!");
+            Debug.Log("Initialised!");
         }
 
         public static Vector2 playerPosition = Vector2.zero;
@@ -47,7 +47,7 @@ namespace DungeonCrawlerDemo
             }
             catch (System.Exception m)
             {
-                GameEngine.Debug.Error("Error: " + m);
+                Debug.Error("Error: " + m);
             }
         }
 
@@ -71,13 +71,13 @@ namespace DungeonCrawlerDemo
 
             if (editorMode)
             {
-                if (GameEngine.Axis.GetKeyAxis(GameEngine.Axis.getCodeFromName("Place")) > 0)
+                /*if (GameEngine.Axis.GetKeyAxis(GameEngine.Axis.getCodeFromName("Place")) > 0)
                 {
                     System.Drawing.Point position = PointToClient(Cursor.Position);
                     Node newNode = new Node(lastPosition, new Vector2(position.X, position.Y));
                     points.Add(newNode);
                     lastPosition = newNode;
-                }
+                }*/
 
                 foreach (Node point in points)
                 {

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using SubrightEngine;
 
-namespace GameEngineUtil
+namespace SubrightEngineUtil
 {
     public static class GameObjectHandler
     {
@@ -13,7 +14,7 @@ namespace GameEngineUtil
                 if (gameObjects == null)
                 {
                     gameObjects = new List<GameObject>();
-                    GameEngine.Debug.Log("Creating a new list of gameObjects");
+                    Debug.Log("Creating a new list of gameObjects");
                 }
                 GameObject newObject = new GameObject(name);
                 gameObjects.Add(newObject);
@@ -23,13 +24,13 @@ namespace GameEngineUtil
             {
                 int countOfObjects = countObjectSame(name);
                 string finalName = name + "(COPY)";
-                GameEngine.Debug.Error("GameObject of the same name exists! but then creating a new object with the name of: " + finalName);
+                Debug.Error("GameObject of the same name exists! but then creating a new object with the name of: " + finalName);
                 CreateGameObject(finalName);
             }
 
             if (gameObjects != null)
             {
-                GameEngine.Debug.Log("Total list of " + gameObjects.Count + " gameObjects!");
+                Debug.Log("Total list of " + gameObjects.Count + " gameObjects!");
             }
         }
 
@@ -58,12 +59,12 @@ namespace GameEngineUtil
                 }
                 else
                 {
-                    GameEngine.Debug.Error("Game Object does not exist! unable to remove.");
+                    Debug.Error("Game Object does not exist! unable to remove.");
                 }
             }
             else
             {
-                GameEngine.Debug.Error("No GameObjects exist so how is one supposed to be removed!");
+                Debug.Error("No GameObjects exist so how is one supposed to be removed!");
             }
         }
 
@@ -88,7 +89,7 @@ namespace GameEngineUtil
             }
             else
             {
-                GameEngine.Debug.Log("GameObjects are non existant at this moment");
+                Debug.Log("GameObjects are non existant at this moment");
             }
             return exists;
         }
@@ -108,7 +109,7 @@ namespace GameEngineUtil
             }
             else
             {
-                GameEngine.Debug.Log("GameObjects are non existant at this moment");
+                Debug.Log("GameObjects are non existant at this moment");
             }
             return gameObject;
         }

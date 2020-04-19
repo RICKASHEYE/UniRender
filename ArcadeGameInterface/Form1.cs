@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using GameEngine;
 using System.IO;
+using SubrightEngine;
 
 namespace ArcadeGameInterface
 {
@@ -46,9 +41,9 @@ namespace ArcadeGameInterface
                 pathNames = Directory.GetFiles("roms");
                 romsInstalled = true;
             }
-            GameEngine.Axis.AssignNewKey(new KeyCode("Move", Keys.D, Keys.A));
-            GameEngine.Axis.AssignNewKey(new KeyCode("Open", Keys.Enter, Keys.Enter));
-            GameEngine.Debug.Log("Initialised!");
+            Axis.AssignNewKey(new KeyCode("Move", Keys.D, Keys.A));
+            Axis.AssignNewKey(new KeyCode("Open", Keys.Enter, Keys.Enter));
+            Debug.Log("Initialised!");
         }
 
         public bool IsDirectoryEmpty(string path)
@@ -85,7 +80,7 @@ namespace ArcadeGameInterface
             }
             catch (System.Exception m)
             {
-                GameEngine.Debug.Error("Error: " + m);
+                Debug.Error("Error: " + m);
             }
         }
 
@@ -109,7 +104,7 @@ namespace ArcadeGameInterface
                 }
 
                 //Change the index
-                float indexChange = GameEngine.Axis.GetKeyAxis(GameEngine.Axis.getCodeFromName("Move"));
+                float indexChange = Axis.getCodeFromName("Move").keyAxis;
                 if (index > pathNames.Length)
                 {
                     index = 0;
@@ -119,7 +114,7 @@ namespace ArcadeGameInterface
                     index = pathNames.Length;
                 }
 
-                float indexChangeEnter = GameEngine.Axis.GetKeyAxis(GameEngine.Axis.getCodeFromName("Enter"));
+                float indexChangeEnter = Axis.getCodeFromName("Enter").keyAxis;
                 if(indexChangeEnter >= 0.5)
                 {
                     //Trigger the enter function to launch

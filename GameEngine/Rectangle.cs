@@ -1,4 +1,4 @@
-﻿namespace GameEngine
+﻿namespace SubrightEngine
 {
     public class Rectangle
     {

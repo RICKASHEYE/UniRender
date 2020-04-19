@@ -1,6 +1,6 @@
-﻿using GameEngine;
+﻿using SubrightEngine;
 
-namespace GameEngineUtil
+namespace SubrightEngineUtil
 {
     public class LineRenderer : Renderer
     {

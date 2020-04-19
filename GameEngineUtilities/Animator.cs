@@ -1,8 +1,8 @@
-﻿using GameEngine;
+﻿using SubrightEngine;
 using System.Collections.Generic;
 using System.Threading;
 
-namespace GameEngineUtil
+namespace SubrightEngineUtil
 {
     public struct Frame
     {

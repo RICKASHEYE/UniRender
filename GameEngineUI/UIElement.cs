@@ -1,10 +1,9 @@
-﻿using GameEngineUtil;
+﻿using SubrightEngineUtil;
 
-namespace GameEngineUI
+namespace SubrightEngineUI
 {
     public class UIElement : Component
     {
-
         public UIElement(string name):base(name)
         {
 

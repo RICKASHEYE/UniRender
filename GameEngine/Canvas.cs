@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 
-namespace GameEngine
+namespace SubrightEngine
 {
     public class Pixel
     {
@@ -65,7 +65,7 @@ namespace GameEngine
         }
     }
 
-    public class DumpedCanvas : Axis
+    public class Canvas : Axis
     {
         //Draw a rectangle or a screen
         public static List<Pixel> ScreenRender = new List<Pixel>();
@@ -115,10 +115,9 @@ namespace GameEngine
 
             if (x > 0 && y > 0 && x < Config.Width && y < Config.Height)
             {
-                /*Pixel addedPixel = new Pixel(x, y, color);
-                ScreenRender.Add(addedPixel);*/
                 var solidColorBrush = new SolidColorBrush(Direct2D1Handler.RenderTarget2D, new SharpDX.Mathematics.Interop.RawColor4(color.R, color.G, color.B, 1));
                 RenderTarget2D.FillRectangle(new SharpDX.Mathematics.Interop.RawRectangleF(x, y, x + 1, y + 1), solidColorBrush);
+                solidColorBrush.Dispose();
             }
             //RecalculatePixelObjects();
         }

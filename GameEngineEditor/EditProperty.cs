@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SubrightEngineUtil;
+using System;
 using System.Windows.Forms;
-using GameEngineUtil;
-using Component = GameEngineUtil.Component;
+using SubrightEngine;
 
-namespace GameEngineEditor
+namespace SubrightEngineEditor
 {
     public partial class EditProperty : Form
     {
@@ -21,14 +14,14 @@ namespace GameEngineEditor
         {
             InitializeComponent();
             editableObjectGame = gameObject;
-            GameEngine.Debug.Log("Editing a gameObject");
+            Debug.Log("Editing a gameObject");
         }
 
         public EditProperty(Component component)
         {
             InitializeComponent();
             editableObjectComponent = component;
-            GameEngine.Debug.Log("Editing a component Object");
+            Debug.Log("Editing a component Object");
         }
 
         private void button2_Click(object sender, EventArgs e)

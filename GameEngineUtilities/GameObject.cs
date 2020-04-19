@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using GameEngine;
+using SubrightEngine;
 
-namespace GameEngineUtil
+namespace SubrightEngineUtil
 {
     public class GameObject
     {

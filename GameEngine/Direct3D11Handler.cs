@@ -2,7 +2,7 @@
 using SharpDX.Direct3D11;
 using SharpDX.DXGI;
 
-namespace GameEngine
+namespace SubrightEngine
 {
     /// <summary>
     /// Root class for Direct3D10(.1) Demo App

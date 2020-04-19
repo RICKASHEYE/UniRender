@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GameEngine
+namespace SubrightEngine
 {
     public static class Random
     {

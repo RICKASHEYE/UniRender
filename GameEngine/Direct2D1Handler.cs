@@ -5,7 +5,7 @@ using SharpDX;
 using AlphaMode = SharpDX.Direct2D1.AlphaMode;
 using Factory = SharpDX.Direct2D1.Factory;
 
-namespace GameEngine
+namespace SubrightEngine
 {
     /// <summary>
     /// Root class for Direct2D and DirectWrite Demo App.
