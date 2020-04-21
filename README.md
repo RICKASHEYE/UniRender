@@ -17,5 +17,6 @@ wanting features.
 |3D Support      ||
 |Image Support   ||
 |GUI Support     ||
+|Fixed Stored variable System||
 
 Go to Releases page to checkout releases of built editions of the engine to use in a project.
