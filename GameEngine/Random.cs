@@ -8,7 +8,7 @@ namespace SubrightEngine
         {
             int finalInteger = 0;
             System.Random rnd = new System.Random();
-            finalInteger = rnd.Next(start, end);
+            finalInteger = rnd.Next(start,end);
             return finalInteger;
         }
 

@@ -13,7 +13,7 @@ namespace SubrightWindow
 
         public void RenderApple()
         {
-            Canvas.DrawCircle(Color.Ruby, sPosition, 4);
+            Canvas.DrawCircle(Color.Ruby, sPosition, 4, DrawMode.DIRECT);
         }
     }
 }

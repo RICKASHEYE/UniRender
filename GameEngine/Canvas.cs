@@ -3,6 +3,8 @@ using SharpDX.DirectWrite;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
+using System.Reflection;
 
 namespace SubrightEngine
 {
@@ -12,12 +14,15 @@ namespace SubrightEngine
         public int Y;
         public Color color;
         public Vector2 previousDest;
+        public string name_;
+        public bool isCollidable;
 
-        public Pixel(int x_, int y_, Color color_)
+        public Pixel(int x_, int y_, Color color_, string name)
         {
             X = x_;
             Y = y_;
             color = color_;
+            name_ = name;
         }
 
         public void MovePixel(int x, int y)
@@ -37,19 +42,22 @@ namespace SubrightEngine
         public TextLayout TextLayout { get; private set; }
         public string font_stored;
         public int size_stored;
+        public Color color;
 
-        public Text(string textTitle, Vector2 positionPos, RenderTarget RenderTarget2D, SharpDX.DirectWrite.Factory FactoryDWrite, string font, int size, AppConfiguration Config)
+        public Text(string textTitle, Vector2 positionPos, RenderTarget RenderTarget2D, SharpDX.DirectWrite.Factory FactoryDWrite, string font, int size, AppConfiguration Config, Color colorP)
         {
-            Initialise(textTitle, positionPos, RenderTarget2D, FactoryDWrite, font, size, Config);
+            Initialise(textTitle, positionPos, RenderTarget2D, FactoryDWrite, font, size, Config, colorP);
         }
 
-        public void Initialise(string textTitle, Vector2 positionPos, RenderTarget RenderTarget2D, SharpDX.DirectWrite.Factory FactoryDWrite, string font, int size, AppConfiguration Config)
+        public void Initialise(string textTitle, Vector2 positionPos, RenderTarget RenderTarget2D, SharpDX.DirectWrite.Factory FactoryDWrite, string font, int size, AppConfiguration Config, Color colorP)
         {
             text = textTitle;
             position = positionPos;
 
             font_stored = font;
             size_stored = size;
+
+            color = colorP;
 
             TextFormat = new TextFormat(FactoryDWrite, font, size) { TextAlignment = TextAlignment.Center, ParagraphAlignment = ParagraphAlignment.Center };
             RenderTarget2D.TextAntialiasMode = SharpDX.Direct2D1.TextAntialiasMode.Cleartype;
@@ -65,6 +73,11 @@ namespace SubrightEngine
         }
     }
 
+    public enum DrawMode
+    {
+        DIRECT, ARRAY
+    }
+
     public class Canvas : Axis
     {
         //Draw a rectangle or a screen
@@ -77,17 +90,58 @@ namespace SubrightEngine
         {
             //Clear(Color.Black);
             base.Draw(time);
+            List<Vector2> duplicates = new List<Vector2>();
+            foreach(Pixel m in ScreenRender)
+            {
+                var solidColorBrush = new SolidColorBrush(Direct2D1Handler.RenderTarget2D, new SharpDX.Mathematics.Interop.RawColor4(m.color.R, m.color.G, m.color.B, 1));
+                if (m.isCollidable)
+                {
+                    bool overlay = false;
+                    foreach (Pixel p in ScreenRender)
+                    {
+                        if (p.name_ != m.name_)
+                        {
+                            Vector2 pixelPosition = new Vector2(p.X, p.Y);
+                            Vector2 currentPixelPosition = new Vector2(m.X, m.Y);
+                            if (pixelPosition == currentPixelPosition)
+                            {
+                                overlay = true;
+                            } 
+                        }
+                    } 
+                    if(overlay == true)
+                    {
+                        m.MovePixel((int)m.previousDest.x, (int)m.previousDest.y);
+                    }
+                }
+                RenderTarget2D.FillRectangle(new SharpDX.Mathematics.Interop.RawRectangleF(m.X, m.Y, m.X + 1, m.Y + 1), solidColorBrush);
+                solidColorBrush.Dispose();
+            }
 
             foreach(Text text in textObjects)
             {
                 //if(text.TextFormat == null || text.TextLayout == null) { Debug.Log("Intialising Text..."); text.Initialise(text.text, text.position, RenderTarget2D, FactoryDWrite, text.font_stored, text.size_stored, Config); }
-                //text.Render(RenderTarget2D, SceneColorBrush);
+                var solidColorBrush = new SolidColorBrush(Direct2D1Handler.RenderTarget2D, new SharpDX.Mathematics.Interop.RawColor4(text.color.R, text.color.G, text.color.B, 1));
+                text.Render(RenderTarget2D, solidColorBrush);
+                solidColorBrush.Dispose();
             }
         }
 
         protected override void Initialize(AppConfiguration demoConfiguration)
         {
             base.Initialize(demoConfiguration);
+            string assemblyFolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            string assetsFolder = Path.Combine(assemblyFolder, "Assets");
+            if (!Directory.Exists(assetsFolder))
+            {
+                //Load an assembly assets folder
+                Directory.CreateDirectory(assetsFolder);
+                Initialize(demoConfiguration);
+            }
+            else
+            {
+                //Now initialise the assets into a registry and allow them to be loaded into the game.
+            }
         }
 
         protected override void UnloadContent()
@@ -98,7 +152,10 @@ namespace SubrightEngine
             textObjects.Clear();
         }
 
-        public static void DrawPixel(int x, int y, Color color)
+        /// <summary>
+        /// Draws a pixel on the screen in Array Mode, by default.
+        /// </summary>
+        public static void DrawPixel(int x, int y, Color color, string name, DrawMode modeDraw)
         {
             //Debug.Log("Drawn Pixel");
             if(x == null || y == null)
@@ -115,14 +172,40 @@ namespace SubrightEngine
 
             if (x > 0 && y > 0 && x < Config.Width && y < Config.Height)
             {
-                var solidColorBrush = new SolidColorBrush(Direct2D1Handler.RenderTarget2D, new SharpDX.Mathematics.Interop.RawColor4(color.R, color.G, color.B, 1));
-                RenderTarget2D.FillRectangle(new SharpDX.Mathematics.Interop.RawRectangleF(x, y, x + 1, y + 1), solidColorBrush);
-                solidColorBrush.Dispose();
+                if (modeDraw == DrawMode.ARRAY)
+                {
+                    if (!PixelExists(x, y, color, name))
+                    {
+                        Debug.Log("Adding this pixel to the screen render array!");
+                        Pixel pixel = new Pixel(x, y, color, name);
+                        ScreenRender.Add(pixel);
+                    }
+                }
+                else
+                {
+                    DirectDrawPixel(x, y, color);
+                    Debug.Log("Directly drawing the pixel");
+                }
             }
             //RecalculatePixelObjects();
         }
 
-        public static bool PixelExists(int x, int y, Color color)
+        public static void DrawPixel(int x, int y, Color color, DrawMode modeDraw)
+        {
+            DrawPixel(x, y, color, "", modeDraw);
+        }
+
+        /// <summary>
+        /// This function draws a pixel directly.
+        /// </summary>
+        private static void DirectDrawPixel(int x, int y, Color color)
+        {
+            var solidColorBrush = new SolidColorBrush(Direct2D1Handler.RenderTarget2D, new SharpDX.Mathematics.Interop.RawColor4(color.R, color.G, color.B, 1));
+            RenderTarget2D.FillRectangle(new SharpDX.Mathematics.Interop.RawRectangleF(x, y, x + 1, y + 1), solidColorBrush);
+            solidColorBrush.Dispose();
+        }
+
+        public static bool PixelExists(int x, int y, Color color, string name)
         {
             bool pixelexists = false;
             foreach(Pixel m in ScreenRender)
@@ -137,6 +220,7 @@ namespace SubrightEngine
                     else
                     {
                         m.color = color;
+                        m.name_ = name;
                         Debug.Log("Theres a pixel there change the color and the name!");
                     }
                 }
@@ -144,29 +228,32 @@ namespace SubrightEngine
             return pixelexists;
         }
 
-        private static void DrawHorizontalLine(Color color, int dx, int x1, int y1)
+        private static void DrawHorizontalLine(Color color, int dx, int x1, int y1, string name, DrawMode modeDraw)
         {
             for(int i = 0; i < dx; i++)
             {
-                DrawPixel(x1 + i, y1, color);
+                DrawPixel(x1 + i, y1, color, name, modeDraw);
             }
         }
 
-        public static void DrawText(string text, string font, int size, Vector2 position)
+        /// <summary>
+        /// Still in development not recommended to use it just yet.
+        /// </summary>
+        public static void DrawText(string text, string font, int size, Vector2 position, Color color)
         {
-            Text textObject = new Text(text, position, RenderTarget2D, FactoryDWrite, font, size, Config);
+            Text textObject = new Text(text, position, RenderTarget2D, FactoryDWrite, font, size, Config,color);
             textObjects.Add(textObject);
         }
 
-        private void DrawVerticalLine(Color color, int dy, int x1, int y1)
+        private void DrawVerticalLine(Color color, int dy, int x1, int y1, string name, DrawMode modeDraw)
         {
             for(int i = 0; i < dy; i++)
             {
-                DrawPixel(x1, y1 + i, color);
+                DrawPixel(x1, y1 + i, color, name, modeDraw);
             }
         }
 
-        private void DrawDiagonalLine(Color color, int dx, int dy, int x1, int y1)
+        private void DrawDiagonalLine(Color color, int dx, int dy, int x1, int y1, string name, DrawMode modeDraw)
         {
             int i, sdx, sdy, dxabs, dyabs, x, y, px, py;
 
@@ -190,7 +277,7 @@ namespace SubrightEngine
                         py += sdy;
                     }
                     px += sdx;
-                    DrawPixel(px, py, color);
+                    DrawPixel(px, py, color, name, modeDraw);
                 }
             }
             else
@@ -204,12 +291,12 @@ namespace SubrightEngine
                         px += sdx;
                     }
                     py += sdy;
-                    DrawPixel(px, py, color);
+                    DrawPixel(px, py, color, name, modeDraw);
                 }
             }
         }
 
-        public virtual void DrawLine(Color color, int x1, int y1, int x2, int y2)
+        public virtual void DrawLine(Color color, int x1, int y1, int x2, int y2, string name, DrawMode modeDraw)
         {
             if(color == null)
             {
@@ -223,24 +310,34 @@ namespace SubrightEngine
 
             if(dy == 0)
             {
-                DrawHorizontalLine(color, dx, x1, y1);
+                DrawHorizontalLine(color, dx, x1, y1, name, modeDraw);
                 return;
             }
 
-            DrawDiagonalLine(color, dx, dy, x1, y1);
+            DrawDiagonalLine(color, dx, dy, x1, y1, name, modeDraw);
         }
 
-        public static void DrawLine(Color color, Vector2 p1, Vector2 p2)
+        public static void DrawLine(Color color, Vector2 p1, Vector2 p2, DrawMode modeDraw)
         {
-            DrawLine(color, (int)p1.x, (int)p1.y, (int)p2.x, (int)p2.y);
+            DrawLine(color, p1, p2, "", modeDraw);
         }
 
-        public static void DrawLine(Color color, float x1, float y1, float x2, float y2)
+        public static void DrawLine(Color color, Vector2 p1, Vector2 p2, string name, DrawMode modeDraw)
         {
-            DrawLine(color, new Vector2(x1, y1), new Vector2(x2, y2));
+            DrawLine(color, (int)p1.x, (int)p1.y, (int)p2.x, (int)p2.y, name, modeDraw);
         }
 
-        public static void DrawCircle(Color color, int x_center, int y_center, int radius)
+        public static void DrawLine(Color color, float x1, float y1, float x2, float y2, DrawMode modeDraw)
+        {
+            DrawLine(color, x1, y1, x2, y2, "", modeDraw);
+        }
+
+        public static void DrawLine(Color color, float x1, float y1, float x2, float y2, string name, DrawMode modeDraw)
+        {
+            DrawLine(color, new Vector2(x1, y1), new Vector2(x2, y2), name, modeDraw);
+        }
+
+        public static void DrawCircle(Color color, int x_center, int y_center, int radius, string name, DrawMode modeDraw)
         {
             int x = radius;
             int y = 0;
@@ -248,14 +345,14 @@ namespace SubrightEngine
             
             while(x >= y)
             {
-                DrawPixel(x_center + x, y_center + y, color);
-                DrawPixel(x_center + y, y_center + x, color);
-                DrawPixel(x_center - y, y_center + x, color);
-                DrawPixel(x_center - x, y_center + y, color);
-                DrawPixel(x_center - x, y_center - y, color);
-                DrawPixel(x_center - y, y_center - x, color);
-                DrawPixel(x_center + y, y_center - x, color);
-                DrawPixel(x_center + x, y_center - y, color);
+                DrawPixel(x_center + x, y_center + y, color, name, modeDraw);
+                DrawPixel(x_center + y, y_center + x, color, name, modeDraw);
+                DrawPixel(x_center - y, y_center + x, color, name, modeDraw);
+                DrawPixel(x_center - x, y_center + y, color, name, modeDraw);
+                DrawPixel(x_center - x, y_center - y, color, name, modeDraw);
+                DrawPixel(x_center - y, y_center - x, color, name, modeDraw);
+                DrawPixel(x_center + y, y_center - x, color, name, modeDraw);
+                DrawPixel(x_center + x, y_center - y, color, name, modeDraw);
 
                 y++;
                 if(e <= 0)
@@ -270,20 +367,35 @@ namespace SubrightEngine
             }
         }
 
-        public static void DrawCircle(Color color, Vector2 vector, int radius)
+        public static void DrawCircle(Color color, int x_center, int y_center, int radius, DrawMode modeDraw)
         {
-            DrawCircle(color, (int)vector.x, (int)vector.y, radius);
+            DrawCircle(color, x_center, y_center, radius, modeDraw);
         }
 
-        public static void DrawFilledCircle(Color color, Vector2 vector, int radius)
+        public static void DrawCircle(Color color, Vector2 vector, int radius, DrawMode modeDraw)
+        {
+            DrawCircle(color, vector, radius, "", modeDraw);
+        }
+
+        public static void DrawCircle(Color color, Vector2 vector, int radius, string name, DrawMode modeDraw)
+        {
+            DrawCircle(color, (int)vector.x, (int)vector.y, radius, name, modeDraw);
+        }
+
+        public static void DrawFilledCircle(Color color, Vector2 vector, int radius, string name, DrawMode modeDraw)
         {
             for(int i = 0; i < radius; i++)
             {
-                DrawCircle(color, vector, i);
+                DrawCircle(color, vector, i, name, modeDraw);
             }
         }
 
-        public static void DrawEllipse(Color color, int x_center, int y_center, int x_radius, int y_radius)
+        public static void DrawFilledCircle(Color color, Vector2 vector, int radius, DrawMode modeDraw)
+        {
+            DrawFilledCircle(color, vector, radius, "", modeDraw);
+        }
+
+        public static void DrawEllipse(Color color, int x_center, int y_center, int x_radius, int y_radius, string name, DrawMode modeDraw)
         {
             int a = 2 * x_radius;
             int b = 2 * y_radius;
@@ -299,22 +411,27 @@ namespace SubrightEngine
 
             while(x >= 0)
             {
-                DrawPixel(x_center + x, y_center + y, color);
-                DrawPixel(x_center - x, y_center + y, color);
-                DrawPixel(x_center - x, y_center - y, color);
-                DrawPixel(x_center + x, y_center - y, color);
+                DrawPixel(x_center + x, y_center + y, color, name, modeDraw);
+                DrawPixel(x_center - x, y_center + y, color, name, modeDraw);
+                DrawPixel(x_center - x, y_center - y, color, name, modeDraw);
+                DrawPixel(x_center + x, y_center - y, color, name, modeDraw);
                 e2 = 2 * err;
                 if (e2 <= dy) { y++; err += dy += a; }
                 if (e2 >= dx || 2 * err > dy) { x--; err += dx += b1; }
             }
         }
 
-        public static void DrawEllipse(Color color, Vector2 vector, int x_radius, int y_radius)
+        public static void DrawEllipse(Color color, Vector2 vector, int x_radius, int y_radius, DrawMode modeDraw)
         {
-            DrawEllipse(color, (int)vector.x, (int)vector.y, x_radius, y_radius);
+            DrawEllipse(color, vector, x_radius, y_radius, "", modeDraw);
         }
 
-        public static void DrawPolygon(Vector2[] vectors, Color color)
+        public static void DrawEllipse(Color color, Vector2 vector, int x_radius, int y_radius, string name, DrawMode modeDraw)
+        {
+            DrawEllipse(color, (int)vector.x, (int)vector.y, x_radius, y_radius, name, modeDraw);
+        }
+
+        public static void DrawPolygon(Vector2[] vectors, Color color, string name, DrawMode modeDraw)
         {
             //Read all of the vectors and draw a rectangle or point based on these three atleast.
             if(vectors.Length > 3)
@@ -322,7 +439,7 @@ namespace SubrightEngine
                 //Continue
                 for(int i = 0; i < vectors.Length - 1; i++)
                 {
-                    DrawLine(color, vectors[i], vectors[i + 1]);
+                    DrawLine(color, vectors[i], vectors[i + 1], name, modeDraw);
                 }
             }
             else if(vectors.Length < 3 || vectors.Length > 4)
@@ -331,28 +448,43 @@ namespace SubrightEngine
             }
         }
 
-        public static void DrawTriangle(Color color, int v1x, int v1y, int v2x, int v2y, int v3x, int v3y)
+        public static void DrawPolygon(Vector2[] vectors, Color color)
         {
-            DrawLine(color, v1x, v1y, v2x, v2y);
-            DrawLine(color, v1x, v1y, v3x, v3y);
-            DrawLine(color, v2x, v2y, v3x, v3y);
+            DrawPolygon(vectors, color);
         }
 
-        public static void DrawTriangle(Color color, Vector2 vector01, Vector2 vector02, Vector2 vector03)
+        public static void DrawTriangle(Color color, int v1x, int v1y, int v2x, int v2y, int v3x, int v3y, string name, DrawMode modeDraw)
         {
-            DrawTriangle(color, (int)vector01.x, (int)vector01.y, (int)vector02.x, (int)vector02.y, (int)vector03.x, (int)vector03.y);
+            DrawLine(color, v1x, v1y, v2x, v2y, name, modeDraw);
+            DrawLine(color, v1x, v1y, v3x, v3y, name, modeDraw);
+            DrawLine(color, v2x, v2y, v3x, v3y, name, modeDraw);
         }
 
-        public static void DrawRect(Rectangle rect, Color color)
+        public static void DrawTriangle(Color color, Vector2 vector01, Vector2 vector02, Vector2 vector03, string name, DrawMode modeDraw)
+        {
+            DrawTriangle(color, (int)vector01.x, (int)vector01.y, (int)vector02.x, (int)vector02.y, (int)vector03.x, (int)vector03.y, name, modeDraw);
+        }
+
+        public static void DrawTriangle(Color color, Vector2 vector01, Vector2 vector02, Vector2 vector3, DrawMode modeDraw)
+        {
+            DrawTriangle(color, vector01, vector02, vector3, "", modeDraw);
+        }
+
+        public static void DrawRect(Rectangle rect, Color color, string name, DrawMode modeDraw)
         {
             //ClearPixels(name);
             for(int x = rect.posx; x < rect.posx + rect.sizex; x++)
             {
                 for(int y = rect.posy; y < rect.posy + rect.sizey; y++)
                 {
-                    DrawPixel(x, y, color);
+                    DrawPixel(x, y, color, name, modeDraw);
                 }
             }
+        }
+
+        public static void DrawRect(Rectangle rect, Color color, DrawMode modeDraw)
+        {
+            DrawRect(rect, color, "", modeDraw);
         }
 
         /*public static void DrawImage(Rectangle size, ParEngineImage image)
@@ -372,20 +504,38 @@ namespace SubrightEngine
             ima.Dispose();
         }*/
 
-        public static void Clear(Color color)
+        public static void Clear(Color color, DrawMode modeDraw)
         {
-            SharpDX.Mathematics.Interop.RawColor4 clearColor = new SharpDX.Mathematics.Interop.RawColor4(color.R, color.G, color.B, 1);
-            RenderTarget2D.Clear(clearColor);
+            if (modeDraw == DrawMode.DIRECT)
+            {
+                SharpDX.Mathematics.Interop.RawColor4 clearColor = new SharpDX.Mathematics.Interop.RawColor4(color.R, color.G, color.B, 1);
+                RenderTarget2D.Clear(clearColor);
+            }
+            else
+            {
+                ScreenRender.Clear();
+                Clear(color, DrawMode.DIRECT);
+            }
         }
 
-        public static void DrawRect(int x, int y, int sizex, int sizey, Color color)
+        public static void DrawRect(int x, int y, int sizex, int sizey, Color color, string name, DrawMode modeDraw)
         {
-            DrawRect(new Rectangle(sizex, sizey, x, y), color);
+            DrawRect(new Rectangle(sizex, sizey, x, y), color, name, modeDraw);
         }
 
-        public static void DrawRect(int x, int y, int sizex, int sizey, int r, int g, int b)
+        public static void DrawRect(int x, int y, int sizex, int sizey, int r, int g, int b, string name, DrawMode modeDraw)
         {
-            DrawRect(new Rectangle(sizex, sizey, x, y), new Color(r, g, b));
+            DrawRect(new Rectangle(sizex, sizey, x, y), new Color(r, g, b), name, modeDraw);
+        }
+
+        public static void DrawRect(int x, int y, int sizex, int sizey, int r, int g, int b, DrawMode modeDraw)
+        {
+            DrawRect(x, y, sizex, sizey, r, g, b, "", modeDraw);
+        }
+
+        public static void DrawRect(int x, int y, int sizex, int sizey, Color color, DrawMode modeDraw)
+        {
+            DrawRect(x, y, sizex, sizey, color, modeDraw);
         }
     }
 }

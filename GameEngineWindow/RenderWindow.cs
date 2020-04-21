@@ -43,14 +43,14 @@ namespace SubrightWindow
 
         public static void DrawCanvas()
         {
-            Clear(Color.White);
+            Clear(Color.White, SubrightEngine.DrawMode.DIRECT);
             //Debug.Log("Drawing");
             int Horizontal = getCodeFromName("Horizontal").keyAxis;
             int Vertical = getCodeFromName("Vertical").keyAxis;
             playerPosition += new Vector2(Horizontal, Vertical) * 0.15f;
             //Debug.Log("Horizontal: " + playerPosition.x + " Vertical: " + playerPosition.y);
             Rectangle rect = new Rectangle((int)playerPosition.x, (int)playerPosition.y, 10, 10);
-            DrawRect(rect, Color.Black);
+            DrawRect(rect, Color.Black, SubrightEngine.DrawMode.DIRECT);
             DrawPortalGun(Horizontal, Vertical);
             ShootPortal();
             Apples();
@@ -59,16 +59,21 @@ namespace SubrightWindow
         public static List<Bullet> bullets = new List<Bullet>();
         public static List<Apple> apples = new List<Apple>();
         static int appletimer = 0;
-
+        static int applescount = 0;
         static int timeout;
 
         public static void Apples()
         {
+            //DrawText("Apples: " + applescount, "Arial", 16, new Vector2(10, 10), Color.Black);
             if (apples.Count < 10)
             {
                 if (appletimer > 250)
                 {
-                    apples.Add(new Apple(new Vector2(SubrightEngine.Random.Range(0, Config.Width), SubrightEngine.Random.Range(0, Config.Height))));
+                    System.Random rangeX = new System.Random();
+                    int randomX = rangeX.Next(Config.Width);
+                    System.Random rangeY = new System.Random();
+                    int randomY = rangeY.Next(Config.Height);
+                    apples.Add(new Apple(new Vector2(randomX, randomY)));
                     appletimer = 0;
                 }
                 else
@@ -97,7 +102,7 @@ namespace SubrightWindow
                 {
                     moddedApples.AddRange(apples);
                     moddedApples.Remove(m);
-                    PlayerValues.SetIntValue("Apples", PlayerValues.GetInteger("Apples") + 1);
+                    applescount++;
                     apples = moddedApples;
                 }
             }
@@ -134,32 +139,24 @@ namespace SubrightWindow
         {
             if (horizontal > 0)
             {
-                size = new Vector2(50, 15);
-                position = new Vector2((int)playerPosition.x + 5, (int)playerPosition.y + 5);
                 axis = new Vector2(1, 0);
                 //DrawRect(new Rectangle(50, 15, (int)playerPosition.x + 5, (int)playerPosition.y + 5), Color.DarkGray);
             }
             
             if (horizontal < 0)
             {
-                size = new Vector2(50, 15);
-                position = new Vector2((int)playerPosition.x - 55, (int)playerPosition.y - 20);
                 axis = new Vector2(-1, 0);
             }
 
             if(vertical > 0)
             {
-                size = new Vector2(15, 50);
-                position = new Vector2((int)playerPosition.x, (int)playerPosition.y + 5);
                 axis = new Vector2(0, 1);
             }
             if(vertical < 0)
             {
-                size = new Vector2(15, 50);
-                position = new Vector2((int)playerPosition.x - 15, (int)playerPosition.y - 50);
                 axis = new Vector2(0, -1);
             }
-            DrawRect(new Rectangle(size, position), Color.DarkGray);
+            //DrawRect(new Rectangle(size, position), Color.DarkGray);
         }
     }
 }

@@ -80,7 +80,6 @@
     <Compile Include="Debug.cs" />
     <Compile Include="Direct2D1Handler.cs" />
     <Compile Include="Direct3D11Handler.cs" />
-    <Compile Include="Font.cs" />
     <Compile Include="ImageDrawer.cs" />
     <Compile Include="KeyCode.cs" />
     <Compile Include="Mathf.cs" />

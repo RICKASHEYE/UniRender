@@ -42,7 +42,7 @@ namespace SubrightEngine
         {
             //Make a clone of the array.
             Dictionary<string, int> playerValuesInteger_ = new Dictionary<string, int>();
-            playerValuesInteger_ = playerValuesInteger;
+            //playerValuesInteger_ = playerValuesInteger;
             foreach (string p in playerValuesInteger.Keys)
             {
                 playerValuesInteger_.Add(p, playerValuesInteger[p]);
