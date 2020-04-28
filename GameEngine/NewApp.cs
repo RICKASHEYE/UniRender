@@ -113,7 +113,7 @@ namespace SubrightEngine
         /// <summary>
         /// Runs the demo.
         /// </summary>
-        public void Run(AppConfiguration demoConfiguration)
+        public virtual void Run(AppConfiguration demoConfiguration)
         {
             _appConfiguration = demoConfiguration ?? new AppConfiguration();
             _form = CreateForm(_appConfiguration);

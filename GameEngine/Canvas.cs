@@ -78,6 +78,11 @@ namespace SubrightEngine
         DIRECT, ARRAY
     }
 
+    public enum RenderMode
+    {
+        DirectX, Software, Vulkan
+    }
+
     public class Canvas : Axis
     {
         //Draw a rectangle or a screen
@@ -85,6 +90,11 @@ namespace SubrightEngine
         //public static RenderType currentRender;
         public static List<Text> textObjects = new List<Text>();
         public static string name = "Subright Engine";
+        public static List<SharpDX.Direct2D1.Image> imageRegistry = new List<SharpDX.Direct2D1.Image>();
+
+        //Rendering methods lmao
+        public static RenderMode modeRender = RenderMode.Software;
+        public static SoftwareRender renderSoftware;
 
         protected override void Draw(AppTime time)
         {
@@ -93,7 +103,6 @@ namespace SubrightEngine
             List<Vector2> duplicates = new List<Vector2>();
             foreach(Pixel m in ScreenRender)
             {
-                var solidColorBrush = new SolidColorBrush(Direct2D1Handler.RenderTarget2D, new SharpDX.Mathematics.Interop.RawColor4(m.color.R, m.color.G, m.color.B, 1));
                 if (m.isCollidable)
                 {
                     bool overlay = false;
@@ -114,8 +123,7 @@ namespace SubrightEngine
                         m.MovePixel((int)m.previousDest.x, (int)m.previousDest.y);
                     }
                 }
-                RenderTarget2D.FillRectangle(new SharpDX.Mathematics.Interop.RawRectangleF(m.X, m.Y, m.X + 1, m.Y + 1), solidColorBrush);
-                solidColorBrush.Dispose();
+                DirectDrawPixel(m.X, m.Y, m.color);
             }
 
             foreach(Text text in textObjects)
@@ -125,13 +133,40 @@ namespace SubrightEngine
                 text.Render(RenderTarget2D, solidColorBrush);
                 solidColorBrush.Dispose();
             }
+
+            //If were not initialising DirectX then this part would not work.
+            /*if(modeRender == RenderMode.Software && renderSoftware != null)
+            {
+                renderSoftware.RenderSoftware();
+            }*/
+        }
+
+        public override void Run(AppConfiguration demoConfiguration)
+        {
+            if (modeRender == RenderMode.DirectX)
+            {
+                base.Run(demoConfiguration); 
+            }else if(modeRender == RenderMode.Software)
+            {
+                //Run the software mode i guess!
+                Initialize(demoConfiguration);
+            }else if(modeRender == RenderMode.Vulkan)
+            {
+                Debug.Log("Vulkan render is in beta.");
+            }
+
+            while(renderSoftware != null)
+            {
+                Draw(new AppTime());
+            }
         }
 
         protected override void Initialize(AppConfiguration demoConfiguration)
         {
-            base.Initialize(demoConfiguration);
+            Debug.Log("General initialisation starting");
             string assemblyFolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             string assetsFolder = Path.Combine(assemblyFolder, "Assets");
+
             if (!Directory.Exists(assetsFolder))
             {
                 //Load an assembly assets folder
@@ -141,6 +176,26 @@ namespace SubrightEngine
             else
             {
                 //Now initialise the assets into a registry and allow them to be loaded into the game.
+                string[] files = Directory.GetFiles(assetsFolder);
+                foreach (string m in files)
+                {
+                    Debug.Log("Adding: " + m + " to the image registry");
+                    //File file = new File(m);
+                }
+            }
+
+            Debug.Log("Finished initialisation cycle!");
+
+            if (modeRender == RenderMode.DirectX)
+            {
+                Debug.Log("Initialising DirectX Render Mode");
+                base.Initialize(demoConfiguration);
+            }
+            else
+            {
+                Debug.Log("Initialising Software Render Mode");
+                renderSoftware = new SoftwareRender(this, demoConfiguration);
+                renderSoftware.ShowDialog();
             }
         }
 
@@ -200,9 +255,15 @@ namespace SubrightEngine
         /// </summary>
         private static void DirectDrawPixel(int x, int y, Color color)
         {
-            var solidColorBrush = new SolidColorBrush(Direct2D1Handler.RenderTarget2D, new SharpDX.Mathematics.Interop.RawColor4(color.R, color.G, color.B, 1));
-            RenderTarget2D.FillRectangle(new SharpDX.Mathematics.Interop.RawRectangleF(x, y, x + 1, y + 1), solidColorBrush);
-            solidColorBrush.Dispose();
+            if (modeRender == RenderMode.DirectX)
+            {
+                var solidColorBrush = new SolidColorBrush(Direct2D1Handler.RenderTarget2D, new SharpDX.Mathematics.Interop.RawColor4(color.R, color.G, color.B, 1));
+                RenderTarget2D.FillRectangle(new SharpDX.Mathematics.Interop.RawRectangleF(x, y, x + 1, y + 1), solidColorBrush);
+                solidColorBrush.Dispose(); 
+            }else if(modeRender == RenderMode.Software)
+            {
+                renderSoftware.DrawPixel(x, y, color);
+            }
         }
 
         public static bool PixelExists(int x, int y, Color color, string name)
@@ -506,15 +567,22 @@ namespace SubrightEngine
 
         public static void Clear(Color color, DrawMode modeDraw)
         {
-            if (modeDraw == DrawMode.DIRECT)
+            if (modeRender == RenderMode.DirectX)
             {
-                SharpDX.Mathematics.Interop.RawColor4 clearColor = new SharpDX.Mathematics.Interop.RawColor4(color.R, color.G, color.B, 1);
-                RenderTarget2D.Clear(clearColor);
+                if (modeDraw == DrawMode.DIRECT)
+                {
+                    SharpDX.Mathematics.Interop.RawColor4 clearColor = new SharpDX.Mathematics.Interop.RawColor4(color.R, color.G, color.B, 1);
+                    RenderTarget2D.Clear(clearColor);
+                }
+                else
+                {
+                    ScreenRender.Clear();
+                    Clear(color, DrawMode.DIRECT);
+                }
             }
             else
             {
-                ScreenRender.Clear();
-                Clear(color, DrawMode.DIRECT);
+                renderSoftware.g.Clear(System.Drawing.Color.Black);
             }
         }
 

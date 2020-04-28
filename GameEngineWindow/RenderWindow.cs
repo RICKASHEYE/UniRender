@@ -18,6 +18,7 @@ namespace SubrightWindow
         {
             window = new RenderWindow();
             window.Run(new AppConfiguration("Apple Shooter Demo"));
+            window.modeRender = RenderMode.DirectX;
         }
 
         public static Vector2 playerPosition = Vector2.zero;
@@ -43,7 +44,7 @@ namespace SubrightWindow
 
         public static void DrawCanvas()
         {
-            Clear(Color.White, SubrightEngine.DrawMode.DIRECT);
+            Clear(Color.Black, SubrightEngine.DrawMode.DIRECT);
             //Debug.Log("Drawing");
             int Horizontal = getCodeFromName("Horizontal").keyAxis;
             int Vertical = getCodeFromName("Vertical").keyAxis;
