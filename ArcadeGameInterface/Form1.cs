@@ -41,8 +41,8 @@ namespace ArcadeGameInterface
                 pathNames = Directory.GetFiles("roms");
                 romsInstalled = true;
             }
-            Axis.AssignNewKey(new KeyCode("Move", Keys.D, Keys.A));
-            Axis.AssignNewKey(new KeyCode("Open", Keys.Enter, Keys.Enter));
+            //Axis.AssignNewKey(new KeyCode("Move", Keys.D, Keys.A));
+            //Axis.AssignNewKey(new KeyCode("Open", Keys.Enter, Keys.Enter));
             Debug.Log("Initialised!");
         }
 
