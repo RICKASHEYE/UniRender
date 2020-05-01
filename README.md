@@ -12,7 +12,7 @@ wanting features.
 |Particle System |Vectors          |
 |OpenGL Support  |DirectX Support  |
 |Editor          |Input Support|
-|Image Support   ||
-|GUI Support     ||
+|Image Support   |Vulkan Support|
+|GUI Support     |Public variable system|
 
 Go to Releases page to checkout releases of built editions of the engine to use in a project.
