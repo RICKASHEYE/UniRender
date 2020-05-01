@@ -1,5 +1,3 @@
 # Subright Game Engine
-Game Engine designed and centered around in C# natively looking for support for Mono one day...
-
-a really simple ass programmed engine.
-but with a kooky twist... its spaghetti coded lmao, good luck using it.
+Welcome to the dev branch of the engine!
+This part of the engine was told to serve such purpose of hosting the development branch of this game engine.
