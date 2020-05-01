@@ -11,10 +11,14 @@ namespace SubrightEngine.DirectX
 {
     public class SharpDXBase : Direct2D1Handler, IRenderingLibrary
     {
-        public void Draw()
+        protected override void Draw(AppTime time)
         {
-            Draw();
+            base.Draw(time);
+            DrawEvent?.Invoke(time);
         }
+
+        public delegate void DrawEventHandler(AppTime time);
+        public static event DrawEventHandler DrawEvent;
 
         public string renderName = "SharpDX";
         public string getName()
@@ -38,8 +42,9 @@ namespace SubrightEngine.DirectX
             Initialize(config);
         }
 
-        public void OnKeyDown(KeyEventArgs e)
+        protected override void KeyDown(KeyEventArgs e)
         {
+            base.KeyDown(e);
             foreach (KeyCode coedes in RenderingLibraryManager.codes)
             {
                 if (coedes.KeyUsePositive != null)
@@ -62,8 +67,9 @@ namespace SubrightEngine.DirectX
             }
         }
 
-        public void OnKeyUp(KeyEventArgs e)
+        protected override void KeyUp(KeyEventArgs e)
         {
+            base.KeyUp(e);
             foreach (KeyCode coedes in RenderingLibraryManager.codes)
             {
                 if (coedes.keyAxis != 0)
@@ -74,11 +80,6 @@ namespace SubrightEngine.DirectX
             }
         }
 
-        protected override void Draw(AppTime time)
-        {
-            base.Draw(time);
-        }
-
         protected override void Initialize(AppConfiguration demoConfiguration)
         {
             base.Initialize(demoConfiguration);
@@ -87,6 +88,11 @@ namespace SubrightEngine.DirectX
         public RenderTarget getRenderTarget()
         {
             return RenderTarget2D;
+        }
+
+        public void Draw()
+        {
+            //throw new NotImplementedException();
         }
     }
 }

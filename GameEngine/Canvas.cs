@@ -41,22 +41,19 @@ namespace SubrightEngine
                 return;
             }
 
-            if (x > 0 && y > 0 && x < Config.Width && y < Config.Height)
+            if (modeDraw == DrawMode.ARRAY)
             {
-                if (modeDraw == DrawMode.ARRAY)
+                if (!PixelExists(x, y, color, name))
                 {
-                    if (!PixelExists(x, y, color, name))
-                    {
-                        //Debug.Log("Adding this pixel to the screen render array!");
-                        Pixel pixel = new Pixel(x, y, color, name);
-                        ScreenRender.Add(pixel);
-                    }
+                    //Debug.Log("Adding this pixel to the screen render array!");
+                    Pixel pixel = new Pixel(x, y, color, name);
+                    ScreenRender.Add(pixel);
                 }
-                else
-                {
-                    DirectDrawPixel(x, y, color);
-                    //Debug.Log("Directly drawing the pixel");
-                }
+            }
+            else
+            {
+                DirectDrawPixel(x, y, color);
+                //Debug.Log("Directly drawing the pixel");
             }
             //RecalculatePixelObjects();
         }
@@ -65,6 +62,13 @@ namespace SubrightEngine
         {
             DrawPixel(x, y, color, "", modeDraw);
         }
+
+        /*public static void DrawPixel(int x, int y, Color color, int Angle, DrawMode modeDraw)
+        {
+            double newX = Math.Cos(-Angle) * x - Math.Sin(-Angle) * y;
+            double newY = Math.Sin(-Angle) * x + Math.Cos(-Angle) * y;
+            DrawPixel((int)newX, (int)newY, color, "", modeDraw);
+        }*/
 
         public static bool PixelExists(int x, int y, Color color, string name)
         {

@@ -14,7 +14,11 @@ namespace SubrightEngine.VulkanBranch
         public override void DrawFrame()
         {
             //throw new System.NotImplementedException();
+            DrawEvent?.Invoke();
         }
+
+        public delegate void DrawEventHandler();
+        public static event DrawEventHandler DrawEvent;
 
         public string renderName = "Vulkan";
         public VulkanBase(string name)

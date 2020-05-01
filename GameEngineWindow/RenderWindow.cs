@@ -8,28 +8,19 @@ namespace SubrightWindow
     public class RenderWindow : Canvas
     {
         static RenderWindow window;
-        public RenderWindow()
-        {
-            //Run(new AppConfiguration(name));
-        }
 
         [STAThread]
         static void Main(string[] args)
         {
             window = new RenderWindow();
             modeRender = RenderMode.DirectX;
+            currentDimension = Dimension.TWOD;
             AssignNewKey(new KeyCode("Horizontal", Keys.D, Keys.A));
             AssignNewKey(new KeyCode("Vertical", Keys.S, Keys.W));
             AssignNewKey(new KeyCode("Shoot", Keys.Space));
-            //playerPosition = new Vector2(Config.Width / 2, Config.Height / 2);
-            //position = playerPosition;
-            DrawPixel(10, 10, Color.White, SubrightEngine.DrawMode.ARRAY);
+            playerPosition = new Vector2(Config.Width / 2, Config.Height / 2);
+            position = playerPosition;
             window.Run(new AppConfiguration("Apple Shooter Demo"));
-        }
-
-        public override void BeforeRender()
-        {
-            base.BeforeRender();
         }
 
         public static Vector2 playerPosition = Vector2.zero;
@@ -37,6 +28,12 @@ namespace SubrightWindow
         public override void Initialize(AppConfiguration config)
         {
             base.Initialize(config);
+        }
+
+        public override void Draw()
+        {
+            base.Draw();
+            DrawCanvas();
         }
 
         public static Vector2 position;

@@ -21,8 +21,16 @@ namespace SubrightEngine
         public static List<KeyCode> codes = new List<KeyCode>();
         //Rendering methods lmao
         public static RenderMode modeRender = RenderMode.DirectX;
-        public static AppConfiguration Config;
+        private static AppConfiguration _appConfiguration = new AppConfiguration("Subright Engine Game Window");
         public static Dimension currentDimension;
+
+        public static AppConfiguration Config
+        {
+            get
+            {
+                return _appConfiguration;
+            }
+        }
 
         public virtual void Draw()
         {
@@ -82,13 +90,12 @@ namespace SubrightEngine
                 Debug.Log("Loaded " + files.Length + " to image array");
             }
             Debug.Log("Finished initialisation cycle!");
-            libraries.Add(new SharpDXBase("SharpDX"));
-            libraries.Add(new VulkanBase("Vulkan"));
-            Config = config;
-            BeforeRender();
             if (modeRender == RenderMode.DirectX)
             {
                 Debug.Log("Initialising DirectX Render Mode");
+                SharpDXBase baseDX = new SharpDXBase("SharpDX");
+                SharpDXBase.DrawEvent += delegate { Draw(); };
+                libraries.Add(baseDX);
                 //Initialise the direct x renderer
                 libraryGet("SharpDX").Initialise(config);
             }
@@ -102,19 +109,21 @@ namespace SubrightEngine
             {
                 Debug.Log("Initialising Vulkan Render Mode only supporting 3D for the time being which is not implemented!");
                 //Initialise the vulkan renderer
+                VulkanBase baseVK = new VulkanBase("Vulkan");
+                VulkanBase.DrawEvent += delegate { Draw(); };
+                libraries.Add(baseVK);
                 libraryGet("Vulkan").Initialise(config);
             }
-            AfterRender();
-        }
 
-        public virtual void BeforeRender()
-        {
-
-        }
-
-        public virtual void AfterRender()
-        {
-
+            if (config != null)
+            {
+                _appConfiguration = config ?? new AppConfiguration();
+            }
+            else
+            {
+                AppConfiguration newConfig = new AppConfiguration("Subright Engine Window");
+                _appConfiguration = newConfig ?? new AppConfiguration();
+            }
         }
 
         // <summary>

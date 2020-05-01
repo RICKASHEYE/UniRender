@@ -15,7 +15,5 @@ namespace SubrightEngine
         RenderTarget getRenderTarget();
         void Draw();
         string getName();
-        void OnKeyDown(KeyEventArgs e);
-        void OnKeyUp(KeyEventArgs e);
     }
 }
