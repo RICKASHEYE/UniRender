@@ -17,26 +17,26 @@ namespace SubrightWindow
         static void Main(string[] args)
         {
             window = new RenderWindow();
+            modeRender = RenderMode.DirectX;
+            AssignNewKey(new KeyCode("Horizontal", Keys.D, Keys.A));
+            AssignNewKey(new KeyCode("Vertical", Keys.S, Keys.W));
+            AssignNewKey(new KeyCode("Shoot", Keys.Space));
+            //playerPosition = new Vector2(Config.Width / 2, Config.Height / 2);
+            //position = playerPosition;
+            DrawPixel(10, 10, Color.White, SubrightEngine.DrawMode.ARRAY);
             window.Run(new AppConfiguration("Apple Shooter Demo"));
-            window.modeRender = RenderMode.DirectX;
+        }
+
+        public override void BeforeRender()
+        {
+            base.BeforeRender();
         }
 
         public static Vector2 playerPosition = Vector2.zero;
 
-        protected override void Draw(AppTime time)
+        public override void Initialize(AppConfiguration config)
         {
-            base.Draw(time);
-            DrawCanvas();
-        }
-
-        protected override void LoadContent()
-        {
-            base.LoadContent();
-            AssignNewKey(new KeyCode("Horizontal", Keys.D, Keys.A));
-            AssignNewKey(new KeyCode("Vertical", Keys.S, Keys.W));
-            AssignNewKey(new KeyCode("Shoot", Keys.Space));
-            playerPosition = new Vector2(Config.Width / 2, Config.Height / 2);
-            position = playerPosition;
+            base.Initialize(config);
         }
 
         public static Vector2 position;
@@ -44,7 +44,7 @@ namespace SubrightWindow
 
         public static void DrawCanvas()
         {
-            Clear(Color.Black, SubrightEngine.DrawMode.DIRECT);
+            Clear(Color.White, SubrightEngine.DrawMode.DIRECT);
             //Debug.Log("Drawing");
             int Horizontal = getCodeFromName("Horizontal").keyAxis;
             int Vertical = getCodeFromName("Vertical").keyAxis;

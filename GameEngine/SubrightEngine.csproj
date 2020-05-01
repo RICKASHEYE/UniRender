@@ -206,20 +206,28 @@
     <Reference Include="Vulkan.Windows, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\VulkanSharp.0.1.10\lib\net452\Vulkan.Windows.dll</HintPath>
     </Reference>
+    <Reference Include="VulkanSharp, Version=1.0.0.2, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\VulkanSharp.Windows.1.0.0.2\lib\net45\VulkanSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="VulkanSharp.Windows, Version=1.0.0.2, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\VulkanSharp.Windows.1.0.0.2\lib\net45\VulkanSharp.Windows.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppConfiguration.cs" />
     <Compile Include="AppTime.cs" />
-    <Compile Include="Axis.cs" />
     <Compile Include="Canvas.cs" />
     <Compile Include="Color.cs" />
     <Compile Include="Debug.cs" />
+    <Compile Include="Dimension.cs" />
     <Compile Include="Direct2D1Handler.cs" />
     <Compile Include="Direct3D11Handler.cs" />
     <Compile Include="ImageDrawer.cs" />
+    <Compile Include="IVulkanRender.cs" />
     <Compile Include="KeyCode.cs" />
     <Compile Include="Mathf.cs" />
     <Compile Include="NewApp.cs" />
+    <Compile Include="Pixel.cs" />
     <Compile Include="PlayerValues.cs" />
     <Compile Include="Point.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -230,15 +238,20 @@
     </Compile>
     <Compile Include="Random.cs" />
     <Compile Include="Rectangle.cs" />
-    <Compile Include="SoftwareRender.cs" />
-    <Compile Include="SoftwareRender.Designer.cs">
-      <DependentUpon>SoftwareRender.cs</DependentUpon>
-    </Compile>
+    <Compile Include="IRenderingLibrary.cs" />
+    <Compile Include="RenderingLibraryManager.cs" />
+    <Compile Include="SharpDXBase.cs" />
     <Compile Include="SpriteManipulator.cs" />
+    <Compile Include="Text.cs" />
     <Compile Include="Tile.cs" />
     <Compile Include="TileManager.cs" />
     <Compile Include="Vector2.cs" />
     <Compile Include="Vector3.cs" />
+    <Compile Include="VukanRendererP.cs" />
+    <Compile Include="VulkanBase.cs" />
+    <Compile Include="VulkanC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig">
@@ -261,9 +274,6 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SoftwareRender.resx">
-      <DependentUpon>SoftwareRender.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

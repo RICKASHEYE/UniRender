@@ -21,8 +21,6 @@ namespace SubrightEngine
                     if (m == name)
                     {
                         //this is the value
-                        playerValuesString[m] = ChangeValue;
-                        Console.WriteLine("Found value: " + name + " and replaced the value with " + ChangeValue);
                         setValue = true;
                     }
                 }
@@ -30,6 +28,10 @@ namespace SubrightEngine
                 if (setValue == false)
                 {
                     Console.WriteLine("Unable to find value!");
+                }
+                else
+                {
+                    playerValuesString[name] = ChangeValue;
                 }
             }
             else
@@ -40,26 +42,16 @@ namespace SubrightEngine
 
         public static void SetIntValue(string name, int ChangeValue)
         {
-            //Make a clone of the array.
-            Dictionary<string, int> playerValuesInteger_ = new Dictionary<string, int>();
-            //playerValuesInteger_ = playerValuesInteger;
-            foreach (string p in playerValuesInteger.Keys)
-            {
-                playerValuesInteger_.Add(p, playerValuesInteger[p]);
-            }
-
             if (EntryExists(name))
             {
                 bool setValue = false;
 
                 //Use that cloned array to be modified....
-                foreach (string m in playerValuesInteger_.Keys)
+                foreach (string m in playerValuesInteger.Keys)
                 {
                     if (m == name)
                     {
                         //this is the value
-                        playerValuesInteger_[m] = ChangeValue;
-                        Console.WriteLine("Found value: " + name + " and replaced the value with " + ChangeValue);
                         setValue = true;
                     }
                 }
@@ -68,12 +60,15 @@ namespace SubrightEngine
                 {
                     Console.WriteLine("Unable to find value!");
                 }
+                else
+                {
+                    playerValuesInteger[name] = ChangeValue;
+                }
             }
             else
             {
-                playerValuesInteger_.Add(name, ChangeValue);
+                playerValuesInteger.Add(name, ChangeValue);
             }
-            playerValuesInteger = playerValuesInteger_;
         }
 
         public static void RemoveStringValue(string name)
