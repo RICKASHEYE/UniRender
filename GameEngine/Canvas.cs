@@ -8,149 +8,20 @@ using System.Reflection;
 
 namespace SubrightEngine
 {
-    public class Pixel
-    {
-        public int X;
-        public int Y;
-        public Color color;
-        public Vector2 previousDest;
-        public string name_;
-        public bool isCollidable;
-
-        public Pixel(int x_, int y_, Color color_, string name)
-        {
-            X = x_;
-            Y = y_;
-            color = color_;
-            name_ = name;
-        }
-
-        public void MovePixel(int x, int y)
-        {
-            //Move pixel to a certain destination
-            previousDest = new Vector2(X, Y);
-            X = x;
-            Y = y;
-        }
-    }
-
-    public class Text
-    {
-        public string text;
-        public Vector2 position;
-        public TextFormat TextFormat { get; private set; }
-        public TextLayout TextLayout { get; private set; }
-        public string font_stored;
-        public int size_stored;
-        public Color color;
-
-        public Text(string textTitle, Vector2 positionPos, RenderTarget RenderTarget2D, SharpDX.DirectWrite.Factory FactoryDWrite, string font, int size, AppConfiguration Config, Color colorP)
-        {
-            Initialise(textTitle, positionPos, RenderTarget2D, FactoryDWrite, font, size, Config, colorP);
-        }
-
-        public void Initialise(string textTitle, Vector2 positionPos, RenderTarget RenderTarget2D, SharpDX.DirectWrite.Factory FactoryDWrite, string font, int size, AppConfiguration Config, Color colorP)
-        {
-            text = textTitle;
-            position = positionPos;
-
-            font_stored = font;
-            size_stored = size;
-
-            color = colorP;
-
-            TextFormat = new TextFormat(FactoryDWrite, font, size) { TextAlignment = TextAlignment.Center, ParagraphAlignment = ParagraphAlignment.Center };
-            RenderTarget2D.TextAntialiasMode = SharpDX.Direct2D1.TextAntialiasMode.Cleartype;
-            TextLayout = new TextLayout(FactoryDWrite, textTitle, TextFormat, Config.Width, Config.Height);
-        }
-
-        public void Render(RenderTarget RenderTarget2D, SolidColorBrush SceneBrush)
-        {
-            if(TextFormat == null) { Debug.Error("Text Format has not been initialised as it is null!!!"); }
-            if(TextLayout == null) { Debug.Error("Text Layout has not been initialised as it is null!!!"); }
-            SharpDX.Mathematics.Interop.RawVector2 vector2 = new SharpDX.Mathematics.Interop.RawVector2(position.x, position.y);
-            RenderTarget2D.DrawTextLayout(vector2, TextLayout, SceneBrush, DrawTextOptions.None);
-        }
-    }
-
     public enum DrawMode
     {
         DIRECT, ARRAY
     }
 
-    public class Canvas : Axis
+    public enum RenderMode
     {
-        //Draw a rectangle or a screen
-        public static List<Pixel> ScreenRender = new List<Pixel>();
+        DirectX, Software, Vulkan
+    }
+
+    public class Canvas : RenderingLibraryManager
+    {
         //public static RenderType currentRender;
-        public static List<Text> textObjects = new List<Text>();
         public static string name = "Subright Engine";
-
-        protected override void Draw(AppTime time)
-        {
-            //Clear(Color.Black);
-            base.Draw(time);
-            List<Vector2> duplicates = new List<Vector2>();
-            foreach(Pixel m in ScreenRender)
-            {
-                var solidColorBrush = new SolidColorBrush(Direct2D1Handler.RenderTarget2D, new SharpDX.Mathematics.Interop.RawColor4(m.color.R, m.color.G, m.color.B, 1));
-                if (m.isCollidable)
-                {
-                    bool overlay = false;
-                    foreach (Pixel p in ScreenRender)
-                    {
-                        if (p.name_ != m.name_)
-                        {
-                            Vector2 pixelPosition = new Vector2(p.X, p.Y);
-                            Vector2 currentPixelPosition = new Vector2(m.X, m.Y);
-                            if (pixelPosition == currentPixelPosition)
-                            {
-                                overlay = true;
-                            } 
-                        }
-                    } 
-                    if(overlay == true)
-                    {
-                        m.MovePixel((int)m.previousDest.x, (int)m.previousDest.y);
-                    }
-                }
-                RenderTarget2D.FillRectangle(new SharpDX.Mathematics.Interop.RawRectangleF(m.X, m.Y, m.X + 1, m.Y + 1), solidColorBrush);
-                solidColorBrush.Dispose();
-            }
-
-            foreach(Text text in textObjects)
-            {
-                //if(text.TextFormat == null || text.TextLayout == null) { Debug.Log("Intialising Text..."); text.Initialise(text.text, text.position, RenderTarget2D, FactoryDWrite, text.font_stored, text.size_stored, Config); }
-                var solidColorBrush = new SolidColorBrush(Direct2D1Handler.RenderTarget2D, new SharpDX.Mathematics.Interop.RawColor4(text.color.R, text.color.G, text.color.B, 1));
-                text.Render(RenderTarget2D, solidColorBrush);
-                solidColorBrush.Dispose();
-            }
-        }
-
-        protected override void Initialize(AppConfiguration demoConfiguration)
-        {
-            base.Initialize(demoConfiguration);
-            string assemblyFolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            string assetsFolder = Path.Combine(assemblyFolder, "Assets");
-            if (!Directory.Exists(assetsFolder))
-            {
-                //Load an assembly assets folder
-                Directory.CreateDirectory(assetsFolder);
-                Initialize(demoConfiguration);
-            }
-            else
-            {
-                //Now initialise the assets into a registry and allow them to be loaded into the game.
-            }
-        }
-
-        protected override void UnloadContent()
-        {
-            base.UnloadContent();
-            //Unload the content
-            ScreenRender.Clear();
-            textObjects.Clear();
-        }
 
         /// <summary>
         /// Draws a pixel on the screen in Array Mode, by default.
@@ -170,22 +41,19 @@ namespace SubrightEngine
                 return;
             }
 
-            if (x > 0 && y > 0 && x < Config.Width && y < Config.Height)
+            if (modeDraw == DrawMode.ARRAY)
             {
-                if (modeDraw == DrawMode.ARRAY)
+                if (!PixelExists(x, y, color, name))
                 {
-                    if (!PixelExists(x, y, color, name))
-                    {
-                        Debug.Log("Adding this pixel to the screen render array!");
-                        Pixel pixel = new Pixel(x, y, color, name);
-                        ScreenRender.Add(pixel);
-                    }
+                    //Debug.Log("Adding this pixel to the screen render array!");
+                    Pixel pixel = new Pixel(x, y, color, name);
+                    ScreenRender.Add(pixel);
                 }
-                else
-                {
-                    DirectDrawPixel(x, y, color);
-                    Debug.Log("Directly drawing the pixel");
-                }
+            }
+            else
+            {
+                DirectDrawPixel(x, y, color);
+                //Debug.Log("Directly drawing the pixel");
             }
             //RecalculatePixelObjects();
         }
@@ -195,15 +63,12 @@ namespace SubrightEngine
             DrawPixel(x, y, color, "", modeDraw);
         }
 
-        /// <summary>
-        /// This function draws a pixel directly.
-        /// </summary>
-        private static void DirectDrawPixel(int x, int y, Color color)
+        /*public static void DrawPixel(int x, int y, Color color, int Angle, DrawMode modeDraw)
         {
-            var solidColorBrush = new SolidColorBrush(Direct2D1Handler.RenderTarget2D, new SharpDX.Mathematics.Interop.RawColor4(color.R, color.G, color.B, 1));
-            RenderTarget2D.FillRectangle(new SharpDX.Mathematics.Interop.RawRectangleF(x, y, x + 1, y + 1), solidColorBrush);
-            solidColorBrush.Dispose();
-        }
+            double newX = Math.Cos(-Angle) * x - Math.Sin(-Angle) * y;
+            double newY = Math.Sin(-Angle) * x + Math.Cos(-Angle) * y;
+            DrawPixel((int)newX, (int)newY, color, "", modeDraw);
+        }*/
 
         public static bool PixelExists(int x, int y, Color color, string name)
         {
@@ -234,15 +99,6 @@ namespace SubrightEngine
             {
                 DrawPixel(x1 + i, y1, color, name, modeDraw);
             }
-        }
-
-        /// <summary>
-        /// Still in development not recommended to use it just yet.
-        /// </summary>
-        public static void DrawText(string text, string font, int size, Vector2 position, Color color)
-        {
-            Text textObject = new Text(text, position, RenderTarget2D, FactoryDWrite, font, size, Config,color);
-            textObjects.Add(textObject);
         }
 
         private void DrawVerticalLine(Color color, int dy, int x1, int y1, string name, DrawMode modeDraw)
@@ -506,15 +362,26 @@ namespace SubrightEngine
 
         public static void Clear(Color color, DrawMode modeDraw)
         {
-            if (modeDraw == DrawMode.DIRECT)
+            if (modeRender == RenderMode.DirectX)
             {
-                SharpDX.Mathematics.Interop.RawColor4 clearColor = new SharpDX.Mathematics.Interop.RawColor4(color.R, color.G, color.B, 1);
-                RenderTarget2D.Clear(clearColor);
+                if (modeDraw == DrawMode.DIRECT)
+                {
+                    SharpDX.Mathematics.Interop.RawColor4 clearColor = new SharpDX.Mathematics.Interop.RawColor4(color.R, color.G, color.B, 1);
+                    libraryGet("SharpDX").getRenderTarget().Clear(clearColor);
+                }
+                else
+                {
+                    ScreenRender.Clear();
+                    Clear(color, DrawMode.DIRECT);
+                }
             }
-            else
+            else if(modeRender == RenderMode.Software)
             {
-                ScreenRender.Clear();
-                Clear(color, DrawMode.DIRECT);
+                //renderSoftware.g.Clear(System.Drawing.Color.Black);
+                Console.WriteLine("Software mode is deprecated.");
+            }else if(modeRender == RenderMode.Vulkan)
+            {
+
             }
         }
 

@@ -8,34 +8,32 @@ namespace SubrightWindow
     public class RenderWindow : Canvas
     {
         static RenderWindow window;
-        public RenderWindow()
-        {
-            //Run(new AppConfiguration(name));
-        }
 
         [STAThread]
         static void Main(string[] args)
         {
             window = new RenderWindow();
-            window.Run(new AppConfiguration("Apple Shooter Demo"));
-        }
-
-        public static Vector2 playerPosition = Vector2.zero;
-
-        protected override void Draw(AppTime time)
-        {
-            base.Draw(time);
-            DrawCanvas();
-        }
-
-        protected override void LoadContent()
-        {
-            base.LoadContent();
+            modeRender = RenderMode.DirectX;
+            currentDimension = Dimension.TWOD;
             AssignNewKey(new KeyCode("Horizontal", Keys.D, Keys.A));
             AssignNewKey(new KeyCode("Vertical", Keys.S, Keys.W));
             AssignNewKey(new KeyCode("Shoot", Keys.Space));
             playerPosition = new Vector2(Config.Width / 2, Config.Height / 2);
             position = playerPosition;
+            window.Run(new AppConfiguration("Apple Shooter Demo"));
+        }
+
+        public static Vector2 playerPosition = Vector2.zero;
+
+        public override void Initialize(AppConfiguration config)
+        {
+            base.Initialize(config);
+        }
+
+        public override void Draw()
+        {
+            base.Draw();
+            DrawCanvas();
         }
 
         public static Vector2 position;
@@ -50,7 +48,7 @@ namespace SubrightWindow
             playerPosition += new Vector2(Horizontal, Vertical) * 0.15f;
             //Debug.Log("Horizontal: " + playerPosition.x + " Vertical: " + playerPosition.y);
             Rectangle rect = new Rectangle((int)playerPosition.x, (int)playerPosition.y, 10, 10);
-            DrawRect(rect, Color.Black, SubrightEngine.DrawMode.DIRECT);
+            DrawRect(rect, Color.Black, 30, SubrightEngine.DrawMode.DIRECT);
             DrawPortalGun(Horizontal, Vertical);
             ShootPortal();
             Apples();
