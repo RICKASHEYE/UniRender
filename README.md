@@ -10,13 +10,9 @@ wanting features.
 |----------------|-----------------|
 |Sound           |Graphics         |
 |Particle System |Vectors          |
-|Vulkan Support  |DirectX Support  |
-|OpenGL Support  |Input Support    |
-|Editor          |Broken stored variable system|
-|Stored variable system to save variables|  |
-|3D Support      ||
+|OpenGL Support  |DirectX Support  |
+|Editor          |Input Support|
 |Image Support   ||
 |GUI Support     ||
-|Fixed Stored variable System||
 
 Go to Releases page to checkout releases of built editions of the engine to use in a project.
