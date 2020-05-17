@@ -3,6 +3,7 @@ using SubrightEngine.DirectX;
 using SubrightEngine.VulkanBranch;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -23,6 +24,7 @@ namespace SubrightEngine
         public static RenderMode modeRender = RenderMode.DirectX;
         private static AppConfiguration _appConfiguration = new AppConfiguration("Subright Engine Game Window");
         public static Dimension currentDimension;
+        public static Graphics gVulkan;
 
         public static AppConfiguration Config
         {
@@ -47,6 +49,18 @@ namespace SubrightEngine
             }
         }
 
+        private void Draw(Graphics g)
+        {
+            Draw();
+            if (modeRender == RenderMode.Vulkan)
+            {
+                if (gVulkan == null)
+                {
+                    gVulkan = g; 
+                } 
+            }
+        }
+
         /// <summary>
         /// This function draws a pixel directly.
         /// </summary>
@@ -64,10 +78,25 @@ namespace SubrightEngine
                 //renderSoftware.DrawPixel(x, y, color);
             }else if(modeRender == RenderMode.Vulkan)
             {
-                //3D support isnt in this yet!
-                Debug.Error("Vulkan only renders in 3D");
+                if (gVulkan != null)
+                {
+                    SolidBrush brush = new SolidBrush(System.Drawing.Color.FromArgb(color.R, color.G, color.B));
+                    gVulkan.FillRectangle(brush, new RectangleF(x, y, x + 1, y + 1));
+                    brush.Dispose(); 
+                }
             }
         }
+
+        //2D drawer for vulkan
+        /*public static void DirectDrawPixel(int x, int y, Color color)
+        {
+            if(modeRender == RenderMode.Vulkan)
+            {
+                SolidBrush brush = new SolidBrush(System.Drawing.Color.FromArgb(color.R, color.G, color.B));
+                gVulkan.FillRectangle(brush, new RectangleF(x, y, x + 1, y + 1));
+                brush.Dispose();
+            }
+        }*/
 
         static List<string> imagesPath = new List<string>();
         public virtual void Initialize(AppConfiguration config)
@@ -95,9 +124,10 @@ namespace SubrightEngine
                 Debug.Log("Initialising DirectX Render Mode");
                 SharpDXBase baseDX = new SharpDXBase("SharpDX");
                 SharpDXBase.DrawEvent += delegate { Draw(); };
-                libraries.Add(baseDX);
                 //Initialise the direct x renderer
-                libraryGet("SharpDX").Initialise(config);
+                libraries.Add(baseDX);
+                SharpDXBase renderLibrary = (SharpDXBase)libraryGet("SharpDX");
+                renderLibrary.Initialise(config);
             }
             else if (modeRender == RenderMode.Software)
             {
@@ -110,7 +140,7 @@ namespace SubrightEngine
                 Debug.Log("Initialising Vulkan Render Mode only supporting 3D for the time being which is not implemented!");
                 //Initialise the vulkan renderer
                 VulkanBase baseVK = new VulkanBase("Vulkan");
-                VulkanBase.DrawEvent += delegate { Draw(); };
+                VulkanBase.DrawEvent += Draw;
                 libraries.Add(baseVK);
                 libraryGet("Vulkan").Initialise(config);
             }
@@ -129,7 +159,7 @@ namespace SubrightEngine
         // <summary>
         // Gets an image loaded from the Assets folder.
         // </summary>
-        public static string GetImage(string fileName)
+        public static string GetImagePath(string fileName)
         {
             string returnedPath = null;
             foreach (string path in imagesPath)
@@ -145,6 +175,7 @@ namespace SubrightEngine
                     returnedPath = filepath;
                 }
             }
+            Debug.Log(returnedPath);
             return returnedPath;
         }
 

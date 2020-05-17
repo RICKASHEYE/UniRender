@@ -1,18 +1,20 @@
 ﻿using SubrightEngine;
+using SubrightEngine.DirectX;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace SubrightWindow
 {
     public class RenderWindow : Canvas
     {
-        static RenderWindow window;
+        static RenderWindow canvas;
 
         [STAThread]
         static void Main(string[] args)
         {
-            window = new RenderWindow();
+            canvas = new RenderWindow();
             modeRender = RenderMode.DirectX;
             currentDimension = Dimension.TWOD;
             AssignNewKey(new KeyCode("Horizontal", Keys.D, Keys.A));
@@ -20,7 +22,7 @@ namespace SubrightWindow
             AssignNewKey(new KeyCode("Shoot", Keys.Space));
             playerPosition = new Vector2(Config.Width / 2, Config.Height / 2);
             position = playerPosition;
-            window.Run(new AppConfiguration("Apple Shooter Demo"));
+            canvas.Run(new AppConfiguration("Apple Shooter"));
         }
 
         public static Vector2 playerPosition = Vector2.zero;
@@ -41,14 +43,14 @@ namespace SubrightWindow
 
         public static void DrawCanvas()
         {
-            Clear(Color.White, SubrightEngine.DrawMode.DIRECT);
+            Clear(SubrightEngine.Color.White, SubrightEngine.DrawMode.DIRECT);
             //Debug.Log("Drawing");
             int Horizontal = getCodeFromName("Horizontal").keyAxis;
             int Vertical = getCodeFromName("Vertical").keyAxis;
             playerPosition += new Vector2(Horizontal, Vertical) * 0.15f;
             //Debug.Log("Horizontal: " + playerPosition.x + " Vertical: " + playerPosition.y);
-            Rectangle rect = new Rectangle((int)playerPosition.x, (int)playerPosition.y, 10, 10);
-            DrawRect(rect, Color.Black, SubrightEngine.DrawMode.DIRECT);
+            SubrightEngine.Rectangle rect = new SubrightEngine.Rectangle((int)playerPosition.x, (int)playerPosition.y, 10, 10);
+            DrawRect(rect, SubrightEngine.Color.Black, SubrightEngine.DrawMode.DIRECT);
             DrawPortalGun(Horizontal, Vertical);
             ShootPortal();
             Apples();
@@ -114,6 +116,9 @@ namespace SubrightWindow
                 {
                     //Positive key which means that the player should shoot the bullet.
                     bullets.Add(new Bullet(playerPosition, axis));
+                    SharpDXBase baseLibrary = (SharpDXBase)libraryGet("SharpDX");
+                    baseLibrary.OpenAudio("C:/Users/lethen/Source/Repos/UniRender/GameEngine/bin/Debug/sound.wav");
+                    baseLibrary.PlayAudio();
                     timeout = 1;
                 } 
             }else if(timeout > 0)

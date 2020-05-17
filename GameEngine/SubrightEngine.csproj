@@ -10,7 +10,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{842F35BA-3145-45A6-9CB7-4681F1B3DD05}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SubrightEngine</RootNamespace>
     <AssemblyName>SubrightEngine</AssemblyName>
@@ -36,6 +36,9 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Win32.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -63,6 +66,15 @@
     </Reference>
     <Reference Include="SharpDX.DXGI, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpDX.DXGI.4.2.0\lib\net45\SharpDX.DXGI.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.Mathematics, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.Mathematics.4.2.0\lib\net45\SharpDX.Mathematics.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.MediaFoundation, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.MediaFoundation.4.2.0\lib\net45\SharpDX.MediaFoundation.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.XAudio2, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.XAudio2.4.2.0\lib\net45\SharpDX.XAudio2.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.AppContext, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -212,12 +224,15 @@
     <Reference Include="VulkanSharp.Windows, Version=1.0.0.2, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\VulkanSharp.Windows.1.0.0.2\lib\net45\VulkanSharp.Windows.dll</HintPath>
     </Reference>
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppConfiguration.cs" />
     <Compile Include="AppTime.cs" />
+    <Compile Include="AssetLoader.cs" />
     <Compile Include="Canvas.cs" />
     <Compile Include="Color.cs" />
+    <Compile Include="D3DXUtilities.cs" />
     <Compile Include="Debug.cs" />
     <Compile Include="Dimension.cs" />
     <Compile Include="Direct2D1Handler.cs" />
@@ -225,6 +240,7 @@
     <Compile Include="ImageDrawer.cs" />
     <Compile Include="IVulkanRender.cs" />
     <Compile Include="KeyCode.cs" />
+    <Compile Include="LanguageInterpreter.cs" />
     <Compile Include="Mathf.cs" />
     <Compile Include="NewApp.cs" />
     <Compile Include="Pixel.cs" />
@@ -240,6 +256,7 @@
     <Compile Include="Rectangle.cs" />
     <Compile Include="IRenderingLibrary.cs" />
     <Compile Include="RenderingLibraryManager.cs" />
+    <Compile Include="SharpDXAudio.cs" />
     <Compile Include="SharpDXBase.cs" />
     <Compile Include="SpriteManipulator.cs" />
     <Compile Include="Text.cs" />
@@ -257,6 +274,7 @@
     <None Include="..\.editorconfig">
       <Link>.editorconfig</Link>
     </None>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -275,6 +293,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SharpVPK\SharpVPK.csproj">
+      <Project>{430e062c-4372-4b73-a2f2-1e25f81e2195}</Project>
+      <Name>SharpVPK</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

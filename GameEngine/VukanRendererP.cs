@@ -1,4 +1,5 @@
-﻿using Vulkan;
+﻿using System.Windows.Forms;
+using Vulkan;
 
 namespace SubrightEngine.VulkanBranch
 {
@@ -106,10 +107,10 @@ namespace SubrightEngine.VulkanBranch
 				StoreOp = AttachmentStoreOp.Store,
 				StencilLoadOp = AttachmentLoadOp.DontCare,
 				StencilStoreOp = AttachmentStoreOp.DontCare,
-				InitialLayout = ImageLayout.Undefined,
-				FinalLayout = ImageLayout.PresentSrcKhr
+				InitialLayout = Vulkan.ImageLayout.Undefined,
+				FinalLayout = Vulkan.ImageLayout.PresentSrcKhr
 			};
-			var attRef = new AttachmentReference { Layout = ImageLayout.ColorAttachmentOptimal };
+			var attRef = new AttachmentReference { Layout = Vulkan.ImageLayout.ColorAttachmentOptimal };
 			var subpassDesc = new SubpassDescription
 			{
 				PipelineBindPoint = PipelineBindPoint.Graphics,
@@ -124,7 +125,7 @@ namespace SubrightEngine.VulkanBranch
 			return device.CreateRenderPass(renderPassCreateInfo);
 		}
 
-		public abstract void DrawFrame();
+		public abstract void DrawFrame(PaintEventArgs e);
 
 		public virtual void Initialize(PhysicalDevice physicalDevice, SurfaceKhr surface)
 		{

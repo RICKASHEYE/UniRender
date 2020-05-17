@@ -14,6 +14,7 @@ namespace SubrightWindow
         public void RenderApple()
         {
             Canvas.DrawCircle(Color.Ruby, sPosition, 4, DrawMode.DIRECT);
+            //Canvas.DrawImage((int)sPosition.x *4, (int)sPosition.y * 4, "C:/Users/lethen/Source/Repos/UniRender/GameEngineWindow/bin/Debug/Assets/apple.png", DrawMode.DIRECT);
         }
     }
 }

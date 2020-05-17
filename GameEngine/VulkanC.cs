@@ -27,7 +27,7 @@ namespace SubrightEngine.VulkanBranch
 		{
 			base.OnPaint(e);
 
-			_vulkanSample.DrawFrame();
+			_vulkanSample.DrawFrame(e);
 		}
 	}
 }

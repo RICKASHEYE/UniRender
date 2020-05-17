@@ -1,10 +1,9 @@
-﻿using SharpDX.Direct2D1;
-using SharpDX.DirectWrite;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Reflection;
+﻿using System;
+using System.Drawing.Imaging;
+using System.Runtime.InteropServices;
+using SharpDX;
+using SharpDX.Direct2D1;
+using SharpDX.DXGI;
 
 namespace SubrightEngine
 {
@@ -63,6 +62,32 @@ namespace SubrightEngine
             DrawPixel(x, y, color, "", modeDraw);
         }
 
+        public static void DrawImage(int x, int y, string imageName, DrawMode modeDraw)
+        {
+            //string filePath = GetImagePath(imageName);
+            if (modeRender != RenderMode.DirectX)
+            {
+                System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(imageName);
+                for (int xpos = 0; xpos < bitmap.Width; xpos++)
+                {
+                    for (int ypos = 0; ypos < bitmap.Height; ypos++)
+                    {
+                        System.Drawing.Color color = bitmap.GetPixel(xpos, ypos);
+                        Color gColor = new Color(color.R, color.G, color.B);
+                        DrawPixel(x + xpos, y + ypos, gColor, modeDraw);
+                    }
+                }
+                bitmap.Dispose();
+            }
+            else
+            {
+                RenderTarget RenderTarget2D = libraryGet("SharpDX").getRenderTarget();
+                SharpDX.Direct2D1.Bitmap bitmap = LoadFromFile(RenderTarget2D, imageName);
+                RenderTarget2D.DrawBitmap(bitmap, 1.0f, BitmapInterpolationMode.NearestNeighbor, new SharpDX.Mathematics.Interop.RawRectangleF(x, y, x + bitmap.Size.Width + 1, y + bitmap.Size.Height + 1));
+                bitmap.Dispose();
+            }
+        }
+
         /*public static void DrawPixel(int x, int y, Color color, int Angle, DrawMode modeDraw)
         {
             double newX = Math.Cos(-Angle) * x - Math.Sin(-Angle) * y;
@@ -91,6 +116,46 @@ namespace SubrightEngine
                 }
             }
             return pixelexists;
+        }
+
+        private static SharpDX.Direct2D1.Bitmap LoadFromFile(RenderTarget renderTarget, string file)
+        {
+            // Loads from file using System.Drawing.Image
+            using (var bitmap = (System.Drawing.Bitmap)System.Drawing.Image.FromFile(file))
+            {
+                var sourceArea = new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height);
+                var bitmapProperties = new BitmapProperties(new SharpDX.Direct2D1.PixelFormat(Format.R8G8B8A8_UNorm, SharpDX.Direct2D1.AlphaMode.Premultiplied));
+                var size = new Size2(bitmap.Width, bitmap.Height);
+
+                // Transform pixels from BGRA to RGBA
+                int stride = bitmap.Width * sizeof(int);
+                using (var tempStream = new DataStream(bitmap.Height * stride, true, true))
+                {
+                    // Lock System.Drawing.Bitmap
+                    var bitmapData = bitmap.LockBits(sourceArea, ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
+
+                    // Convert all pixels 
+                    for (int y = 0; y < bitmap.Height; y++)
+                    {
+                        int offset = bitmapData.Stride * y;
+                        for (int x = 0; x < bitmap.Width; x++)
+                        {
+                            // Not optimized 
+                            byte B = Marshal.ReadByte(bitmapData.Scan0, offset++);
+                            byte G = Marshal.ReadByte(bitmapData.Scan0, offset++);
+                            byte R = Marshal.ReadByte(bitmapData.Scan0, offset++);
+                            byte A = Marshal.ReadByte(bitmapData.Scan0, offset++);
+                            int rgba = R | (G << 8) | (B << 16) | (A << 24);
+                            tempStream.Write(rgba);
+                        }
+
+                    }
+                    bitmap.UnlockBits(bitmapData);
+                    tempStream.Position = 0;
+
+                    return new SharpDX.Direct2D1.Bitmap(renderTarget, size, tempStream, stride, bitmapProperties);
+                }
+            }
         }
 
         private static void DrawHorizontalLine(Color color, int dx, int x1, int y1, string name, DrawMode modeDraw)

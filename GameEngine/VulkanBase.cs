@@ -1,4 +1,5 @@
 ﻿using SharpDX.Direct2D1;
+using System.Drawing;
 using System.Windows.Forms;
 using Vulkan;
 
@@ -6,18 +7,15 @@ namespace SubrightEngine.VulkanBranch
 {
     public class VulkanBase : VulkanRenderP, IRenderingLibrary
     {
-        public void Draw()
-        {
-            DrawFrame();
-        }
-
-        public override void DrawFrame()
+        public override void DrawFrame(PaintEventArgs e)
         {
             //throw new System.NotImplementedException();
-            DrawEvent?.Invoke();
+            Graphics g = e.Graphics;
+            DrawEvent?.Invoke(g);
+            //g.DrawRectangle(new Pen(System.Drawing.Color.Black), new System.Drawing.Rectangle(10, 10, 50, 50));
         }
 
-        public delegate void DrawEventHandler();
+        public delegate void DrawEventHandler(Graphics g);
         public static event DrawEventHandler DrawEvent;
 
         public string renderName = "Vulkan";
@@ -79,6 +77,11 @@ namespace SubrightEngine.VulkanBranch
         }
 
         public RenderTarget getRenderTarget()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Draw()
         {
             throw new System.NotImplementedException();
         }
