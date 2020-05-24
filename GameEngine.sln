@@ -18,6 +18,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpVPK.Test", "SharpVPK.T
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppleShooter", "AppleShooter\AppleShooter.csproj", "{4E4F1D92-C647-4B15-9E08-E1DAA8F1DF4A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TopDownDefense", "TopDownDefense\TopDownDefense.csproj", "{3FDE627B-9D67-40A9-9202-E00F762A6148}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -132,6 +134,26 @@ Global
 		{4E4F1D92-C647-4B15-9E08-E1DAA8F1DF4A}.Release|x64.Build.0 = Release|Any CPU
 		{4E4F1D92-C647-4B15-9E08-E1DAA8F1DF4A}.Release|x86.ActiveCfg = Release|Any CPU
 		{4E4F1D92-C647-4B15-9E08-E1DAA8F1DF4A}.Release|x86.Build.0 = Release|Any CPU
+		{3FDE627B-9D67-40A9-9202-E00F762A6148}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3FDE627B-9D67-40A9-9202-E00F762A6148}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3FDE627B-9D67-40A9-9202-E00F762A6148}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{3FDE627B-9D67-40A9-9202-E00F762A6148}.Debug|ARM.Build.0 = Debug|Any CPU
+		{3FDE627B-9D67-40A9-9202-E00F762A6148}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{3FDE627B-9D67-40A9-9202-E00F762A6148}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{3FDE627B-9D67-40A9-9202-E00F762A6148}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{3FDE627B-9D67-40A9-9202-E00F762A6148}.Debug|x64.Build.0 = Debug|Any CPU
+		{3FDE627B-9D67-40A9-9202-E00F762A6148}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3FDE627B-9D67-40A9-9202-E00F762A6148}.Debug|x86.Build.0 = Debug|Any CPU
+		{3FDE627B-9D67-40A9-9202-E00F762A6148}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3FDE627B-9D67-40A9-9202-E00F762A6148}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3FDE627B-9D67-40A9-9202-E00F762A6148}.Release|ARM.ActiveCfg = Release|Any CPU
+		{3FDE627B-9D67-40A9-9202-E00F762A6148}.Release|ARM.Build.0 = Release|Any CPU
+		{3FDE627B-9D67-40A9-9202-E00F762A6148}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{3FDE627B-9D67-40A9-9202-E00F762A6148}.Release|ARM64.Build.0 = Release|Any CPU
+		{3FDE627B-9D67-40A9-9202-E00F762A6148}.Release|x64.ActiveCfg = Release|Any CPU
+		{3FDE627B-9D67-40A9-9202-E00F762A6148}.Release|x64.Build.0 = Release|Any CPU
+		{3FDE627B-9D67-40A9-9202-E00F762A6148}.Release|x86.ActiveCfg = Release|Any CPU
+		{3FDE627B-9D67-40A9-9202-E00F762A6148}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

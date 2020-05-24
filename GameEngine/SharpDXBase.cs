@@ -106,6 +106,7 @@ namespace SubrightEngine.DirectX
                     {
                         coedes.keyAxis = 1;
                         // Debug.Log("Positive");
+                        coedes.PositiveDown = true;
                     }
                 }
 
@@ -115,6 +116,7 @@ namespace SubrightEngine.DirectX
                     {
                         coedes.keyAxis = -1;
                         //Debug.Log("Negative");
+                        coedes.NegativeDown = true;
                     }
                 }
             }
@@ -125,10 +127,25 @@ namespace SubrightEngine.DirectX
             base.KeyUp(e);
             foreach (KeyCode coedes in RenderingLibraryManager.codes)
             {
-                if (coedes.keyAxis != 0)
+                if(coedes.KeyUseNegative != null)
+                {
+                    if(e.KeyCode == coedes.KeyUseNegative)
+                    {
+                        coedes.NegativeDown = false;
+                    }
+                }
+
+                if(coedes.KeyUsePositive != null)
+                {
+                    if(e.KeyCode == coedes.KeyUsePositive)
+                    {
+                        coedes.PositiveDown = false;
+                    }
+                }
+
+                if(coedes.PositiveDown == false && coedes.NegativeDown == false)
                 {
                     coedes.keyAxis = 0;
-                    //Debug.Log("Key Up");
                 }
             }
         }

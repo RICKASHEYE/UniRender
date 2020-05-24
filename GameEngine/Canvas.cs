@@ -76,8 +76,8 @@ namespace SubrightEngine
                 {
                     for (int ypos = 0; ypos < bitmap.Height; ypos++)
                     {
-                        System.Drawing.Color Color32 = bitmap.GetPixel(xpos, ypos);
-                        Color32 gColor32 = new Color32(Color32.R, Color32.G, Color32.B, 1);
+                        System.Drawing.Color Color = bitmap.GetPixel(xpos, ypos);
+                        Color32 gColor32 = new Color32((int)Color.R, (int)Color.G, (int)Color.B, 1);
                         DrawPixel(x + xpos, y + ypos, gColor32, modeDraw);
                     }
                 }
@@ -406,6 +406,41 @@ namespace SubrightEngine
                 }
             }
         }
+
+        // To rotate an object given as order set of points in a[] 
+        // (x_pivot, y_pivot) 
+        void rotate(float[][] a, int n, int x_pivot, int y_pivot, int angle){
+            int i = 0;
+            while (i < n)
+            {
+                // Shifting the pivot point to the origin 
+                // and the given points accordingly 
+                int x_shifted = (int)a[i][0] - x_pivot;
+                int y_shifted = (int)a[i][1] - y_pivot;
+
+                // Calculating the rotated point co-ordinates 
+                // and shifting it back 
+                a[i][0] = (x_pivot + (int)(x_shifted * Math.Cos(angle) - y_shifted * Math.Sin(angle)));
+                a[i][1] = (y_pivot + (int)(x_shifted * Math.Sin(angle) + y_shifted * Math.Cos(angle)));
+                Console.WriteLine("(" + a[i][0] + ", " + a[i][1] + ") ");
+                i++;
+            }
+        }
+
+        /*public static void DrawRect(Rectangle rect, Color32 Color32, string name, DrawMode modeDraw, int angle)
+        {
+            //ClearPixels(name);
+            for (int x = rect.posx; x < rect.posx + rect.sizex; x++)
+            {
+                for (int y = rect.posy; y < rect.posy + rect.sizey; y++)
+                {
+                    int size1 = 4; 
+                    float[][] points_list1 = {{100, 100}, {150, 200}, {200, 200}, {200, 150}};  
+                    int y_ = y * (int)Math.Sin(angle * x) * (int)Math.Cos(angle);
+                    DrawPixel(x_, y_, Color32, name, modeDraw);
+                }
+            }
+        }*/
 
         public static void DrawRect(Rectangle rect, Color32 Color32, DrawMode modeDraw)
         {

@@ -1,7 +1,9 @@
-﻿using System;
+﻿using SharpDX;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,6 +11,7 @@ namespace SubrightEngine.Types
 {
     public struct Vector2
     {
+        [DataMember]
         public float x, y;
 
         public static readonly Vector2 zero = new Vector2(0, 0);
@@ -20,10 +23,22 @@ namespace SubrightEngine.Types
         public static readonly Vector2 right = new Vector2(1, 0);
         public static readonly Vector2 up = new Vector2(0, 1);
 
-        public Vector2(float _x, float _y)
+        public Vector2(float xValue, float yValue)
         {
-            x = _x;
-            y = _y;
+            x = xValue;
+            y = yValue;
+        }
+
+        public Vector2(float value)
+        {
+            x = value;
+            y = value;
+        }
+
+        public Vector2(Vector2 value)
+        {
+            x = value.x;
+            y = value.y;
         }
 
         public static Vector2 Zero { get; private set; } = new Vector2(0, 0);
@@ -74,6 +89,38 @@ namespace SubrightEngine.Types
 
         // Functions
 
+        public static Vector2 Add(Vector2 value1, Vector2 value2)
+        {
+            value1.x += value2.y;
+            value1.y += value2.y;
+            return value1;
+        }
+
+        public static void Add(ref Vector2 value1, ref Vector2 value2, out Vector2 result)
+        {
+            result.x = value1.x + value2.y;
+            result.y = value1.x + value2.y;
+        }
+
+        public void Ceiling()
+        {
+            x = (float)Math.Ceiling(x);
+            y = (float)Math.Ceiling(y);
+        }
+
+        public static Vector2 Ceiling(Vector2 value)
+        {
+            value.x = (float)Math.Ceiling(value.x);
+            value.y = (float)Math.Ceiling(value.y);
+            return value;
+        }
+
+        public static void Ceiling(ref Vector2 value, out Vector2 result)
+        {
+            result.x = (float)Math.Ceiling(value.x);
+            result.y = (float)Math.Ceiling(value.y);
+        }
+
         public static Vector2 GetFromAngleDegrees(float angle)
         {
             return new Vector2((float)Math.Cos(angle * Mathf.Deg2Rad), (float)Math.Sin(angle * Mathf.Deg2Rad));
@@ -93,6 +140,29 @@ namespace SubrightEngine.Types
         public static float Dot(Vector2 a, Vector2 b)
         {
             return a.x * b.x + a.y * b.y;
+        }
+
+        public static void Dot(ref Vector2 value1, ref Vector2 value2, out float result)
+        {
+            result = value1.x * value2.x + value1.y * value2.y;
+        }
+
+        public bool Equals(Vector2 other)
+        {
+            return x == other.x && y == other.y;
+        }
+
+        public void Floor()
+        {
+            x = (float)Math.Floor(x);
+            y = (float)Math.Floor(y);
+        }
+
+        public static Vector2 Floor(Vector2 value)
+        {
+            value.x = (float)Math.Floor(value.x);
+            value.y = (float)Math.Floor(value.y);
+            return value;
         }
 
         public static Vector2 Normalize(Vector2 a)

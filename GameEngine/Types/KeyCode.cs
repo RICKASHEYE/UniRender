@@ -13,6 +13,8 @@ namespace SubrightEngine.Types
         public Keys KeyUsePositive;
         public Keys KeyUseNegative;
         public int keyAxis = 0;
+        public bool PositiveDown = false;
+        public bool NegativeDown = false;
 
         public KeyCode(string name, Keys keyUsePos, Keys keyUseNeg)
         {

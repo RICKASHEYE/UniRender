@@ -28,7 +28,7 @@ namespace SubrightEngine
             {
                 //Load all of the assets here!
                 Console.WriteLine("Asset Load: " + file);
-                Texture text = new Texture(file);
+                Texture text = new Texture2D(file);
                 textures.Add(text);
             }
         }

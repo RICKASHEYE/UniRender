@@ -176,6 +176,7 @@
       <Private>True</Private>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security.Cryptography.Algorithms, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Security.Cryptography.Algorithms.4.3.0\lib\net463\System.Security.Cryptography.Algorithms.dll</HintPath>
       <Private>True</Private>
@@ -231,19 +232,23 @@
     <Compile Include="AppTime.cs" />
     <Compile Include="AssetLoader.cs" />
     <Compile Include="Canvas.cs" />
+    <Compile Include="Types\BoundingBox.cs" />
     <Compile Include="Types\Color.cs" />
     <Compile Include="D3DXUtilities.cs" />
     <Compile Include="Types\Color32.cs" />
+    <Compile Include="Types\ContainmentType.cs" />
     <Compile Include="Types\Debug.cs" />
     <Compile Include="Dimension.cs" />
     <Compile Include="Direct2D1Handler.cs" />
     <Compile Include="Direct3D11Handler.cs" />
     <Compile Include="ImageDrawer.cs" />
     <Compile Include="IVulkanRender.cs" />
+    <Compile Include="Types\FastNoise.cs" />
     <Compile Include="Types\KeyCode.cs" />
     <Compile Include="LanguageInterpreter.cs" />
-    <Compile Include="Mathf.cs" />
+    <Compile Include="Types\Mathf.cs" />
     <Compile Include="NewApp.cs" />
+    <Compile Include="Types\Ray.cs" />
     <Compile Include="Types\Texture.cs" />
     <Compile Include="Types\Pixel.cs" />
     <Compile Include="PlayerValues.cs" />
@@ -262,10 +267,13 @@
     <Compile Include="SharpDXBase.cs" />
     <Compile Include="SpriteManipulator.cs" />
     <Compile Include="Types\Text.cs" />
+    <Compile Include="Types\Texture2D.cs" />
     <Compile Include="Types\Tile.cs" />
     <Compile Include="TileManager.cs" />
+    <Compile Include="Types\Vector.cs" />
     <Compile Include="Types\Vector2.cs" />
     <Compile Include="Types\Vector3.cs" />
+    <Compile Include="Types\Vector4.cs" />
     <Compile Include="VukanRendererP.cs" />
     <Compile Include="VulkanBase.cs" />
     <Compile Include="VulkanC.cs">
