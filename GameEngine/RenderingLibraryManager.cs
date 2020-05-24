@@ -1,14 +1,12 @@
 ﻿using SharpDX.Direct2D1;
 using SubrightEngine.DirectX;
+using SubrightEngine.Types;
 using SubrightEngine.VulkanBranch;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SubrightEngine
@@ -64,7 +62,7 @@ namespace SubrightEngine
         /// <summary>
         /// This function draws a pixel directly.
         /// </summary>
-        public static void DirectDrawPixel(int x, int y, Color color)
+        public static void DirectDrawPixel(int x, int y, SubrightEngine.Types.Color32 color)
         {
             if (modeRender == RenderMode.DirectX)
             {
@@ -80,7 +78,7 @@ namespace SubrightEngine
             {
                 if (gVulkan != null)
                 {
-                    SolidBrush brush = new SolidBrush(System.Drawing.Color.FromArgb(color.R, color.G, color.B));
+                    SolidBrush brush = new SolidBrush(System.Drawing.Color.FromArgb((int)color.R, (int)color.G, (int)color.B));
                     gVulkan.FillRectangle(brush, new RectangleF(x, y, x + 1, y + 1));
                     brush.Dispose(); 
                 }

@@ -6,6 +6,7 @@ using System;
 using System.IO;
 using System.Windows.Forms;
 using System.Windows.Threading;
+using SubrightEngine.Types;
 
 namespace SubrightEngine.DirectX
 {

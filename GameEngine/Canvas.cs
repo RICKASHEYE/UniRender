@@ -4,6 +4,10 @@ using System.Runtime.InteropServices;
 using SharpDX;
 using SharpDX.Direct2D1;
 using SharpDX.DXGI;
+using SubrightEngine.Types;
+using Color32 = SubrightEngine.Types.Color32;
+using Rectangle = SubrightEngine.Types.Rectangle;
+using Vector2 = SubrightEngine.Types.Vector2;
 
 namespace SubrightEngine
 {
@@ -25,7 +29,7 @@ namespace SubrightEngine
         /// <summary>
         /// Draws a pixel on the screen in Array Mode, by default.
         /// </summary>
-        public static void DrawPixel(int x, int y, Color color, string name, DrawMode modeDraw)
+        public static void DrawPixel(int x, int y, Color32 Color, string name, DrawMode modeDraw)
         {
             //Debug.Log("Drawn Pixel");
             if(x == null || y == null)
@@ -34,32 +38,32 @@ namespace SubrightEngine
                 return;
             }
 
-            if(color == null)
+            if(Color == null)
             {
-                Debug.Error("Unable to draw pixel no color defined.");
+                Debug.Error("Unable to draw pixel no Color32 defined.");
                 return;
             }
 
             if (modeDraw == DrawMode.ARRAY)
             {
-                if (!PixelExists(x, y, color, name))
+                if (!PixelExists(x, y, Color, name))
                 {
                     //Debug.Log("Adding this pixel to the screen render array!");
-                    Pixel pixel = new Pixel(x, y, color, name);
+                    Pixel pixel = new Pixel(x, y, Color, name);
                     ScreenRender.Add(pixel);
                 }
             }
             else
             {
-                DirectDrawPixel(x, y, color);
+                DirectDrawPixel(x, y, Color);
                 //Debug.Log("Directly drawing the pixel");
             }
             //RecalculatePixelObjects();
         }
 
-        public static void DrawPixel(int x, int y, Color color, DrawMode modeDraw)
+        public static void DrawPixel(int x, int y, Color32 Color32, DrawMode modeDraw)
         {
-            DrawPixel(x, y, color, "", modeDraw);
+            DrawPixel(x, y, Color32, "", modeDraw);
         }
 
         public static void DrawImage(int x, int y, string imageName, DrawMode modeDraw)
@@ -72,9 +76,9 @@ namespace SubrightEngine
                 {
                     for (int ypos = 0; ypos < bitmap.Height; ypos++)
                     {
-                        System.Drawing.Color color = bitmap.GetPixel(xpos, ypos);
-                        Color gColor = new Color(color.R, color.G, color.B);
-                        DrawPixel(x + xpos, y + ypos, gColor, modeDraw);
+                        System.Drawing.Color Color32 = bitmap.GetPixel(xpos, ypos);
+                        Color32 gColor32 = new Color32(Color32.R, Color32.G, Color32.B, 1);
+                        DrawPixel(x + xpos, y + ypos, gColor32, modeDraw);
                     }
                 }
                 bitmap.Dispose();
@@ -88,30 +92,30 @@ namespace SubrightEngine
             }
         }
 
-        /*public static void DrawPixel(int x, int y, Color color, int Angle, DrawMode modeDraw)
+        /*public static void DrawPixel(int x, int y, Color32 Color32, int Angle, DrawMode modeDraw)
         {
             double newX = Math.Cos(-Angle) * x - Math.Sin(-Angle) * y;
             double newY = Math.Sin(-Angle) * x + Math.Cos(-Angle) * y;
-            DrawPixel((int)newX, (int)newY, color, "", modeDraw);
+            DrawPixel((int)newX, (int)newY, Color32, "", modeDraw);
         }*/
 
-        public static bool PixelExists(int x, int y, Color color, string name)
+        public static bool PixelExists(int x, int y, Color32 Color, string name)
         {
             bool pixelexists = false;
             foreach(Pixel m in ScreenRender)
             {
                 if(m.X == x && m.Y == y)
                 {
-                    if (m.color == color)
+                    if (m.color == Color)
                     {
                         pixelexists = true;
                         Debug.Log("Pixel Exists");
                     }
                     else
                     {
-                        m.color = color;
+                        m.color = Color;
                         m.name_ = name;
-                        Debug.Log("Theres a pixel there change the color and the name!");
+                        Debug.Log("Theres a pixel there change the Color32 and the name!");
                     }
                 }
             }
@@ -158,23 +162,23 @@ namespace SubrightEngine
             }
         }
 
-        private static void DrawHorizontalLine(Color color, int dx, int x1, int y1, string name, DrawMode modeDraw)
+        private static void DrawHorizontalLine(Color32 Color32, int dx, int x1, int y1, string name, DrawMode modeDraw)
         {
             for(int i = 0; i < dx; i++)
             {
-                DrawPixel(x1 + i, y1, color, name, modeDraw);
+                DrawPixel(x1 + i, y1, Color32, name, modeDraw);
             }
         }
 
-        private void DrawVerticalLine(Color color, int dy, int x1, int y1, string name, DrawMode modeDraw)
+        private void DrawVerticalLine(Color32 Color32, int dy, int x1, int y1, string name, DrawMode modeDraw)
         {
             for(int i = 0; i < dy; i++)
             {
-                DrawPixel(x1, y1 + i, color, name, modeDraw);
+                DrawPixel(x1, y1 + i, Color32, name, modeDraw);
             }
         }
 
-        private void DrawDiagonalLine(Color color, int dx, int dy, int x1, int y1, string name, DrawMode modeDraw)
+        private void DrawDiagonalLine(Color32 Color32, int dx, int dy, int x1, int y1, string name, DrawMode modeDraw)
         {
             int i, sdx, sdy, dxabs, dyabs, x, y, px, py;
 
@@ -198,7 +202,7 @@ namespace SubrightEngine
                         py += sdy;
                     }
                     px += sdx;
-                    DrawPixel(px, py, color, name, modeDraw);
+                    DrawPixel(px, py, Color32, name, modeDraw);
                 }
             }
             else
@@ -212,14 +216,14 @@ namespace SubrightEngine
                         px += sdx;
                     }
                     py += sdy;
-                    DrawPixel(px, py, color, name, modeDraw);
+                    DrawPixel(px, py, Color32, name, modeDraw);
                 }
             }
         }
 
-        public virtual void DrawLine(Color color, int x1, int y1, int x2, int y2, string name, DrawMode modeDraw)
+        public virtual void DrawLine(Color32 Color32, int x1, int y1, int x2, int y2, string name, DrawMode modeDraw)
         {
-            if(color == null)
+            if(Color32 == null)
             {
                 Debug.Error("No colour defined");
             }
@@ -231,34 +235,34 @@ namespace SubrightEngine
 
             if(dy == 0)
             {
-                DrawHorizontalLine(color, dx, x1, y1, name, modeDraw);
+                DrawHorizontalLine(Color32, dx, x1, y1, name, modeDraw);
                 return;
             }
 
-            DrawDiagonalLine(color, dx, dy, x1, y1, name, modeDraw);
+            DrawDiagonalLine(Color32, dx, dy, x1, y1, name, modeDraw);
         }
 
-        public static void DrawLine(Color color, Vector2 p1, Vector2 p2, DrawMode modeDraw)
+        public static void DrawLine(Color32 Color32, Vector2 p1, Vector2 p2, DrawMode modeDraw)
         {
-            DrawLine(color, p1, p2, "", modeDraw);
+            DrawLine(Color32, p1, p2, "", modeDraw);
         }
 
-        public static void DrawLine(Color color, Vector2 p1, Vector2 p2, string name, DrawMode modeDraw)
+        public static void DrawLine(Color32 Color32, Vector2 p1, Vector2 p2, string name, DrawMode modeDraw)
         {
-            DrawLine(color, (int)p1.x, (int)p1.y, (int)p2.x, (int)p2.y, name, modeDraw);
+            DrawLine(Color32, (int)p1.x, (int)p1.y, (int)p2.x, (int)p2.y, name, modeDraw);
         }
 
-        public static void DrawLine(Color color, float x1, float y1, float x2, float y2, DrawMode modeDraw)
+        public static void DrawLine(Color32 Color32, float x1, float y1, float x2, float y2, DrawMode modeDraw)
         {
-            DrawLine(color, x1, y1, x2, y2, "", modeDraw);
+            DrawLine(Color32, x1, y1, x2, y2, "", modeDraw);
         }
 
-        public static void DrawLine(Color color, float x1, float y1, float x2, float y2, string name, DrawMode modeDraw)
+        public static void DrawLine(Color32 Color32, float x1, float y1, float x2, float y2, string name, DrawMode modeDraw)
         {
-            DrawLine(color, new Vector2(x1, y1), new Vector2(x2, y2), name, modeDraw);
+            DrawLine(Color32, new Vector2(x1, y1), new Vector2(x2, y2), name, modeDraw);
         }
 
-        public static void DrawCircle(Color color, int x_center, int y_center, int radius, string name, DrawMode modeDraw)
+        public static void DrawCircle(Color32 Color32, int x_center, int y_center, int radius, string name, DrawMode modeDraw)
         {
             int x = radius;
             int y = 0;
@@ -266,14 +270,14 @@ namespace SubrightEngine
             
             while(x >= y)
             {
-                DrawPixel(x_center + x, y_center + y, color, name, modeDraw);
-                DrawPixel(x_center + y, y_center + x, color, name, modeDraw);
-                DrawPixel(x_center - y, y_center + x, color, name, modeDraw);
-                DrawPixel(x_center - x, y_center + y, color, name, modeDraw);
-                DrawPixel(x_center - x, y_center - y, color, name, modeDraw);
-                DrawPixel(x_center - y, y_center - x, color, name, modeDraw);
-                DrawPixel(x_center + y, y_center - x, color, name, modeDraw);
-                DrawPixel(x_center + x, y_center - y, color, name, modeDraw);
+                DrawPixel(x_center + x, y_center + y, Color32, name, modeDraw);
+                DrawPixel(x_center + y, y_center + x, Color32, name, modeDraw);
+                DrawPixel(x_center - y, y_center + x, Color32, name, modeDraw);
+                DrawPixel(x_center - x, y_center + y, Color32, name, modeDraw);
+                DrawPixel(x_center - x, y_center - y, Color32, name, modeDraw);
+                DrawPixel(x_center - y, y_center - x, Color32, name, modeDraw);
+                DrawPixel(x_center + y, y_center - x, Color32, name, modeDraw);
+                DrawPixel(x_center + x, y_center - y, Color32, name, modeDraw);
 
                 y++;
                 if(e <= 0)
@@ -288,35 +292,35 @@ namespace SubrightEngine
             }
         }
 
-        public static void DrawCircle(Color color, int x_center, int y_center, int radius, DrawMode modeDraw)
+        public static void DrawCircle(Color32 Color32, int x_center, int y_center, int radius, DrawMode modeDraw)
         {
-            DrawCircle(color, x_center, y_center, radius, modeDraw);
+            DrawCircle(Color32, x_center, y_center, radius, modeDraw);
         }
 
-        public static void DrawCircle(Color color, Vector2 vector, int radius, DrawMode modeDraw)
+        public static void DrawCircle(Color32 Color32, Vector2 vector, int radius, DrawMode modeDraw)
         {
-            DrawCircle(color, vector, radius, "", modeDraw);
+            DrawCircle(Color32, vector, radius, "", modeDraw);
         }
 
-        public static void DrawCircle(Color color, Vector2 vector, int radius, string name, DrawMode modeDraw)
+        public static void DrawCircle(Color32 Color32, Vector2 vector, int radius, string name, DrawMode modeDraw)
         {
-            DrawCircle(color, (int)vector.x, (int)vector.y, radius, name, modeDraw);
+            DrawCircle(Color32, (int)vector.x, (int)vector.y, radius, name, modeDraw);
         }
 
-        public static void DrawFilledCircle(Color color, Vector2 vector, int radius, string name, DrawMode modeDraw)
+        public static void DrawFilledCircle(Color32 Color32, Vector2 vector, int radius, string name, DrawMode modeDraw)
         {
             for(int i = 0; i < radius; i++)
             {
-                DrawCircle(color, vector, i, name, modeDraw);
+                DrawCircle(Color32, vector, i, name, modeDraw);
             }
         }
 
-        public static void DrawFilledCircle(Color color, Vector2 vector, int radius, DrawMode modeDraw)
+        public static void DrawFilledCircle(Color32 Color32, Vector2 vector, int radius, DrawMode modeDraw)
         {
-            DrawFilledCircle(color, vector, radius, "", modeDraw);
+            DrawFilledCircle(Color32, vector, radius, "", modeDraw);
         }
 
-        public static void DrawEllipse(Color color, int x_center, int y_center, int x_radius, int y_radius, string name, DrawMode modeDraw)
+        public static void DrawEllipse(Color32 Color32, int x_center, int y_center, int x_radius, int y_radius, string name, DrawMode modeDraw)
         {
             int a = 2 * x_radius;
             int b = 2 * y_radius;
@@ -332,27 +336,27 @@ namespace SubrightEngine
 
             while(x >= 0)
             {
-                DrawPixel(x_center + x, y_center + y, color, name, modeDraw);
-                DrawPixel(x_center - x, y_center + y, color, name, modeDraw);
-                DrawPixel(x_center - x, y_center - y, color, name, modeDraw);
-                DrawPixel(x_center + x, y_center - y, color, name, modeDraw);
+                DrawPixel(x_center + x, y_center + y, Color32, name, modeDraw);
+                DrawPixel(x_center - x, y_center + y, Color32, name, modeDraw);
+                DrawPixel(x_center - x, y_center - y, Color32, name, modeDraw);
+                DrawPixel(x_center + x, y_center - y, Color32, name, modeDraw);
                 e2 = 2 * err;
                 if (e2 <= dy) { y++; err += dy += a; }
                 if (e2 >= dx || 2 * err > dy) { x--; err += dx += b1; }
             }
         }
 
-        public static void DrawEllipse(Color color, Vector2 vector, int x_radius, int y_radius, DrawMode modeDraw)
+        public static void DrawEllipse(Color32 Color32, Vector2 vector, int x_radius, int y_radius, DrawMode modeDraw)
         {
-            DrawEllipse(color, vector, x_radius, y_radius, "", modeDraw);
+            DrawEllipse(Color32, vector, x_radius, y_radius, "", modeDraw);
         }
 
-        public static void DrawEllipse(Color color, Vector2 vector, int x_radius, int y_radius, string name, DrawMode modeDraw)
+        public static void DrawEllipse(Color32 Color32, Vector2 vector, int x_radius, int y_radius, string name, DrawMode modeDraw)
         {
-            DrawEllipse(color, (int)vector.x, (int)vector.y, x_radius, y_radius, name, modeDraw);
+            DrawEllipse(Color32, (int)vector.x, (int)vector.y, x_radius, y_radius, name, modeDraw);
         }
 
-        public static void DrawPolygon(Vector2[] vectors, Color color, string name, DrawMode modeDraw)
+        public static void DrawPolygon(Vector2[] vectors, Color32 Color32, string name, DrawMode modeDraw)
         {
             //Read all of the vectors and draw a rectangle or point based on these three atleast.
             if(vectors.Length > 3)
@@ -360,7 +364,7 @@ namespace SubrightEngine
                 //Continue
                 for(int i = 0; i < vectors.Length - 1; i++)
                 {
-                    DrawLine(color, vectors[i], vectors[i + 1], name, modeDraw);
+                    DrawLine(Color32, vectors[i], vectors[i + 1], name, modeDraw);
                 }
             }
             else if(vectors.Length < 3 || vectors.Length > 4)
@@ -369,43 +373,43 @@ namespace SubrightEngine
             }
         }
 
-        public static void DrawPolygon(Vector2[] vectors, Color color)
+        public static void DrawPolygon(Vector2[] vectors, Color32 Color32)
         {
-            DrawPolygon(vectors, color);
+            DrawPolygon(vectors, Color32);
         }
 
-        public static void DrawTriangle(Color color, int v1x, int v1y, int v2x, int v2y, int v3x, int v3y, string name, DrawMode modeDraw)
+        public static void DrawTriangle(Color32 Color32, int v1x, int v1y, int v2x, int v2y, int v3x, int v3y, string name, DrawMode modeDraw)
         {
-            DrawLine(color, v1x, v1y, v2x, v2y, name, modeDraw);
-            DrawLine(color, v1x, v1y, v3x, v3y, name, modeDraw);
-            DrawLine(color, v2x, v2y, v3x, v3y, name, modeDraw);
+            DrawLine(Color32, v1x, v1y, v2x, v2y, name, modeDraw);
+            DrawLine(Color32, v1x, v1y, v3x, v3y, name, modeDraw);
+            DrawLine(Color32, v2x, v2y, v3x, v3y, name, modeDraw);
         }
 
-        public static void DrawTriangle(Color color, Vector2 vector01, Vector2 vector02, Vector2 vector03, string name, DrawMode modeDraw)
+        public static void DrawTriangle(Color32 Color32, Vector2 vector01, Vector2 vector02, Vector2 vector03, string name, DrawMode modeDraw)
         {
-            DrawTriangle(color, (int)vector01.x, (int)vector01.y, (int)vector02.x, (int)vector02.y, (int)vector03.x, (int)vector03.y, name, modeDraw);
+            DrawTriangle(Color32, (int)vector01.x, (int)vector01.y, (int)vector02.x, (int)vector02.y, (int)vector03.x, (int)vector03.y, name, modeDraw);
         }
 
-        public static void DrawTriangle(Color color, Vector2 vector01, Vector2 vector02, Vector2 vector3, DrawMode modeDraw)
+        public static void DrawTriangle(Color32 Color32, Vector2 vector01, Vector2 vector02, Vector2 vector3, DrawMode modeDraw)
         {
-            DrawTriangle(color, vector01, vector02, vector3, "", modeDraw);
+            DrawTriangle(Color32, vector01, vector02, vector3, "", modeDraw);
         }
 
-        public static void DrawRect(Rectangle rect, Color color, string name, DrawMode modeDraw)
+        public static void DrawRect(Rectangle rect, Color32 Color32, string name, DrawMode modeDraw)
         {
             //ClearPixels(name);
             for(int x = rect.posx; x < rect.posx + rect.sizex; x++)
             {
                 for(int y = rect.posy; y < rect.posy + rect.sizey; y++)
                 {
-                    DrawPixel(x, y, color, name, modeDraw);
+                    DrawPixel(x, y, Color32, name, modeDraw);
                 }
             }
         }
 
-        public static void DrawRect(Rectangle rect, Color color, DrawMode modeDraw)
+        public static void DrawRect(Rectangle rect, Color32 Color32, DrawMode modeDraw)
         {
-            DrawRect(rect, color, "", modeDraw);
+            DrawRect(rect, Color32, "", modeDraw);
         }
 
         /*public static void DrawImage(Rectangle size, ParEngineImage image)
@@ -417,32 +421,32 @@ namespace SubrightEngine
             {
                 for(int y = size.posy; y < size.posy + ima.Height; y++)
                 {
-                    System.Drawing.Color imaColor = ima.GetPixel(x, y);
-                    Color color = new Color(imaColor.R, imaColor.G, imaColor.B);
-                    DrawPixel(x, y, color);
+                    System.Drawing.Color32 imaColor32 = ima.GetPixel(x, y);
+                    Color32 Color32 = new Color32(imaColor32.R, imaColor32.G, imaColor32.B);
+                    DrawPixel(x, y, Color32);
                 }
             }
             ima.Dispose();
         }*/
 
-        public static void Clear(Color color, DrawMode modeDraw)
+        public static void Clear(Color32 Color32, DrawMode modeDraw)
         {
             if (modeRender == RenderMode.DirectX)
             {
                 if (modeDraw == DrawMode.DIRECT)
                 {
-                    SharpDX.Mathematics.Interop.RawColor4 clearColor = new SharpDX.Mathematics.Interop.RawColor4(color.R, color.G, color.B, 1);
-                    libraryGet("SharpDX").getRenderTarget().Clear(clearColor);
+                    SharpDX.Mathematics.Interop.RawColor4 clearColor32 = new SharpDX.Mathematics.Interop.RawColor4(Color32.R, Color32.G, Color32.B, 1);
+                    libraryGet("SharpDX").getRenderTarget().Clear(clearColor32);
                 }
                 else
                 {
                     ScreenRender.Clear();
-                    Clear(color, DrawMode.DIRECT);
+                    Clear(Color32, DrawMode.DIRECT);
                 }
             }
             else if(modeRender == RenderMode.Software)
             {
-                //renderSoftware.g.Clear(System.Drawing.Color.Black);
+                //renderSoftware.g.Clear(System.Drawing.Color32.Black);
                 Console.WriteLine("Software mode is deprecated.");
             }else if(modeRender == RenderMode.Vulkan)
             {
@@ -450,14 +454,14 @@ namespace SubrightEngine
             }
         }
 
-        public static void DrawRect(int x, int y, int sizex, int sizey, Color color, string name, DrawMode modeDraw)
+        public static void DrawRect(int x, int y, int sizex, int sizey, Color32 Color32, string name, DrawMode modeDraw)
         {
-            DrawRect(new Rectangle(sizex, sizey, x, y), color, name, modeDraw);
+            DrawRect(new Rectangle(sizex, sizey, x, y), Color32, name, modeDraw);
         }
 
         public static void DrawRect(int x, int y, int sizex, int sizey, int r, int g, int b, string name, DrawMode modeDraw)
         {
-            DrawRect(new Rectangle(sizex, sizey, x, y), new Color(r, g, b), name, modeDraw);
+            DrawRect(new Rectangle(sizex, sizey, x, y), new Color32(r, g, b, 1), name, modeDraw);
         }
 
         public static void DrawRect(int x, int y, int sizex, int sizey, int r, int g, int b, DrawMode modeDraw)
@@ -465,9 +469,9 @@ namespace SubrightEngine
             DrawRect(x, y, sizex, sizey, r, g, b, "", modeDraw);
         }
 
-        public static void DrawRect(int x, int y, int sizex, int sizey, Color color, DrawMode modeDraw)
+        public static void DrawRect(int x, int y, int sizex, int sizey, Color32 Color32, DrawMode modeDraw)
         {
-            DrawRect(x, y, sizex, sizey, color, modeDraw);
+            DrawRect(x, y, sizex, sizey, Color32, modeDraw);
         }
     }
 }

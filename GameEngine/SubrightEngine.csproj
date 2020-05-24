@@ -10,7 +10,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{842F35BA-3145-45A6-9CB7-4681F1B3DD05}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SubrightEngine</RootNamespace>
     <AssemblyName>SubrightEngine</AssemblyName>
@@ -231,39 +231,41 @@
     <Compile Include="AppTime.cs" />
     <Compile Include="AssetLoader.cs" />
     <Compile Include="Canvas.cs" />
-    <Compile Include="Color.cs" />
+    <Compile Include="Types\Color.cs" />
     <Compile Include="D3DXUtilities.cs" />
-    <Compile Include="Debug.cs" />
+    <Compile Include="Types\Color32.cs" />
+    <Compile Include="Types\Debug.cs" />
     <Compile Include="Dimension.cs" />
     <Compile Include="Direct2D1Handler.cs" />
     <Compile Include="Direct3D11Handler.cs" />
     <Compile Include="ImageDrawer.cs" />
     <Compile Include="IVulkanRender.cs" />
-    <Compile Include="KeyCode.cs" />
+    <Compile Include="Types\KeyCode.cs" />
     <Compile Include="LanguageInterpreter.cs" />
     <Compile Include="Mathf.cs" />
     <Compile Include="NewApp.cs" />
-    <Compile Include="Pixel.cs" />
+    <Compile Include="Types\Texture.cs" />
+    <Compile Include="Types\Pixel.cs" />
     <Compile Include="PlayerValues.cs" />
-    <Compile Include="Point.cs" />
+    <Compile Include="Types\Point.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Random.cs" />
-    <Compile Include="Rectangle.cs" />
+    <Compile Include="Types\Random.cs" />
+    <Compile Include="Types\Rectangle.cs" />
     <Compile Include="IRenderingLibrary.cs" />
     <Compile Include="RenderingLibraryManager.cs" />
     <Compile Include="SharpDXAudio.cs" />
     <Compile Include="SharpDXBase.cs" />
     <Compile Include="SpriteManipulator.cs" />
-    <Compile Include="Text.cs" />
-    <Compile Include="Tile.cs" />
+    <Compile Include="Types\Text.cs" />
+    <Compile Include="Types\Tile.cs" />
     <Compile Include="TileManager.cs" />
-    <Compile Include="Vector2.cs" />
-    <Compile Include="Vector3.cs" />
+    <Compile Include="Types\Vector2.cs" />
+    <Compile Include="Types\Vector3.cs" />
     <Compile Include="VukanRendererP.cs" />
     <Compile Include="VulkanBase.cs" />
     <Compile Include="VulkanC.cs">
@@ -293,12 +295,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\SharpVPK\SharpVPK.csproj">
-      <Project>{430e062c-4372-4b73-a2f2-1e25f81e2195}</Project>
-      <Name>SharpVPK</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
