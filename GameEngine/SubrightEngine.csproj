@@ -61,6 +61,9 @@
     <Reference Include="SharpDX.Direct3D11, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpDX.Direct3D11.4.2.0\lib\net45\SharpDX.Direct3D11.dll</HintPath>
     </Reference>
+    <Reference Include="SharpDX.Direct3D12, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.Direct3D12.4.2.0\lib\net45\SharpDX.Direct3D12.dll</HintPath>
+    </Reference>
     <Reference Include="SharpDX.Direct3D9, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpDX.Direct3D9.4.2.0\lib\net45\SharpDX.Direct3D9.dll</HintPath>
     </Reference>
@@ -232,6 +235,7 @@
     <Compile Include="AppTime.cs" />
     <Compile Include="AssetLoader.cs" />
     <Compile Include="Canvas.cs" />
+    <Compile Include="Direct3D12Window.cs" />
     <Compile Include="Types\BoundingBox.cs" />
     <Compile Include="Types\Color.cs" />
     <Compile Include="D3DXUtilities.cs" />
@@ -248,6 +252,7 @@
     <Compile Include="LanguageInterpreter.cs" />
     <Compile Include="Types\Mathf.cs" />
     <Compile Include="NewApp.cs" />
+    <Compile Include="Types\Quaternion.cs" />
     <Compile Include="Types\Ray.cs" />
     <Compile Include="Types\Texture.cs" />
     <Compile Include="Types\Pixel.cs" />

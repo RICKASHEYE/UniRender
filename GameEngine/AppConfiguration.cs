@@ -21,7 +21,7 @@
             Title = title;
             Width = width;
             Height = height;
-            WaitVerticalBlanking = false;
+            WaitVerticalBlanking = true;
         }
 
         /// <summary>

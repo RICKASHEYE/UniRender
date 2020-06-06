@@ -17,7 +17,7 @@ namespace SubrightWindow
 
         public void RenderBullet()
         {
-            positionStart = new Vector2(positionStart.x + brotation.x, positionStart.y + brotation.y);
+            positionStart = new Vector2(positionStart.x + (brotation.x * 8), positionStart.y + (brotation.y * 8));
             Canvas.DrawCircle(Color32.Black, positionStart, 4, DrawMode.DIRECT);
         }
     }

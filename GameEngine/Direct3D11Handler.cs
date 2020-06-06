@@ -64,7 +64,7 @@ namespace SubrightEngine
             };
 
             // Create Device and SwapChain
-            SharpDX.Direct3D11.Device.CreateWithSwapChain(DriverType.Hardware, DeviceCreationFlags.BgraSupport, new[] { FeatureLevel.Level_10_0 }, desc, out _device, out _swapChain);
+            SharpDX.Direct3D11.Device.CreateWithSwapChain(DriverType.Hardware, DeviceCreationFlags.BgraSupport, new[] { FeatureLevel.Level_11_1 }, desc, out _device, out _swapChain);
 
             // Ignore all windows events
             Factory factory = _swapChain.GetParent<Factory>();
@@ -81,6 +81,7 @@ namespace SubrightEngine
             base.BeginDraw();
             Device.ImmediateContext.Rasterizer.SetViewport(0, 0, Config.Width, Config.Height);
             Device.ImmediateContext.OutputMerger.SetTargets(_backBufferView);
+            //Device.ImmediateContext.PixelShader.Set(new PixelShader());
         }
 
 

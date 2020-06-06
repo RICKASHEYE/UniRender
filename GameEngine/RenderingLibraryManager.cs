@@ -43,7 +43,7 @@ namespace SubrightEngine
             }
             else
             {
-                Debug.Error("3D support isnt added yet!!!");
+                
             }
         }
 
@@ -96,36 +96,31 @@ namespace SubrightEngine
             }
         }*/
 
-        static List<string> imagesPath = new List<string>();
+        //static List<string> imagesPath = new List<string>();
         public virtual void Initialize(AppConfiguration config)
         {
             Debug.Log("General initialisation starting");
             string assemblyFolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            string assetsFolder = Path.Combine(assemblyFolder, "Assets");
-
-            if (!Directory.Exists(assetsFolder))
-            {
-                //Load an assembly assets folder
-                Directory.CreateDirectory(assetsFolder);
-                Initialize(config);
-            }
-            else
-            {
-                //Now initialise the assets into a registry and allow them to be loaded into the game.
-                string[] files = Directory.GetFiles(assetsFolder);
-                imagesPath.AddRange(files);
-                Debug.Log("Loaded " + files.Length + " to image array");
-            }
+            //string assetsFolder = Path.Combine(assemblyFolder, "Assets");
+            MiddleInit();
             Debug.Log("Finished initialisation cycle!");
             if (modeRender == RenderMode.DirectX)
             {
-                Debug.Log("Initialising DirectX Render Mode");
-                SharpDXBase baseDX = new SharpDXBase("SharpDX");
-                SharpDXBase.DrawEvent += delegate { Draw(); };
-                //Initialise the direct x renderer
-                libraries.Add(baseDX);
-                SharpDXBase renderLibrary = (SharpDXBase)libraryGet("SharpDX");
-                renderLibrary.Initialise(config);
+                if (currentDimension == Dimension.TWOD)
+                {
+                    Debug.Log("Initialising DirectX Render Mode 2D");
+                    SharpDXBase baseDX = new SharpDXBase("SharpDX");
+                    SharpDXBase.DrawEvent += delegate { Draw(); };
+                    //Initialise the direct x renderer
+                    libraries.Add(baseDX);
+                    SharpDXBase renderLibrary = (SharpDXBase)libraryGet("SharpDX");
+                    renderLibrary.Initialise(config); 
+                }else if(currentDimension == Dimension.THREED)
+                {
+                    Debug.Log("Initialising DirectX Render Mode 3D");
+                    Direct3D12Window window = new Direct3D12Window();
+                    window.Initialize(new SharpDX.Windows.RenderForm());
+                }
             }
             else if (modeRender == RenderMode.Software)
             {
@@ -154,27 +149,9 @@ namespace SubrightEngine
             }
         }
 
-        // <summary>
-        // Gets an image loaded from the Assets folder.
-        // </summary>
-        public static string GetImagePath(string fileName)
+        public virtual void MiddleInit()
         {
-            string returnedPath = null;
-            foreach (string path in imagesPath)
-            {
-                string filename = Path.GetFileName(path);
-                if (fileName == filename)
-                {
-                    returnedPath = path;
-                }
-                else if (fileName != filename)
-                {
-                    string filepath = Path.GetFileNameWithoutExtension(path);
-                    returnedPath = filepath;
-                }
-            }
-            Debug.Log(returnedPath);
-            return returnedPath;
+
         }
 
         public static IRenderingLibrary libraryGet(string name)

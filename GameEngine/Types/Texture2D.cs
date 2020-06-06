@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SubrightEngine.Types
 {
-    class Texture2D : Texture
+    public class Texture2D : Texture
     {
         public System.Drawing.Bitmap map;
 

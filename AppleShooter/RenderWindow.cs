@@ -48,7 +48,7 @@ namespace SubrightWindow
             //Debug.Log("Drawing");
             int Horizontal = getCodeFromName("Horizontal").keyAxis;
             int Vertical = getCodeFromName("Vertical").keyAxis;
-            playerPosition += new Vector2(Horizontal, Vertical) * 0.15f;
+            playerPosition += new Vector2(Horizontal, Vertical);
             //Debug.Log("Horizontal: " + playerPosition.x + " Vertical: " + playerPosition.y);
             SubrightEngine.Types.Rectangle rect = new SubrightEngine.Types.Rectangle((int)playerPosition.x, (int)playerPosition.y, 10, 10);
             DrawRect(rect, SubrightEngine.Types.Color32.Black, SubrightEngine.DrawMode.DIRECT);
@@ -66,14 +66,13 @@ namespace SubrightWindow
         public static void Apples()
         {
             //DrawText("Apples: " + applescount, "Arial", 16, new Vector2(10, 10), Color.Black);
-            if (apples.Count < 10)
+            if (apples.Count < 1200)
             {
-                if (appletimer > 250)
+                if (appletimer > 50)
                 {
-                    System.Random rangeX = new System.Random();
-                    int randomX = rangeX.Next(Config.Width);
-                    System.Random rangeY = new System.Random();
-                    int randomY = rangeY.Next(Config.Height);
+                    System.Random rnage = new System.Random();
+                    int randomX = rnage.Next(0, Config.Width);
+                    int randomY = rnage.Next(0, Config.Height);
                     //Console.WriteLine("Added apple!");
                     apples.Add(new Apple(new SubrightEngine.Types.Vector2(randomX, randomY)));
                     appletimer = 0;
@@ -118,15 +117,12 @@ namespace SubrightWindow
                 {
                     //Positive key which means that the player should shoot the bullet.
                     bullets.Add(new Bullet(playerPosition, axis));
-                    SharpDXBase baseLibrary = (SharpDXBase)libraryGet("SharpDX");
-                    baseLibrary.OpenAudio("C:/Users/lethen/Source/Repos/UniRender/GameEngine/bin/Debug/sound.wav");
-                    baseLibrary.PlayAudio();
                     timeout = 1;
                 } 
             }else if(timeout > 0)
             {
                 timeout++;
-                if(timeout > 100)
+                if(timeout > 20)
                 {
                     timeout = 0;
                 }
@@ -134,7 +130,14 @@ namespace SubrightWindow
 
             foreach(Bullet bullet in bullets)
             {
-                bullet.RenderBullet();
+                if (bullet.positionStart.x < Config.Width && bullet.positionStart.x > 0 && bullet.positionStart.y > 0 && bullet.positionStart.y < Config.Height)
+                {
+                    bullet.RenderBullet();
+                }
+                else
+                {
+                    //duplicateBulletArray.Add(bullet);
+                }
             }
         }
 

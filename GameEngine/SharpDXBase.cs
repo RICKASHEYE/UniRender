@@ -58,31 +58,41 @@ namespace SubrightEngine.DirectX
 
         public void OpenAudio(string pathway)
         {
-            if (xaudio2 == null)
+            if (File.Exists(pathway))
             {
-                Debug.Log("Initialising Audio!");
-                InitializeXAudio2();
-            }
+                if (xaudio2 == null)
+                {
+                    Debug.Log("Initialising Audio!");
+                    InitializeXAudio2();
+                }
 
-            if (audioPlayer != null)
+                if (audioPlayer != null)
+                {
+                    audioPlayer.Close();
+                    //audioPlayer = null;
+                }
+
+                if (fileStream != null)
+                {
+                    fileStream.Close();
+                }
+
+                // Ask the user for a video or audio file to play
+                fileStream = new NativeFileStream(pathway, NativeFileMode.Open, NativeFileAccess.Read);
+                audioPlayer = new SharpDXAudio(xaudio2, fileStream);
+            }
+            else
             {
-                audioPlayer.Close();
-                //audioPlayer = null;
+                Console.WriteLine("File doesnt exist!");
             }
-
-            if (fileStream != null)
-            {
-                fileStream.Close();
-            }
-
-            // Ask the user for a video or audio file to play
-            fileStream = new NativeFileStream(pathway, NativeFileMode.Open, NativeFileAccess.Read);
-            audioPlayer = new SharpDXAudio(xaudio2, fileStream);
         }
 
         public void PlayAudio()
         {
-            audioPlayer.Play();
+            if (audioPlayer != null)
+            {
+                audioPlayer.Play(); 
+            }
         }
 
         public void StopAudio()
