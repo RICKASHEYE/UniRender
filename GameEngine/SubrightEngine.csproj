@@ -234,6 +234,7 @@
     <Compile Include="AppConfiguration.cs" />
     <Compile Include="AppTime.cs" />
     <Compile Include="AssetLoader.cs" />
+    <Compile Include="Asset\srscript.cs" />
     <Compile Include="Canvas.cs" />
     <Compile Include="Direct3D12Window.cs" />
     <Compile Include="Types\BoundingBox.cs" />
@@ -279,6 +280,7 @@
     <Compile Include="Types\Vector2.cs" />
     <Compile Include="Types\Vector3.cs" />
     <Compile Include="Types\Vector4.cs" />
+    <Compile Include="VariableHandler.cs" />
     <Compile Include="VukanRendererP.cs" />
     <Compile Include="VulkanBase.cs" />
     <Compile Include="VulkanC.cs">
