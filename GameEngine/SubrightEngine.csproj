@@ -234,6 +234,7 @@
     <Compile Include="AppConfiguration.cs" />
     <Compile Include="AppTime.cs" />
     <Compile Include="AssetLoader.cs" />
+    <Compile Include="Asset\srimage.cs" />
     <Compile Include="Asset\srscript.cs" />
     <Compile Include="Canvas.cs" />
     <Compile Include="Direct3D12Window.cs" />
@@ -250,7 +251,6 @@
     <Compile Include="IVulkanRender.cs" />
     <Compile Include="Types\FastNoise.cs" />
     <Compile Include="Types\KeyCode.cs" />
-    <Compile Include="LanguageInterpreter.cs" />
     <Compile Include="Types\Mathf.cs" />
     <Compile Include="NewApp.cs" />
     <Compile Include="Types\Quaternion.cs" />

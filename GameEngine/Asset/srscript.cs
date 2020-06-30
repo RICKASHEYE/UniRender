@@ -1,6 +1,7 @@
 ﻿using SubrightEngine.Types;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -14,7 +15,16 @@ namespace SubrightEngine.Asset
         //The Subright Engine Script Interpreter
         public void LoadFile(string file)
         {
-
+            if (File.Exists(file))
+            {
+                //File exists
+                string[] lines = File.ReadAllLines(file);
+                RunScript(lines);
+            }
+            else
+            {
+                Debug.Error("File doesnt exist at: " + file);
+            }
         }
 
         public srscript()
