@@ -43,7 +43,7 @@ namespace SubrightEngine
             }
             else
             {
-                
+                Debug.Log("3D is not supported at this time.");
             }
         }
 
@@ -79,7 +79,9 @@ namespace SubrightEngine
                 if (gVulkan != null)
                 {
                     SolidBrush brush = new SolidBrush(System.Drawing.Color.FromArgb((int)color.R, (int)color.G, (int)color.B));
-                    gVulkan.FillRectangle(brush, new RectangleF(x, y, x + 1, y + 1));
+                    Vector2 size = new Vector2(x + 1, y + 1);
+                    Vector2 pos = new Vector2(x, y);
+                    gVulkan.FillRectangle(brush, new RectangleF(pos.x, pos.y, size.x, size.y));
                     brush.Dispose(); 
                 }
             }

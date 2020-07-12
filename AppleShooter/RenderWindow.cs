@@ -42,6 +42,7 @@ namespace SubrightWindow
         public static Vector2 position;
         public static Vector2 size = new Vector2(50, 15);
 
+        public static int angle = 0;
         public static void DrawCanvas()
         {
             Clear(SubrightEngine.Types.Color32.White, SubrightEngine.DrawMode.DIRECT);
@@ -50,8 +51,9 @@ namespace SubrightWindow
             int Vertical = getCodeFromName("Vertical").keyAxis;
             playerPosition += new Vector2(Horizontal, Vertical);
             //Debug.Log("Horizontal: " + playerPosition.x + " Vertical: " + playerPosition.y);
-            SubrightEngine.Types.Rectangle rect = new SubrightEngine.Types.Rectangle((int)playerPosition.x, (int)playerPosition.y, 10, 10);
-            DrawRect(rect, SubrightEngine.Types.Color32.Black, SubrightEngine.DrawMode.DIRECT);
+            if(Horizontal > 0) { angle++; }else if(Horizontal < 0) { angle--; }
+            SubrightEngine.Types.Rectangle rect = new SubrightEngine.Types.Rectangle(0, (int)playerPosition.y, 10, 10);
+            DrawRect(rect, SubrightEngine.Types.Color32.Black, SubrightEngine.DrawMode.DIRECT, angle);
             DrawPortalGun(Horizontal, Vertical);
             ShootPortal();
             Apples();
@@ -86,12 +88,12 @@ namespace SubrightWindow
             List<Apple> moddedApples = new List<Apple>();
             foreach(Apple m in apples)
             {
-                m.RenderApple();
+                m.Render();
                 float closestBullet = 4;
                 Bullet chosenBullet = null;
                 foreach(Bullet b in bullets)
                 {
-                    float distance = Vector2.Distance(m.sPosition, b.positionStart);
+                    float distance = Vector2.Distance(m.positionStart, b.positionStart);
                     if(distance < closestBullet)
                     {
                         chosenBullet = b;
@@ -132,13 +134,18 @@ namespace SubrightWindow
             {
                 if (bullet.positionStart.x < Config.Width && bullet.positionStart.x > 0 && bullet.positionStart.y > 0 && bullet.positionStart.y < Config.Height)
                 {
-                    bullet.RenderBullet();
+                    bullet.Render();
                 }
                 else
                 {
                     //duplicateBulletArray.Add(bullet);
                 }
             }
+        }
+
+        public static void PlaceSentries()
+        {
+            //Draw a sentry here once placed.
         }
 
         public static Vector2 axis = Vector2.zero;

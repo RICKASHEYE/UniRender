@@ -66,6 +66,11 @@ namespace SubrightEngine
             DrawPixel(x, y, Color32, "", modeDraw);
         }
 
+        public static void DrawPixel(Vector2 position, Color32 Color32, DrawMode modeDraw)
+        {
+            DrawPixel((int)position.x, (int)position.y, Color32, "", modeDraw);
+        }
+
         public static void DrawImage(int x, int y, string imageName, DrawMode modeDraw)
         {
             //string filePath = GetImagePath(imageName);
@@ -407,20 +412,19 @@ namespace SubrightEngine
             }
         }
 
-        /*public static void DrawRect(Rectangle rect, Color32 Color32, string name, DrawMode modeDraw, int angle)
+        public static void DrawRect(Rectangle rect, Color32 Color32, DrawMode modeDraw, int angle)
         {
             //ClearPixels(name);
             for (int x = rect.posx; x < rect.posx + rect.sizex; x++)
             {
                 for (int y = rect.posy; y < rect.posy + rect.sizey; y++)
                 {
-                    int size1 = 4; 
-                    float[][] points_list1 = {{100, 100}, {150, 200}, {200, 200}, {200, 150}};  
-                    int y_ = y * (int)Math.Sin(angle * x) * (int)Math.Cos(angle);
-                    DrawPixel(x_, y_, Color32, name, modeDraw);
+                    Vector2 position = new Vector2(x, y);
+                    position = Vector2.Rotate(position, angle);
+                    DrawPixel(position, Color32, modeDraw);
                 }
             }
-        }*/
+        }
 
         public static void DrawRect(Rectangle rect, Color32 Color32, DrawMode modeDraw)
         {

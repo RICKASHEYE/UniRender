@@ -3,18 +3,13 @@ using SubrightEngine.Types;
 
 namespace SubrightWindow
 {
-    public class Apple
+    public class Apple : Object
     {
-        public Vector2 sPosition;
+        public Apple(Vector2 position):base(position, Vector2.zero){}
 
-        public Apple(Vector2 position)
+        public override void Render()
         {
-            sPosition = position;
-        }
-
-        public void RenderApple()
-        {
-            Canvas.DrawCircle(Color32.Black, sPosition, 4, DrawMode.DIRECT);
+            Canvas.DrawCircle(Color32.Black, positionStart, 4, DrawMode.DIRECT);
             //Canvas.DrawImage((int)sPosition.x *4, (int)sPosition.y * 4, "C:/Users/lethen/Source/Repos/UniRender/GameEngineWindow/bin/Debug/Assets/apple.png", DrawMode.DIRECT);
         }
     }

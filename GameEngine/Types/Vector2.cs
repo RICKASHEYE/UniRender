@@ -1,8 +1,10 @@
 ﻿using SharpDX;
+using SharpDX.Direct3D11;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
@@ -197,6 +199,18 @@ namespace SubrightEngine.Types
         public static string ToString(Vector2 a)
         {
             return "" + a.x + " : " + a.y;
+        }
+
+        public static Vector2 Rotate(Vector2 v, float degrees)
+        {
+            double sin = Math.Sin(degrees * Mathf.Deg2Rad);
+            double cos = Math.Cos(degrees * Mathf.Deg2Rad);
+
+            double tx = v.x;
+            double ty = v.y;
+            v.x = (float)((cos * tx) - (sin * ty));
+            v.y = (float)((sin * tx) + (cos * ty));
+            return v;
         }
     }
 }

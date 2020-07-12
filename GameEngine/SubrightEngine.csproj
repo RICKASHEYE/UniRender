@@ -235,6 +235,7 @@
     <Compile Include="AppTime.cs" />
     <Compile Include="AssetLoader.cs" />
     <Compile Include="Asset\srimage.cs" />
+    <Compile Include="Asset\srscene.cs" />
     <Compile Include="Asset\srscript.cs" />
     <Compile Include="Canvas.cs" />
     <Compile Include="Direct3D12Window.cs" />
@@ -253,6 +254,9 @@
     <Compile Include="Types\KeyCode.cs" />
     <Compile Include="Types\Mathf.cs" />
     <Compile Include="NewApp.cs" />
+    <Compile Include="Types\Particle.cs" />
+    <Compile Include="Types\ParticleShape.cs" />
+    <Compile Include="Types\ParticleSystem.cs" />
     <Compile Include="Types\Quaternion.cs" />
     <Compile Include="Types\Ray.cs" />
     <Compile Include="Types\Texture.cs" />
