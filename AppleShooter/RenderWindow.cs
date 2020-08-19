@@ -31,6 +31,7 @@ namespace SubrightWindow
         public override void Initialize(AppConfiguration config)
         {
             base.Initialize(config);
+            SetupTrees();
         }
 
         public override void Draw()
@@ -51,12 +52,21 @@ namespace SubrightWindow
             int Vertical = getCodeFromName("Vertical").keyAxis;
             playerPosition += new Vector2(Horizontal, Vertical);
             //Debug.Log("Horizontal: " + playerPosition.x + " Vertical: " + playerPosition.y);
-            if(Horizontal > 0) { angle++; }else if(Horizontal < 0) { angle--; }
-            SubrightEngine.Types.Rectangle rect = new SubrightEngine.Types.Rectangle(0, (int)playerPosition.y, 10, 10);
-            DrawRect(rect, SubrightEngine.Types.Color32.Black, SubrightEngine.DrawMode.DIRECT, angle);
+            SubrightEngine.Types.Rectangle rect = new SubrightEngine.Types.Rectangle((int)playerPosition.x, (int)playerPosition.y, 10, 10);
+            DrawRect(rect, SubrightEngine.Types.Color32.Black, SubrightEngine.DrawMode.DIRECT, 30);
             DrawPortalGun(Horizontal, Vertical);
             ShootPortal();
             Apples();
+        }
+
+        public void SetupTrees()
+        {
+            //spawn three trees in here
+            for(int i = 1; i <= 3; i++)
+            {
+                int x = Config.Width / i;
+                DrawFilledCircle(Color32.Green, new Vector2(x, Config.Height / 2), 5, SubrightEngine.DrawMode.DIRECT);
+            }
         }
 
         public static List<Bullet> bullets = new List<Bullet>();

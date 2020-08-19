@@ -10,17 +10,26 @@ namespace SubrightEngine.Types
     {
         public static void Log(string log)
         {
-            Console.WriteLine(DateTime.Now + " {DEBUG} " + log);
+            System.Console.WriteLine(DateTime.Now + " {DEBUG} " + log);
+        }
+
+        public static void Log(string log, string[] replaceables)
+        {
+            for(int i = 0; i < replaceables.Length; i++)
+            {
+                log = log.Replace('{' + i.ToString() + '}', replaceables[i]);
+            }
+            Debug.Log(log);
         }
 
         public static void Error(string log)
         {
-            Console.WriteLine(DateTime.Now + " {ERROR} " + log);
+            System.Console.WriteLine(DateTime.Now + " {ERROR} " + log);
         }
 
         public static void Warning(string log)
         {
-            Console.WriteLine(DateTime.Now + " {WARNING} " + log);
+            System.Console.WriteLine(DateTime.Now + " {WARNING} " + log);
         }
     }
 }

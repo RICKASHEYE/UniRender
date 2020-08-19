@@ -4,7 +4,6 @@ using System.Runtime.InteropServices;
 using SharpDX;
 using SharpDX.Direct2D1;
 using SharpDX.DXGI;
-using SubrightEngine.DirectX;
 using SubrightEngine.Types;
 using Color32 = SubrightEngine.Types.Color32;
 using Rectangle = SubrightEngine.Types.Rectangle;
@@ -91,10 +90,9 @@ namespace SubrightEngine
             }
             else
             {
-                SharpDXBase baseVar = (SharpDXBase)libraryGet("SharpDX");
-                RenderTarget RenderTargeter = baseVar.getRenderTarget();
-                SharpDX.Direct2D1.Bitmap bitmap = LoadFromFile(RenderTargeter, imageName);
-                RenderTargeter.DrawBitmap(bitmap, 1.0f, BitmapInterpolationMode.NearestNeighbor, new SharpDX.Mathematics.Interop.RawRectangleF(x, y, x + bitmap.Size.Width + 1, y + bitmap.Size.Height + 1));
+                RenderTarget RenderTarget2D = libraryGet("SharpDX").getRenderTarget();
+                SharpDX.Direct2D1.Bitmap bitmap = LoadFromFile(RenderTarget2D, imageName);
+                RenderTarget2D.DrawBitmap(bitmap, 1.0f, BitmapInterpolationMode.NearestNeighbor, new SharpDX.Mathematics.Interop.RawRectangleF(x, y, x + bitmap.Size.Width + 1, y + bitmap.Size.Height + 1));
                 bitmap.Dispose();
             }
         }
@@ -422,7 +420,7 @@ namespace SubrightEngine
                 for (int y = rect.posy; y < rect.posy + rect.sizey; y++)
                 {
                     Vector2 position = new Vector2(x, y);
-                    position = position + Vector2.Rotate(position, angle);
+                    position = Vector2.Rotate(position, angle);
                     DrawPixel(position, Color32, modeDraw);
                 }
             }
@@ -457,8 +455,7 @@ namespace SubrightEngine
                 if (modeDraw == DrawMode.DIRECT)
                 {
                     SharpDX.Mathematics.Interop.RawColor4 clearColor32 = new SharpDX.Mathematics.Interop.RawColor4(Color32.R, Color32.G, Color32.B, 1);
-                    SharpDXBase baseVar = (SharpDXBase)libraryGet("SharpDX");
-                    baseVar.getRenderTarget().Clear(clearColor32);
+                    libraryGet("SharpDX").getRenderTarget().Clear(clearColor32);
                 }
                 else
                 {

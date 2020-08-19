@@ -1,5 +1,4 @@
 ﻿using SharpDX.Direct2D1;
-using SharpDX.Direct3D9;
 using SubrightEngine.DirectX;
 using SubrightEngine.Types;
 using SubrightEngine.VulkanBranch;
@@ -7,10 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
-using System.Xml.Serialization;
 
 namespace SubrightEngine
 {
@@ -69,11 +66,9 @@ namespace SubrightEngine
         {
             if (modeRender == RenderMode.DirectX)
             {
-                SharpDXBase baseVar = (SharpDXBase)libraryGet("SharpDX");
-                var solidColorBrush = new SolidColorBrush(baseVar.getRenderTarget(), new SharpDX.Mathematics.Interop.RawColor4(color.R, color.G, color.B, 1));
-                baseVar.getRenderTarget().FillRectangle(new SharpDX.Mathematics.Interop.RawRectangleF(x, y, x + 1, y + 1), solidColorBrush);
+                var solidColorBrush = new SolidColorBrush(Direct2D1Handler.RenderTarget2D, new SharpDX.Mathematics.Interop.RawColor4(color.R, color.G, color.B, 1));
+                libraryGet("SharpDX").getRenderTarget().FillRectangle(new SharpDX.Mathematics.Interop.RawRectangleF(x, y, x + 1, y + 1), solidColorBrush);
                 solidColorBrush.Dispose();
-                baseVar.getRenderTarget().Transform = new SharpDX.Mathematics.Interop.RawMatrix3x2();
             }
             else if (modeRender == RenderMode.Software)
             {
@@ -90,16 +85,18 @@ namespace SubrightEngine
                     brush.Dispose(); 
                 }
             }
-            else
-            {
-                //DrawPixel(x, y, color);
-            }
         }
 
-        public virtual void DrawPixel(int x, int y, SubrightEngine.Types.Color32 color)
+        //2D drawer for vulkan
+        /*public static void DirectDrawPixel(int x, int y, Color color)
         {
-            
-        }
+            if(modeRender == RenderMode.Vulkan)
+            {
+                SolidBrush brush = new SolidBrush(System.Drawing.Color.FromArgb(color.R, color.G, color.B));
+                gVulkan.FillRectangle(brush, new RectangleF(x, y, x + 1, y + 1));
+                brush.Dispose();
+            }
+        }*/
 
         //static List<string> imagesPath = new List<string>();
         public virtual void Initialize(AppConfiguration config)
@@ -114,11 +111,11 @@ namespace SubrightEngine
                 if (currentDimension == Dimension.TWOD)
                 {
                     Debug.Log("Initialising DirectX Render Mode 2D");
-                    SharpDXBase baseDX = new SharpDXBase("SharpDX");
-                    SharpDXBase.DrawEvent += delegate { Draw(); };
+                    SDLBase baseDX = new SDLBase("SharpDX");
+                    SDLBase.DrawEvent += delegate { Draw(); };
                     //Initialise the direct x renderer
                     libraries.Add(baseDX);
-                    SharpDXBase renderLibrary = (SharpDXBase)libraryGet("SharpDX");
+                    SDLBase renderLibrary = (SDLBase)libraryGet("SharpDX");
                     renderLibrary.Initialise(config); 
                 }else if(currentDimension == Dimension.THREED)
                 {
@@ -141,28 +138,6 @@ namespace SubrightEngine
                 VulkanBase.DrawEvent += Draw;
                 libraries.Add(baseVK);
                 libraryGet("Vulkan").Initialise(config);
-            }
-            else
-            {
-                //Try to render another framework.
-                //Try to get the dlls inside a folder and use them to load
-                string frameworks = Path.Combine(Directory.GetCurrentDirectory(), "Frameworks");
-                if(Directory.Exists(frameworks))
-                {
-                    //Folder exists! so use it!
-                    List<string> directoriesDLLs = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.dll*", SearchOption.AllDirectories).ToList();
-                    Debug.Log("There is " + directoriesDLLs.Count + " to load into the game!");
-                    foreach(string m in directoriesDLLs)
-                    {
-                        var DLL = Assembly.LoadFile(m);
-                    }
-                }
-                else
-                {
-                    //Doesnt exist so return
-                    Directory.CreateDirectory(frameworks);
-                    Initialize(config);
-                }
             }
 
             if (config != null)
